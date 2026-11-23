@@ -1,33 +1,63 @@
 (() => {
+  const desktopMQ = window.matchMedia("(min-width: 768px)");
+
+  /* ---------- Menu (hamburger on phones/tablets) ---------- */
+  const menu = document.querySelector("[data-menu]");
+  const toggle = document.querySelector("[data-menu-toggle]");
+  const setMenu = open => {
+    menu.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  };
+  toggle.addEventListener("click", () => setMenu(!menu.classList.contains("is-open")));
+  menu.querySelectorAll(".menu__nav a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+  document.addEventListener("click", e => { if (!menu.contains(e.target)) setMenu(false); });
+  window.matchMedia("(min-width: 1024px)").addEventListener("change", () => setMenu(false));
+
   /* ---------- Tags band: chat bubbles behind the composer ----------
-     Row offsets and order match the Figma "tags" frame (x = -441 relative to the 390px screen). */
+     Each row holds three copies of its items so no gap shows while it drifts.
+     `dx` is the extra Figma offset of row 3. Row 4 only shows on phones. */
   const TAG_ROWS = [
-    { x: -441, y: 0, items: ["I’m looking for a reliable SUV under $40k", "Best cars under $25,000", "I want Apple CarPlay", "Best cars for a growing family", "Should I go electric?", "Show me good value cars", "AWD cars only", "I need good trunk space", "Is an EV worth it in Canada?", "Best EV for winter", "Looking for city car"] },
-    { x: -441, y: 43, items: ["Does this car have heated seats?", "Best hybrid cars right now", "What can I afford with a $600/month payment?", "I want something fun but practical", "How much does it cost to charge an EV?", "What’s the best family car right now?", "Which cars have heads-up display?", "Easy to drive at night"] },
-    { x: -351, y: 87, items: ["What’s the cheapest luxury car?", "I want something fuel efficient", "Compare gas vs electric", "How far can this EV actually go?", "Are hybrids reliable?", "What incentives are available?", "Cars with low maintenance costs", "EV or plug-in hybrid?", "I commute every day, what should I get?"] },
-    { x: -441, y: 130, items: ["I want something quiet", "I need something good for winter driving", "I drive a lot for work", "Best cars with panoramic roof", "Compare BMW vs Audi", "I want a sporty feel, not boring", "Good car for city parking", "Which is better, RAV4 or CR-V?"] },
+    { y: 0,   dx: 0,  items: ["I’m looking for a reliable SUV under $40k", "Best cars under $25,000", "I want Apple CarPlay", "Best cars for a growing family", "Should I go electric?", "Show me good value cars", "AWD cars only", "I need good trunk space", "Is an EV worth it in Canada?", "Best EV for winter", "Looking for city car"] },
+    { y: 43,  dx: 0,  items: ["Does this car have heated seats?", "Best hybrid cars right now", "What can I afford with a $600/month payment?", "I want something fun but practical", "How much does it cost to charge an EV?", "What’s the best family car right now?", "Which cars have heads-up display?", "Easy to drive at night"] },
+    { y: 87,  dx: 90, items: ["What’s the cheapest luxury car?", "I want something fuel efficient", "Compare gas vs electric", "How far can this EV actually go?", "Are hybrids reliable?", "What incentives are available?", "Cars with low maintenance costs", "EV or plug-in hybrid?", "I commute every day, what should I get?"] },
+    { y: 130, dx: 0,  items: ["I want something quiet", "I need something good for winter driving", "I drive a lot for work", "Best cars with panoramic roof", "Compare BMW vs Audi", "I want a sporty feel, not boring", "Good car for city parking", "Which is better, RAV4 or CR-V?"] },
   ];
 
   const tagsEl = document.querySelector("[data-tags]");
-  if (tagsEl) {
-    tagsEl.innerHTML = TAG_ROWS.map(row => `
-      <div class="tags__row" style="left:${row.x}px; top:${row.y}px">
-        ${row.items.map(t => `
-          <span class="bubble">
-            <img class="bubble__tail" src="assets/bubble-tail.svg" alt="" />
-            <span class="bubble__text">${t}</span>
-          </span>`).join("")}
-      </div>`).join("");
-  }
+  const bubble = t => `<span class="bubble"><img class="bubble__tail" src="assets/bubble-tail.svg" alt="" /><span class="bubble__text">${t}</span></span>`;
+  tagsEl.innerHTML = TAG_ROWS.map(row => {
+    const set = row.items.map(bubble).join("");
+    return `<div class="tags__row" style="top:${row.y}px">${set}${set}${set}</div>`;
+  }).join("");
+  const rowEls = [...tagsEl.children];
+
+  // Where the first bubble of the middle copy sits, measured from the band's centre:
+  // phones follow the 390px Figma frame (x = -441), wider screens the 1440px frame (x = -1233).
+  const placeRows = () => {
+    const start = desktopMQ.matches ? -1233 : -636;
+    const centre = tagsEl.clientWidth / 2;
+    rowEls.forEach((el, i) => {
+      const copyW = (el.scrollWidth + 4) / 3;
+      el.style.left = `${centre + start + TAG_ROWS[i].dx - copyW}px`;
+    });
+  };
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(placeRows);
+  window.addEventListener("resize", placeRows);
 
   /* ---------- Composer ---------- */
   const form = document.querySelector("[data-composer]");
   const input = document.querySelector("[data-input]");
+  const send = document.querySelector("[data-send]");
+  const sync = () => send.classList.toggle("is-ready", input.value.trim().length > 0);
 
+  input.addEventListener("input", sync);
   document.querySelectorAll("[data-fill]").forEach(btn => {
     btn.addEventListener("click", () => {
       input.value = btn.dataset.fill;
       input.focus();
+      sync();
     });
   });
 
@@ -46,21 +76,30 @@
     document.dispatchEvent(new CustomEvent("kaia:start", { detail: { message } }));
   });
 
+  // "Chat with Kaia" in the nav jumps to the composer.
+  document.querySelectorAll("[data-chat]").forEach(link => link.addEventListener("click", e => {
+    e.preventDefault();
+    setMenu(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    input.focus({ preventScroll: true });
+  }));
+
   /* ---------- Logo marquee: duplicate the row for a seamless loop ---------- */
   document.querySelectorAll("[data-marquee]").forEach(track => {
     const row = track.firstElementChild;
     const clone = row.cloneNode(true);
     clone.setAttribute("aria-hidden", "true");
     clone.querySelectorAll("img").forEach(img => (img.alt = ""));
+    clone.querySelectorAll("[role]").forEach(el => { el.removeAttribute("role"); el.removeAttribute("aria-label"); });
     track.appendChild(clone);
   });
 
-  /* ---------- Carousels ---------- */
+  /* ---------- Carousels (phones/tablets; laid out flat on wide screens) ---------- */
   document.querySelectorAll("[data-carousel]").forEach(carousel => {
     const track = carousel.querySelector("[data-track]");
     const prev = carousel.querySelector("[data-prev]");
     const next = carousel.querySelector("[data-next]");
-    const step = () => track.querySelector(".card").offsetWidth + 10;
+    const step = () => track.querySelector(".card").offsetWidth + parseFloat(getComputedStyle(track).columnGap || 10);
 
     const update = () => {
       const max = track.scrollWidth - track.clientWidth - 2;
@@ -75,7 +114,7 @@
   });
 
   /* ---------- FAQ accordion ----------
-     Only the second answer exists in the Figma file. Others need copy. */
+     Only the second answer exists in the design. Others need copy. */
   const FAQ = [
     { q: "What is Kaia", a: null },
     { q: "How is Kaia different from a chatbot or live chat widget?", a: "Most website chat tools either route to a live agent (who isn't available at 9pm on a Tuesday) or hand back a generic script that can't answer real inventory questions. Kaia knows your actual stock and can carry a full conversation: pricing, features, financing basics, comparisons, and then push straight to a booked test drive. No human required, no \"someone will follow up.\"", open: true },
@@ -111,4 +150,14 @@
       btn.setAttribute("aria-expanded", "true");
     }
   });
+
+  /* ---------- Cookie banner: remembered per browser when storage is available ---------- */
+  const cookie = document.querySelector("[data-cookie]");
+  let choice = null;
+  try { choice = localStorage.getItem("ic-cookie-choice"); } catch (_) {}
+  if (!choice) cookie.hidden = false;
+  cookie.querySelectorAll("[data-cookie-choice]").forEach(btn => btn.addEventListener("click", () => {
+    try { localStorage.setItem("ic-cookie-choice", btn.dataset.cookieChoice); } catch (_) {}
+    cookie.hidden = true;
+  }));
 })();

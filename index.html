@@ -15,18 +15,35 @@
 <body>
   <div class="page">
 
-    <!-- Menu (6357:2699) -->
-    <header class="menu">
-      <a href="/" class="menu__logo" aria-label="Instacars home">
+    <!-- Menu: logo + hamburger on phones/tablets, full two-row nav on desktop -->
+    <header class="menu" data-menu>
+      <a href="#" class="menu__logo" aria-label="Instacars home">
         <img src="assets/logo-header.svg" width="136" height="26" alt="Instacars" />
       </a>
-      <button class="menu__toggle" type="button" aria-label="Open menu">
+      <button class="menu__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
         <img src="assets/icon-menu.svg" width="24" height="24" alt="" />
       </button>
+      <nav class="menu__nav" id="site-nav" aria-label="Main">
+        <ul class="menu__links">
+          <li><a class="navlink" href="#">About us</a></li>
+          <li><a class="navlink" href="#how-it-works">How it works</a></li>
+          <li><a class="navlink" href="#">Compare</a></li>
+          <li><a class="navlink" href="#">Dealers <img src="assets/nav-chevron.svg" alt="" /></a></li>
+          <li><a class="navlink" href="#">Pricing <img src="assets/nav-chevron.svg" alt="" /></a></li>
+          <li><a class="navlink" href="#">Contact</a></li>
+        </ul>
+        <ul class="menu__account">
+          <li><a class="navlink" href="#">Sign In <img src="assets/nav-chevron.svg" alt="" /></a></li>
+          <li><a class="navlink" href="#">Register <img src="assets/nav-chevron.svg" alt="" /></a></li>
+        </ul>
+        <div class="seg">
+          <a class="btn btn-primary" href="#" data-chat>Chat with Kaia</a>
+          <a class="btn btn-ghost" href="#">For Dealers</a>
+        </div>
+      </nav>
     </header>
 
     <main>
-      <!-- Header (6357:2686) -->
       <section class="hero-head">
         <h1 class="hero-head__title">
           <span class="hero-head__line">Shop cars by</span>
@@ -35,10 +52,10 @@
             <img src="assets/chat-icon@4x.png" class="chat-icon" width="50" height="37" alt="" />
           </span>
         </h1>
-        <p class="hero-head__sub">Tell Kaia about your life, she’ll find<br />the car that fits it.</p>
+        <p class="hero-head__sub">Tell Kaia about your life, she’ll find <br />the car that fits it.</p>
       </section>
 
-      <!-- Tags band (6357:2432) + Search (6357:2653) -->
+      <!-- Chat bubbles band + composer + suggestions -->
       <section class="stage">
         <div class="tags" aria-hidden="true" data-tags></div>
 
@@ -47,14 +64,14 @@
           <textarea id="kaia-input" class="composer__input" rows="1"
             placeholder="SUV under $25k, good on gas..." data-input></textarea>
           <div class="composer__actions">
-            <button type="button" class="composer__btn" aria-label="Add attachment">
+            <button type="button" class="composer__btn composer__btn--add" aria-label="Add attachment">
               <img src="assets/icon-plus.svg" width="20" height="20" alt="" />
             </button>
             <div class="composer__right">
               <button type="button" class="composer__btn composer__btn--mic" aria-label="Voice input">
                 <img src="assets/icon-mic.svg" width="34" height="34" alt="" />
               </button>
-              <button type="submit" class="composer__send" aria-label="Send">
+              <button type="submit" class="composer__send" aria-label="Send" data-send>
                 <img src="assets/icon-send.svg" width="20" height="20" alt="" />
               </button>
             </div>
@@ -73,15 +90,16 @@
         </div>
       </section>
 
-      <!-- Hero illustration (6357:2191) -->
       <div class="hero-art">
-        <img src="assets/hero.webp" alt="A man looking up, with a family, SUV, dog and travel gear sitting on top of his head" />
+        <img src="assets/hero.webp"
+          srcset="assets/hero.webp 1600w, assets/hero-lg.webp 2200w"
+          sizes="(min-width: 1024px) 1488px, (min-width: 768px) 850px, 140vw"
+          alt="A man looking up, with a family, SUV, dog and travel gear sitting on top of his head" />
       </div>
 
-      <!-- Brands (6357:2193) -->
       <section class="brands">
         <div class="brands__card">
-          <p class="brands__text">Built by people who've worked at leading<br />global brands.</p>
+          <p class="brands__text">Built by people who've worked at leading <br />global brands.</p>
           <div class="marquee" aria-label="Brands our team has worked with">
             <div class="marquee__track" data-marquee>
               <ul class="brands__row">
@@ -109,9 +127,11 @@
         </div>
       </section>
 
-      <!-- Easy as talking (6357:2281) -->
       <section class="feature" id="how-it-works">
-        <h2 class="section-title">Easy as <em>talking</em></h2>
+        <div class="section-head">
+          <h2 class="section-title">Easy as <em>talking</em></h2>
+          <p class="section-sub">Forget endless filters and comparing hundreds of listings.<br />Tell Kaia what matters to you, explore your options, and discover cars that fit your life.</p>
+        </div>
         <div class="carousel" data-carousel>
           <ul class="carousel__track" data-track>
             <li class="card">
@@ -120,12 +140,12 @@
               <p class="card__body">Tell Kaia what you're looking for. Your budget, your lifestyle, your must-haves. She'll help you find where to start.</p>
             </li>
             <li class="card">
-              <div class="card__media card__media--outlined"><img src="assets/card-curious.gif" alt="" loading="lazy" /></div>
+              <div class="card__media card__media--outlined"><img src="assets/card-curious.gif" alt="Kaia chat asking: What would you like to know?" loading="lazy" /></div>
               <h3 class="card__title">From curious to confident.</h3>
               <p class="card__body">Explore cars that fit, compare your favourites and get answers to the questions that matter.</p>
             </li>
             <li class="card">
-              <div class="card__media"><img src="assets/card-driving.jpg" alt="" loading="lazy" /></div>
+              <div class="card__media"><img src="assets/card-driving.jpg" alt="Couple driving a convertible" loading="lazy" /></div>
               <h3 class="card__title">Less searching. More driving.</h3>
               <p class="card__body">Found something you love? Connect with a dealership and take the next step towards your test drive.</p>
             </li>
@@ -137,9 +157,11 @@
         </div>
       </section>
 
-      <!-- Built around you (6357:2306) -->
       <section class="feature feature--white">
-        <h2 class="section-title">Built around <em>you</em></h2>
+        <div class="section-head">
+          <h2 class="section-title">Built around <em>you</em></h2>
+          <p class="section-sub">Explore your options, compare your favourites and get the answers you need to feel<br />good about your next car.</p>
+        </div>
         <div class="carousel" data-carousel>
           <ul class="carousel__track" data-track>
             <li class="card">
@@ -156,7 +178,7 @@
               <p class="card__body">6.24M+ listings. All of North America. One conversation with Kaia.</p>
             </li>
             <li class="card">
-              <div class="card__media"><img src="assets/card-picksup.webp" alt="" loading="lazy" /></div>
+              <div class="card__media"><img src="assets/card-picksup.webp" alt="Man smiling at his phone" loading="lazy" /></div>
               <h3 class="card__title">Picks up where you left off.</h3>
               <p class="card__body">Come back anytime. Kaia remembers what you’re looking for, and your matches get sharper every visit.</p>
             </li>
@@ -168,35 +190,62 @@
         </div>
       </section>
 
-      <!-- Supported by (6357:2334) -->
       <section class="supported">
         <p class="supported__title">Supported by</p>
         <ul class="supported__row">
           <li class="aws"><img src="assets/s-aws.svg" alt="AWS" /></li>
           <li class="nvidia" role="img" aria-label="NVIDIA Inception Program">
             <span class="nvidia__mark">
-              <img src="assets/s-nvidia-eye.svg" width="27" height="18" alt="" />
-              <img src="assets/s-nvidia-word.svg" width="61" height="10" alt="" />
+              <img src="assets/s-nvidia-eye.svg" width="27" height="18" alt="" class="nvidia__eye" />
+              <img src="assets/s-nvidia-word.svg" width="61" height="10" alt="" class="nvidia__word" />
             </span>
             <span class="nvidia__inception"><img src="assets/s-nvidia-inception.png" alt="" /></span>
           </li>
           <li class="mars"><img src="assets/s-mars.svg" alt="MaRS" /></li>
-          <li><img src="assets/s-oci.svg" width="74" height="30" alt="OCI" /></li>
+          <li class="oci"><img src="assets/s-oci.svg" width="74" height="30" alt="OCI" /></li>
         </ul>
       </section>
 
-      <!-- FAQ (6357:2376) -->
-      <section class="faq">
+      <section class="faq" id="faq">
         <h2 class="faq__title">A few things you might be <br />wondering.</h2>
         <div class="faq__list" data-faq></div>
       </section>
     </main>
 
     <footer class="footer">
-      <p class="footer__copy">© 2026 Instacars, Inc. All rights reserved</p>
-      <img src="assets/logo-footer.svg" class="footer__logo" width="390" height="80" alt="" />
+      <div class="footer__left">
+        <nav class="footer__links" aria-label="Footer">
+          <a href="#">About us</a><img src="assets/dot.svg" alt="" />
+          <a href="#faq">FAQ</a><img src="assets/dot.svg" alt="" />
+          <a href="#">Investor</a><img src="assets/dot.svg" alt="" />
+          <a href="#">Blog</a><img src="assets/dot.svg" alt="" />
+          <a href="#">Contact</a>
+        </nav>
+        <p class="footer__copy">© 2026 Instacars, Inc. All rights reserved</p>
+      </div>
+      <img src="assets/logo-footer-desktop.png" class="footer__logo footer__logo--desktop" width="898" height="166" alt="" />
+      <div class="footer__right">
+        <div class="footer__social">
+          <a href="https://www.linkedin.com/company/instacars-io/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/social-linkedin.svg" width="24" height="24" alt="" /></a>
+          <a href="https://www.instagram.com/instacars.io/" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/social-instagram.svg" width="24" height="24" alt="" /></a>
+          <a href="https://twitter.com/instacarsio" target="_blank" rel="noopener" aria-label="X"><img src="assets/social-x.svg" width="24" height="24" alt="" /></a>
+          <a href="https://www.youtube.com/@instacarsio" target="_blank" rel="noopener" aria-label="YouTube"><img src="assets/social-youtube.svg" width="24" height="24" alt="" /></a>
+          <a href="https://www.reddit.com/user/instacarsio" target="_blank" rel="noopener" aria-label="Reddit"><img src="assets/social-reddit.svg" width="24" height="24" alt="" /></a>
+          <a href="https://www.facebook.com/instacars.io/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/social-facebook.svg" width="24" height="24" alt="" /></a>
+        </div>
+        <p class="footer__legal"><a href="https://instacars.io/page/terms-of-use" target="_blank" rel="noopener">Terms of use</a><span aria-hidden="true">|</span><a href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></p>
+      </div>
+      <img src="assets/logo-footer.svg" class="footer__logo footer__logo--narrow" width="390" height="80" alt="" />
       <img src="assets/logo-footer-wide.svg" class="footer__logo footer__logo--wide" width="466" height="80" alt="" />
     </footer>
+  </div>
+
+  <div class="cookie" data-cookie hidden>
+    <p>We use cookies to improve your experience. You can opt out of certain cookies. Find out more in our <a href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener">privacy policy</a>.</p>
+    <div class="cookie__actions">
+      <button type="button" class="btn btn-primary" data-cookie-choice="accepted">Continue</button>
+      <button type="button" class="btn btn-outline" data-cookie-choice="rejected">Reject</button>
+    </div>
   </div>
 
   <script src="script.js"></script>
