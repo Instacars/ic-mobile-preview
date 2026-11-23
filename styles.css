@@ -733,12 +733,16 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .footer__logo--desktop { display: none; order: 0; }
 }
 
-/* Three cards side by side; brands row at rest */
+/* Three cards side by side */
 @media (min-width: 1120px) {
   .carousel__track { justify-content: center; gap: 15px; overflow: visible; }
   .carousel__nav { display: none; }
+}
 
-  .marquee { -webkit-mask-image: none; mask-image: none; }
+/* Brands row at rest once the card is wide enough to hold all 13 logos (1063px); scrolls below this */
+@media (min-width: 1180px) {
+  /* The 1063px row is a touch wider than the card's 1056px inner width; let it sit into the padding, as in the design */
+  .marquee { overflow: visible; -webkit-mask-image: none; mask-image: none; }
   .marquee__track { width: auto; margin-left: 0; justify-content: center; animation: none; }
   .marquee__track > .brands__row[aria-hidden="true"] { display: none; }
   .brands__row { padding-right: 0; }
