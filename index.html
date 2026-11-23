@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Team preview: ask search engines not to list this page. Remove at public launch. -->
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Instacars | Shop cars by chatting</title>
+  <meta name="description" content="Tell Kaia about your life, she'll find the car that fits it." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+
+    <!-- Menu (6357:2699) -->
+    <header class="menu">
+      <a href="/" class="menu__logo" aria-label="Instacars home">
+        <img src="assets/logo-header.svg" width="136" height="26" alt="Instacars" />
+      </a>
+      <button class="menu__toggle" type="button" aria-label="Open menu">
+        <img src="assets/icon-menu.svg" width="24" height="24" alt="" />
+      </button>
+    </header>
+
+    <main>
+      <!-- Header (6357:2686) -->
+      <section class="hero-head">
+        <h1 class="hero-head__title">
+          <span class="hero-head__line">Shop cars by</span>
+          <span class="hero-head__line hero-head__line--icon">
+            chatting
+            <img src="assets/chat-icon@4x.png" class="chat-icon" width="50" height="37" alt="" />
+          </span>
+        </h1>
+        <p class="hero-head__sub">Tell Kaia about your life, she’ll find<br />the car that fits it.</p>
+      </section>
+
+      <!-- Tags band (6357:2432) + Search (6357:2653) -->
+      <section class="stage">
+        <div class="tags" aria-hidden="true" data-tags></div>
+
+        <form class="composer" data-composer>
+          <label class="visually-hidden" for="kaia-input">Tell Kaia what you're looking for</label>
+          <textarea id="kaia-input" class="composer__input" rows="1"
+            placeholder="SUV under $25k, good on gas..." data-input></textarea>
+          <div class="composer__actions">
+            <button type="button" class="composer__btn" aria-label="Add attachment">
+              <img src="assets/icon-plus.svg" width="20" height="20" alt="" />
+            </button>
+            <div class="composer__right">
+              <button type="button" class="composer__btn composer__btn--mic" aria-label="Voice input">
+                <img src="assets/icon-mic.svg" width="34" height="34" alt="" />
+              </button>
+              <button type="submit" class="composer__send" aria-label="Send">
+                <img src="assets/icon-send.svg" width="20" height="20" alt="" />
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="suggest">
+          <ul class="tokens" aria-label="Suggested searches">
+            <li><button type="button" class="token" data-fill="Apple Carplay"><img src="assets/tok-carplay.svg" width="14" height="14" alt="" />Apple Carplay</button></li>
+            <li><button type="button" class="token" data-fill="SUV under $40k"><img src="assets/tok-suv.svg" width="16" height="16" alt="" />SUV under $40k</button></li>
+            <li><button type="button" class="token" data-fill="First-time buyer"><img src="assets/tok-firsttime.svg" width="16" height="16" alt="" />First-time buyer</button></li>
+            <li><button type="button" class="token" data-fill="Low mileage"><img src="assets/tok-mileage.svg" width="10" height="14" alt="" />Low mileage</button></li>
+            <li><button type="button" class="token" data-fill="Electric or hybrid"><img src="assets/tok-electric.svg" width="16" height="16" alt="" />Electric or hybrid</button></li>
+          </ul>
+          <a href="#how-it-works" class="suggest__how">How does this work?</a>
+        </div>
+      </section>
+
+      <!-- Hero illustration (6357:2191) -->
+      <div class="hero-art">
+        <img src="assets/hero.webp" alt="A man looking up, with a family, SUV, dog and travel gear sitting on top of his head" />
+      </div>
+
+      <!-- Brands (6357:2193) -->
+      <section class="brands">
+        <div class="brands__card">
+          <p class="brands__text">Built by people who've worked at leading<br />global brands.</p>
+          <div class="marquee" aria-label="Brands our team has worked with">
+            <div class="marquee__track" data-marquee>
+              <ul class="brands__row">
+                <li><img src="assets/b-gm.svg" width="31" height="31" alt="GM" /></li>
+                <li class="bmw" role="img" aria-label="BMW">
+                  <img src="assets/b-bmw-l3.svg" alt="" class="bmw__l3" />
+                  <img src="assets/b-bmw-l5.svg" alt="" class="bmw__l5" />
+                  <img src="assets/b-bmw-l4.svg" alt="" class="bmw__l4" />
+                  <img src="assets/b-bmw-l2.svg" alt="" class="bmw__l2" />
+                </li>
+                <li><img src="assets/b-tata.svg" width="33" height="29" alt="Tata" /></li>
+                <li><img src="assets/b-mini.svg" width="64" height="29" alt="MINI" /></li>
+                <li class="klick"><img src="assets/b-klick.jpg" alt="Klick Health" /></li>
+                <li><img src="assets/b-ford.svg" width="71" height="27" alt="Ford" /></li>
+                <li><img src="assets/b-medtronic.svg" width="85" height="14" alt="Medtronic" /></li>
+                <li><img src="assets/b-ferrari.svg" width="76" height="16" alt="Ferrari" /></li>
+                <li><img src="assets/b-kia.svg" width="50" height="12" alt="Kia" /></li>
+                <li><img src="assets/b-jnj.svg" width="143" height="13" alt="Johnson &amp; Johnson" /></li>
+                <li><img src="assets/b-rbc.svg" width="34" height="34" alt="RBC" /></li>
+                <li><img src="assets/b-creative.svg" width="69" height="23" alt="Creative" /></li>
+                <li><img src="assets/b-fortive.svg" width="81" height="17" alt="Fortive" /></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Easy as talking (6357:2281) -->
+      <section class="feature" id="how-it-works">
+        <h2 class="section-title">Easy as <em>talking</em></h2>
+        <div class="carousel" data-carousel>
+          <ul class="carousel__track" data-track>
+            <li class="card">
+              <div class="card__media"><img src="assets/card-conversation.jpg" alt="Woman smiling at her phone on a couch" loading="lazy" /></div>
+              <h3 class="card__title">Start with a conversation.</h3>
+              <p class="card__body">Tell Kaia what you're looking for. Your budget, your lifestyle, your must-haves. She'll help you find where to start.</p>
+            </li>
+            <li class="card">
+              <div class="card__media card__media--outlined"><img src="assets/card-curious.gif" alt="" loading="lazy" /></div>
+              <h3 class="card__title">From curious to confident.</h3>
+              <p class="card__body">Explore cars that fit, compare your favourites and get answers to the questions that matter.</p>
+            </li>
+            <li class="card">
+              <div class="card__media"><img src="assets/card-driving.jpg" alt="" loading="lazy" /></div>
+              <h3 class="card__title">Less searching. More driving.</h3>
+              <p class="card__body">Found something you love? Connect with a dealership and take the next step towards your test drive.</p>
+            </li>
+          </ul>
+          <div class="carousel__nav">
+            <button type="button" class="carousel__arrow" data-prev aria-label="Previous"><img src="assets/arrow-right.svg" width="17" height="13" alt="" class="flip" /></button>
+            <button type="button" class="carousel__arrow" data-next aria-label="Next"><img src="assets/arrow-right.svg" width="17" height="13" alt="" /></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Built around you (6357:2306) -->
+      <section class="feature feature--white">
+        <h2 class="section-title">Built around <em>you</em></h2>
+        <div class="carousel" data-carousel>
+          <ul class="carousel__track" data-track>
+            <li class="card">
+              <div class="card__media card__media--lang">
+                <img src="assets/card-lang-bg.webp" alt="" class="lang__bg" loading="lazy" />
+                <img src="assets/card-lang.png" alt="Language bubbles: English, Español, Tagalog, Français, Punjabi, Arabic, Korean" class="lang__fg" loading="lazy" />
+              </div>
+              <h3 class="card__title">Speaks your language.</h3>
+              <p class="card__body">Chat in 20+ languages. Shop in whichever feels like home.</p>
+            </li>
+            <li class="card">
+              <div class="card__media card__media--outlined"><img src="assets/card-brandwall.webp" alt="Car brand logos" loading="lazy" /></div>
+              <h3 class="card__title">Your search, done for you.</h3>
+              <p class="card__body">6.24M+ listings. All of North America. One conversation with Kaia.</p>
+            </li>
+            <li class="card">
+              <div class="card__media"><img src="assets/card-picksup.webp" alt="" loading="lazy" /></div>
+              <h3 class="card__title">Picks up where you left off.</h3>
+              <p class="card__body">Come back anytime. Kaia remembers what you’re looking for, and your matches get sharper every visit.</p>
+            </li>
+          </ul>
+          <div class="carousel__nav">
+            <button type="button" class="carousel__arrow" data-prev aria-label="Previous"><img src="assets/arrow-right.svg" width="17" height="13" alt="" class="flip" /></button>
+            <button type="button" class="carousel__arrow" data-next aria-label="Next"><img src="assets/arrow-right.svg" width="17" height="13" alt="" /></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Supported by (6357:2334) -->
+      <section class="supported">
+        <p class="supported__title">Supported by</p>
+        <ul class="supported__row">
+          <li class="aws"><img src="assets/s-aws.svg" alt="AWS" /></li>
+          <li class="nvidia" role="img" aria-label="NVIDIA Inception Program">
+            <span class="nvidia__mark">
+              <img src="assets/s-nvidia-eye.svg" width="27" height="18" alt="" />
+              <img src="assets/s-nvidia-word.svg" width="61" height="10" alt="" />
+            </span>
+            <span class="nvidia__inception"><img src="assets/s-nvidia-inception.png" alt="" /></span>
+          </li>
+          <li class="mars"><img src="assets/s-mars.svg" alt="MaRS" /></li>
+          <li><img src="assets/s-oci.svg" width="74" height="30" alt="OCI" /></li>
+        </ul>
+      </section>
+
+      <!-- FAQ (6357:2376) -->
+      <section class="faq">
+        <h2 class="faq__title">A few things you might be <br />wondering.</h2>
+        <div class="faq__list" data-faq></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer__copy">© 2026 Instacars, Inc. All rights reserved</p>
+      <img src="assets/logo-footer.svg" class="footer__logo" width="390" height="80" alt="" />
+      <img src="assets/logo-footer-wide.svg" class="footer__logo footer__logo--wide" width="466" height="80" alt="" />
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
