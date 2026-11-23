@@ -20,10 +20,65 @@
       <a href="#" class="menu__logo" aria-label="Instacars home">
         <img src="assets/logo-header.svg" width="136" height="26" alt="Instacars" />
       </a>
-      <button class="menu__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
+      <button class="menu__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
         <img src="assets/icon-menu.svg" width="24" height="24" alt="" />
       </button>
-      <nav class="menu__nav" id="site-nav" aria-label="Main">
+
+      <!-- Full-screen menu for phones, foldables and tablets (Figma "mobile.menu") -->
+      <div class="drawer" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-drawer>
+        <div class="drawer__top">
+          <a href="#" class="menu__logo" aria-label="Instacars home">
+            <img src="assets/logo-header.svg" width="136" height="26" alt="Instacars" />
+          </a>
+          <button class="menu__toggle" type="button" aria-label="Close menu" data-menu-close>
+            <img src="assets/icon-close.svg" width="24" height="24" alt="" />
+          </button>
+        </div>
+
+        <nav class="drawer__nav" aria-label="Mobile">
+          <div class="drawer__group">
+            <p class="drawer__label">EXPLORE</p>
+            <ul class="drawer__links">
+              <li><a class="drawer__row drawer__row--tall" href="#how-it-works"><img src="assets/mi-how.svg" alt="" />How it works</a></li>
+              <li><a class="drawer__row" href="#"><img src="assets/mi-compare.svg" alt="" />Compare kaia</a></li>
+              <li><a class="drawer__row" href="#"><img src="assets/mi-dealer.svg" alt="" />Dealer<img class="drawer__ext" src="assets/mi-arrow.svg" alt="" /></a></li>
+              <li><a class="drawer__row" href="#"><img src="assets/mi-pricing.svg" alt="" />Pricing<img class="drawer__ext" src="assets/mi-arrow.svg" alt="" /></a></li>
+              <li><a class="drawer__row" href="#faq"><img src="assets/mi-help.svg" alt="" />Help &amp; support</a></li>
+            </ul>
+          </div>
+          <hr class="drawer__divider" />
+          <div class="drawer__group">
+            <p class="drawer__label">ACCOUNT</p>
+            <ul class="drawer__links">
+              <li><a class="drawer__row drawer__row--tall" href="#"><img src="assets/mi-preferences.svg" alt="" />Preferences</a></li>
+              <li><a class="drawer__row" href="#"><img src="assets/mi-signout.svg" alt="" />Sign out</a></li>
+            </ul>
+          </div>
+          <hr class="drawer__divider" />
+          <div class="drawer__group">
+            <p class="drawer__label">LEGAL</p>
+            <ul class="drawer__links">
+              <li><a class="drawer__row drawer__row--tall" href="https://instacars.io/page/terms-of-use" target="_blank" rel="noopener"><img src="assets/mi-terms.svg" alt="" />Terms of use</a></li>
+              <li><a class="drawer__row" href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener"><img src="assets/mi-privacy.svg" alt="" />Privacy policy</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="drawer__foot">
+          <div class="drawer__social">
+            <a href="https://www.linkedin.com/company/instacars-io/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/social-linkedin.svg" width="24" height="24" alt="" /></a>
+            <a href="https://www.instagram.com/instacars.io/" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/social-instagram.svg" width="24" height="24" alt="" /></a>
+            <a href="https://twitter.com/instacarsio" target="_blank" rel="noopener" aria-label="X"><img src="assets/social-x.svg" width="24" height="24" alt="" /></a>
+            <a href="https://www.youtube.com/@instacarsio" target="_blank" rel="noopener" aria-label="YouTube"><img src="assets/social-youtube.svg" width="24" height="24" alt="" /></a>
+            <a href="https://www.reddit.com/user/instacarsio" target="_blank" rel="noopener" aria-label="Reddit"><img src="assets/social-reddit.svg" width="24" height="24" alt="" /></a>
+            <a href="https://www.facebook.com/instacars.io/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/social-facebook.svg" width="24" height="24" alt="" /></a>
+          </div>
+          <p class="drawer__copy">© 2026 Instacars, Inc. All rights reserved</p>
+          <img src="assets/logo-footer.svg" class="drawer__logo drawer__logo--narrow" width="390" height="80" alt="" />
+          <img src="assets/logo-footer-wide.svg" class="drawer__logo drawer__logo--wide" width="466" height="80" alt="" />
+        </div>
+      </div>
+      <nav class="menu__nav" aria-label="Main">
         <ul class="menu__links">
           <li><a class="navlink" href="#">About us</a></li>
           <li><a class="navlink" href="#how-it-works">How it works</a></li>
