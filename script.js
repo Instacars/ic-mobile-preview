@@ -194,6 +194,67 @@
     }
   });
 
+  /* ---------- "How does this work?" modal ----------
+     Uses <dialog>.showModal(): the browser keeps focus inside, closes on Escape
+     and makes the page behind inert. Clicking the blurred backdrop also closes it.
+     Only the second answer exists in the design; the third question is cut off there too. */
+  const MODAL_FAQ = [
+    { q: "Does Instacars charge any fees?", a: null },
+    { q: "How does Instacars work?", a: "Instacars is North America’s best online search platform to find new and used cars in your area. We work directly with car dealers to get you the best possible rates.", open: true },
+    { q: "There are soo many used cars listed here. Are they all in good", a: null },
+    { q: "What are the popular car models in the market right now?", a: null },
+    { q: "How are Instacars prices so great?", a: null },
+    { q: "Why do so many Canadians trust Instacars?", a: null },
+  ];
+
+  const modal = document.querySelector("[data-faq-modal]");
+  const modalList = modal.querySelector("[data-faq-modal-list]");
+  const modalIcon = open => `assets/${open ? "faq-open" : "faq-closed"}.svg`;
+  modalList.innerHTML = MODAL_FAQ.map((item, i) => `
+    <div class="modal__item${item.open ? " is-open" : ""}">
+      <button type="button" class="modal__q" aria-expanded="${!!item.open}" aria-controls="modal-a-${i}" id="modal-q-${i}">
+        <span class="modal__q-text">${item.q}</span>
+        <img class="modal__icon" src="${modalIcon(item.open)}" width="44" height="44" alt="" />
+      </button>
+      <div class="modal__a" id="modal-a-${i}" role="region" aria-labelledby="modal-q-${i}">
+        <div><p class="${item.a ? "" : "is-placeholder"}">${item.a ?? "Answer copy needed."}</p></div>
+      </div>
+    </div>`).join("");
+
+  const setModalItem = (item, open) => {
+    item.classList.toggle("is-open", open);
+    const btn = item.querySelector(".modal__q");
+    btn.setAttribute("aria-expanded", String(open));
+    btn.querySelector("img").src = modalIcon(open);
+  };
+  modalList.addEventListener("click", e => {
+    const btn = e.target.closest(".modal__q");
+    if (!btn) return;
+    const item = btn.parentElement;
+    const open = !item.classList.contains("is-open");
+    modalList.querySelectorAll(".modal__item.is-open").forEach(el => setModalItem(el, false));
+    if (open) setModalItem(item, true);
+  });
+
+  let modalOpener = null;
+  document.querySelectorAll("[data-faq-modal-open]").forEach(link => link.addEventListener("click", e => {
+    if (typeof modal.showModal !== "function") return; // very old browsers: fall back to the #how-it-works jump
+    e.preventDefault();
+    modalOpener = link;
+    modal.showModal();
+    modal.scrollTop = 0;
+    modal.querySelector("[data-faq-modal-close]").focus();
+  }));
+  modal.querySelector("[data-faq-modal-close]").addEventListener("click", () => modal.close());
+  // A click whose target is the <dialog> itself landed on the backdrop, outside the card
+  modal.addEventListener("click", e => {
+    if (e.target !== modal) return;
+    const r = modal.getBoundingClientRect();
+    const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    if (!inside) modal.close();
+  });
+  modal.addEventListener("close", () => { if (modalOpener) modalOpener.focus({ preventScroll: true }); });
+
   /* ---------- Cookie banner: remembered per browser when storage is available ---------- */
   const cookie = document.querySelector("[data-cookie]");
   let choice = null;

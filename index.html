@@ -141,7 +141,7 @@
             <li><button type="button" class="token" data-fill="Low mileage"><img src="assets/tok-mileage.svg" width="10" height="14" alt="" />Low mileage</button></li>
             <li><button type="button" class="token" data-fill="Electric or hybrid"><img src="assets/tok-electric.svg" width="16" height="16" alt="" />Electric or hybrid</button></li>
           </ul>
-          <a href="#how-it-works" class="suggest__how">How does this work?</a>
+          <a href="#how-it-works" class="suggest__how" aria-haspopup="dialog" aria-controls="faq-modal" data-faq-modal-open>How does this work?</a>
         </div>
       </section>
 
@@ -294,6 +294,17 @@
       <img src="assets/logo-footer-wide.svg" class="footer__logo footer__logo--wide" width="466" height="80" alt="" />
     </footer>
   </div>
+
+  <!-- "How does this work?" modal (Figma 6407:1543) -->
+  <dialog class="modal" id="faq-modal" aria-labelledby="faq-modal-title" data-faq-modal>
+    <div class="modal__header">
+      <h2 class="modal__title" id="faq-modal-title">Frequently asked questions</h2>
+      <button type="button" class="modal__close" aria-label="Close" data-faq-modal-close>
+        <img src="assets/icon-close-thin.svg" width="20" height="20" alt="" />
+      </button>
+    </div>
+    <div class="modal__list" data-faq-modal-list></div>
+  </dialog>
 
   <div class="cookie" data-cookie hidden>
     <p>We use cookies to improve your experience. You can opt out of certain cookies. Find out more in our <a href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener">privacy policy</a>.</p>
