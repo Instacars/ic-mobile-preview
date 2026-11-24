@@ -1,7 +1,7 @@
 /* Instacars "How it works" page, from Figma "Patrick", frame "how it works" (5999:1806).
    Desktop (1180px and up) follows the Figma frame exactly: nav and footer match the pricing page,
    the text column is 690px wide. Smaller screens have no Figma design yet: the nav collapses into
-   the landing page's full-screen menu and the content reflows (rules at the end of this file). */
+   the marketplace homepage's full-screen menu and the content reflows (rules at the end of this file). */
 
 :root {
   --text: #0d0d0d;
@@ -98,7 +98,7 @@ main { padding-top: 66px; } /* nav frame is 174px tall in the design, 55px above
 .footer__legal { display: flex; gap: 8px; line-height: 30px; }
 .footer__legal a:hover { color: var(--text); }
 
-/* ---------- Menu button + full-screen menu (shown below 1180px; same as the landing page) ---------- */
+/* ---------- Menu button + full-screen menu (shown below 1180px; same as the marketplace homepage) ---------- */
 .nav__toggle { display: none; width: 24px; height: 24px; padding: 0; background: none; border: 0; cursor: pointer; }
 .nav__toggle img { width: 24px; height: 24px; }
 html.menu-open { overflow: hidden; }

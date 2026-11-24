@@ -1,5 +1,5 @@
 (() => {
-  /* ---------- Full-screen menu (below 1180px), same behaviour as the landing page ---------- */
+  /* ---------- Full-screen menu (below 1180px), same behaviour as the marketplace homepage ---------- */
   const toggle = document.querySelector("[data-menu-toggle]");
   const drawer = document.querySelector("[data-drawer]");
   const closeBtn = drawer.querySelector("[data-menu-close]");
