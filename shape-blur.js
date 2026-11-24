@@ -1,15 +1,16 @@
-/* ShapeBlur for the desktop footer wordmark: a soft blur "lens" that drifts across the logo
+/* ShapeBlur for the desktop footer logo: a soft blur "lens" that drifts across the logo
    (or follows the pointer), with a slight colour split at its edge.
 
    Plain-JS port of React Bits' <ShapeBlur /> (JS-CSS variant, https://reactbits.dev/animations/shape-blur),
-   trimmed to the image-shape mode with fill on, and changed for this page:
-   - the logo keeps its own artwork colours (gradient + dark text) instead of one flat colour;
-   - the image fills its canvas (plus an optional margin), and can have a white background keyed out;
-   - the idle lens drifts only over the part of the logo that's visible in its wrapper.
+   changed for this page:
+   - the logo keeps its own colours (gradient bubble + dark wordmark) instead of one flat colour;
+   - the logo's outline is the SVG itself, drawn at the canvas's real pixel size, so it stays as sharp as
+     the plain image wherever the lens isn't (React Bits rebuilds it from a 512px distance field, which
+     makes thin lettering look jagged at this size);
+   - the idle lens drifts only over the logo, not the margin round it.
 
-   Usage: ShapeBlur(wrapperEl, { src, ...options }). The wrapper holds a static <img> fallback;
-   it gets the class "is-live" once the WebGL version is drawing, so CSS can swap the two.
-   Without WebGL2 nothing changes and the fallback image stays. */
+   Usage: ShapeBlur(wrapperEl, { src, pad, ...options }). The wrapper holds a static <img> fallback and
+   gets the class "is-live" once the WebGL version is drawing. Without WebGL2 nothing changes. */
 (() => {
   const VERTEX = `#version 300 es
 in vec2 aPosition;
@@ -17,29 +18,15 @@ void main() {
   gl_Position = vec4(aPosition, 0.0, 1.0);
 }`;
 
-  // Coverage of the shape, from a signed distance field built from the image's alpha.
+  // Coverage = the logo's alpha, rasterised by the browser at full resolution.
   const SHAPE = `#version 300 es
 precision highp float;
-uniform vec2 uResolution;
-uniform float uDpr;
-uniform int uReady;
-uniform sampler2D uFieldTexture;
-uniform vec2 uField;
+uniform sampler2D uMask;
 out vec4 outColor;
 
-float shapeDistance(vec2 p) {
-  if (uReady == 0) return 1e5;
-  vec2 uv = p / (2.0 * uField.x) + 0.5;
-  vec2 inside = clamp(uv, 0.0, 1.0);
-  float d = texture(uFieldTexture, vec2(inside.x, 1.0 - inside.y)).r * uField.y;
-  return d + length((uv - inside) * 2.0 * uField.x);
-}
-
 void main() {
-  vec2 p = gl_FragCoord.xy / uDpr - 0.5 * uResolution;
-  float d = shapeDistance(p);
-  float aa = 1.0 / uDpr;
-  outColor = vec4(clamp(0.5 - d / aa, 0.0, 1.0), 0.0, 0.0, 1.0);
+  vec2 uv = gl_FragCoord.xy / vec2(textureSize(uMask, 0));
+  outColor = vec4(texture(uMask, uv).a, 0.0, 0.0, 1.0);
 }`;
 
   const BLUR = `#version 300 es
@@ -124,19 +111,12 @@ void main() {
     blurred(uv, sigma),
     blurred(uv + split, sigma * (1.0 - uChroma * 0.2))
   );
-  // (React Bits softens coverage above 0.85 here; dropped so the solid logo stays fully opaque on white)
   float grain = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
-  cover = clamp(cover + grain / 255.0, 0.0, 1.0);
+  cover = clamp(cover + grain / 255.0 * step(0.001, sigma), 0.0, 1.0);
   float alpha = max(max(cover.r, cover.g), cover.b);
-  vec3 art = texture(uArt, uv).rgb;   // logo colours, extended past its edges by the gradient
+  vec3 art = texture(uArt, uv).rgb;   // logo colours, smeared past its edges
   outColor = vec4(art * cover, alpha);
 }`;
-
-  const FIELD = 512;
-  const PAD = 0.35;
-  const FAR = 1e20;
-
-  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
   const compile = (gl, type, source) => {
     const shader = gl.createShader(type);
@@ -168,107 +148,35 @@ void main() {
     return map;
   };
 
-  const sweep = (grid, offset, stride, length, f, v, z) => {
-    for (let q = 0; q < length; q++) f[q] = grid[offset + q * stride];
-    let k = 0;
-    v[0] = 0;
-    z[0] = -FAR;
-    z[1] = FAR;
-    for (let q = 1; q < length; q++) {
-      let s = (f[q] + q * q - (f[v[k]] + v[k] * v[k])) / (2 * (q - v[k]));
-      while (s <= z[k]) {
-        k--;
-        s = (f[q] + q * q - (f[v[k]] + v[k] * v[k])) / (2 * (q - v[k]));
-      }
-      k++;
-      v[k] = q;
-      z[k] = s;
-      z[k + 1] = FAR;
-    }
-    k = 0;
-    for (let q = 0; q < length; q++) {
-      while (z[k + 1] < q) k++;
-      const gap = q - v[k];
-      grid[offset + q * stride] = gap * gap + f[v[k]];
-    }
-  };
-
-  const distanceTransform = (grid, size) => {
-    const f = new Float64Array(size);
-    const v = new Int32Array(size);
-    const z = new Float64Array(size + 1);
-    for (let x = 0; x < size; x++) sweep(grid, x, size, size, f, v, z);
-    for (let y = 0; y < size; y++) sweep(grid, y * size, 1, size, f, v, z);
-  };
-
-  // Images on a solid white background (like the desktop wordmark PNG): turn white into transparency
-  // ("colour to alpha"), so the logo has an outline to blur.
-  const keyOutWhite = image => {
+  // The logo drawn at w × h device pixels, centred with a margin of `m` pixels all round.
+  const rasterise = (image, w, h, m) => {
     const c = document.createElement("canvas");
-    c.width = image.naturalWidth;
-    c.height = image.naturalHeight;
-    const ctx = c.getContext("2d", { willReadFrequently: true });
-    ctx.drawImage(image, 0, 0);
-    const data = ctx.getImageData(0, 0, c.width, c.height);
-    const px = data.data;
-    for (let i = 0; i < px.length; i += 4) {
-      const a = Math.max(255 - px[i], 255 - px[i + 1], 255 - px[i + 2]) / 255;
-      if (a < 0.004) { px[i + 3] = 0; continue; }
-      for (let k = 0; k < 3; k++) px[i + k] = 255 - (255 - px[i + k]) / a;
-      px[i + 3] = Math.round(a * px[i + 3]);
-    }
-    ctx.putImageData(data, 0, 0);
+    c.width = w;
+    c.height = h;
+    c.getContext("2d").drawImage(image, m, m, w - 2 * m, h - 2 * m);
     return c;
   };
 
-  const buildField = image => {
-    const raster = document.createElement("canvas");
-    raster.width = FIELD;
-    raster.height = FIELD;
-    const ctx = raster.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return null;
-    const width = image.width || FIELD;
-    const height = image.height || FIELD;
-    const scale = FIELD / (1 + PAD) / Math.max(width, height);
-    ctx.drawImage(image, (FIELD - width * scale) / 2, (FIELD - height * scale) / 2, width * scale, height * scale);
-    const pixels = ctx.getImageData(0, 0, FIELD, FIELD).data;
-    const outside = new Float64Array(FIELD * FIELD);
-    const inside = new Float64Array(FIELD * FIELD);
-    for (let i = 0; i < FIELD * FIELD; i++) {
-      const alpha = pixels[i * 4 + 3] / 255;
-      const edge = 0.5 - alpha;
-      outside[i] = alpha >= 0.999 ? 0 : alpha <= 0.001 ? FAR : edge > 0 ? edge * edge : 0;
-      inside[i] = alpha >= 0.999 ? FAR : alpha <= 0.001 ? 0 : edge < 0 ? edge * edge : 0;
-    }
-    distanceTransform(outside, FIELD);
-    distanceTransform(inside, FIELD);
-    const field = new Float32Array(FIELD * FIELD);
-    for (let i = 0; i < FIELD * FIELD; i++) field[i] = Math.sqrt(outside[i]) - Math.sqrt(inside[i]);
-    return field;
-  };
-
-  // The logo's colours, matching the canvas layout (image centred, `pad` × its width of margin all round),
-  // with each colour smeared outward past the edges so blurred edges keep the right hue.
-  // Only RGB is used by the shader; the shape's coverage comes from the distance field.
-  const buildArt = (image, pad) => {
-    const scale = 1024 / image.width;
-    const w = image.width * scale, h = image.height * scale, m = pad * w;
-    const art = document.createElement("canvas");
-    art.width = Math.round(w + 2 * m);
-    art.height = Math.round(h + 2 * m);
-    const ctx = art.getContext("2d");
-    ctx.drawImage(image, m, m, w, h);
-    ctx.globalCompositeOperation = "destination-over"; // later layers go underneath
-    for (const r of [2, 4, 8, 16, 32, 64]) {
+  // Same layout, with each colour smeared outward so blurred edges keep the right hue
+  // (only RGB is used; coverage comes from the mask).
+  const smear = (mask, unit) => {
+    const c = document.createElement("canvas");
+    c.width = mask.width;
+    c.height = mask.height;
+    const ctx = c.getContext("2d");
+    ctx.drawImage(mask, 0, 0);
+    ctx.globalCompositeOperation = "destination-over"; // each ring goes underneath the last
+    for (const r of [1, 2, 4, 8, 16, 32, 64, 128]) {
       for (let k = 0; k < 8; k++) {
         const a = (k * Math.PI) / 4;
-        ctx.drawImage(image, m + r * Math.cos(a), m + r * Math.sin(a), w, h);
+        ctx.drawImage(mask, r * unit * Math.cos(a), r * unit * Math.sin(a));
       }
     }
-    return art;
+    return c;
   };
 
   window.ShapeBlur = (wrapper, options = {}) => {
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const s = {
       src: options.src || "",
       blur: Math.max(0, options.blur ?? 16),
@@ -277,8 +185,7 @@ void main() {
       focus: !!options.focus,
       chroma: clamp(options.chroma ?? 0.3, 0, 1),
       idle: options.idle ?? true,
-      pad: Math.max(0, options.pad ?? 0),      // margin round the image, as a fraction of its width
-      keyWhite: !!options.keyWhite,          // image has a white background to remove
+      pad: Math.max(0, options.pad ?? 0), // margin round the logo, as a fraction of its width
     };
 
     const canvas = document.createElement("canvas");
@@ -295,7 +202,7 @@ void main() {
     if (!shapeProgram || !blurProgram || !compositeProgram) return;
     wrapper.appendChild(canvas);
 
-    const shapeUniforms = locate(gl, shapeProgram, ["uResolution", "uDpr", "uReady", "uFieldTexture", "uField"]);
+    const shapeUniforms = locate(gl, shapeProgram, ["uMask"]);
     const blurUniforms = locate(gl, blurProgram, ["uSource", "uLod", "uStep", "uScale"]);
     const compositeUniforms = locate(gl, compositeProgram, [
       "uPyramid", "uArt", "uMaxLod", "uResolution", "uDpr", "uBlur", "uLens", "uLensShape", "uFocus", "uChroma",
@@ -322,20 +229,16 @@ void main() {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       return texture;
     };
-    gl.activeTexture(gl.TEXTURE0);
-    const fieldTexture = linearTexture();
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, 1, 1, 0, gl.RED, gl.FLOAT, new Float32Array([1e4]));
-    gl.activeTexture(gl.TEXTURE1);
+    const maskTexture = linearTexture();
     const artTexture = linearTexture();
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([11, 121, 254, 255]));
-    gl.activeTexture(gl.TEXTURE0);
 
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     const pointer = { x: 0, y: 0, active: false };
     const lens = { x: 0, y: 0, power: 0, placed: false };
-    const pyramid = { texture: null, temps: [], sizes: [], levels: 0, key: "" };
-    const view = { cx: 0, cy: 0, rx: 1, ry: 1 }; // visible part of the logo, from the canvas centre (y up)
+    const pyramid = { texture: null, temps: [], sizes: [], levels: 0, dirty: true };
+    const view = { cx: 0, cy: 0, rx: 1, ry: 1 }; // the logo itself, from the canvas centre (y up)
     const state = { width: 1, height: 1, dpr: 1, time: 0, ready: false };
+    const image = new Image();
     let raf = 0;
     let last = 0;
     let visible = false;
@@ -370,34 +273,42 @@ void main() {
         configure();
         pyramid.temps.push(texture);
       }
-      pyramid.key = "";
+      pyramid.dirty = true;
     };
 
-    // Lens path while idle: a slow Lissajous wander over the visible strip of the logo.
+    // Draw the logo at the canvas's pixel size, as the coverage mask and the colour art
+    const uploadLogo = () => {
+      if (!state.ready) return;
+      const m = Math.round((canvas.width / (1 + 2 * s.pad)) * s.pad);
+      const mask = rasterise(image, canvas.width, canvas.height, m);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, maskTexture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mask);
+      gl.bindTexture(gl.TEXTURE_2D, artTexture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, smear(mask, state.dpr));
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      pyramid.dirty = true;
+    };
+
+    // Lens path while idle: a slow Lissajous wander over the logo.
     const wander = t => [
       view.cx + view.rx * (0.75 * Math.sin(t * 0.37) + 0.2 * Math.sin(t * 1.13 + 1.7)),
       view.cy + view.ry * (0.7 * Math.sin(t * 0.53 + 0.9) + 0.2 * Math.cos(t * 0.91 + 0.4)),
     ];
 
+    // Coverage mask → blur pyramid (only when the size or logo changes)
     const drawShape = () => {
-      const { width, height } = state;
-      const imageWidth = width / (1 + 2 * s.pad); // the image spans the canvas width minus the margins
-      const fieldHalf = (imageWidth / 2) * (1 + PAD);
-      const key = [canvas.width, canvas.height, state.ready].join("|");
-      if (key === pyramid.key) return;
-      pyramid.key = key;
+      if (!pyramid.dirty || !state.ready) return;
+      pyramid.dirty = false;
 
       gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
       gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, pyramid.texture, 0);
       gl.viewport(0, 0, pyramid.sizes[0][0], pyramid.sizes[0][1]);
       gl.useProgram(shapeProgram);
       gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, fieldTexture);
-      gl.uniform1i(shapeUniforms.uFieldTexture, 0);
-      gl.uniform2f(shapeUniforms.uResolution, width, height);
-      gl.uniform1f(shapeUniforms.uDpr, state.dpr);
-      gl.uniform1i(shapeUniforms.uReady, state.ready ? 1 : 0);
-      gl.uniform2f(shapeUniforms.uField, fieldHalf, (2 * fieldHalf) / FIELD);
+      gl.bindTexture(gl.TEXTURE_2D, maskTexture);
+      gl.uniform1i(shapeUniforms.uMask, 0);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
       gl.useProgram(blurProgram);
@@ -423,7 +334,7 @@ void main() {
     };
 
     const render = () => {
-      if (!pyramid.texture) return;
+      if (!pyramid.texture || !state.ready) return;
       gl.bindVertexArray(vao);
       gl.disable(gl.BLEND);
       drawShape();
@@ -498,12 +409,11 @@ void main() {
     const onPointerMove = event => {
       if (!visible) return;
       const rect = canvas.getBoundingClientRect();
-      const clip = wrapper.getBoundingClientRect();
+      const logo = wrapper.getBoundingClientRect();
       const margin = s.lensSize * Math.min(rect.width, rect.height) * 0.5;
-      // Only react while the pointer is over (or near) the visible part of the logo
       pointer.active =
-        event.clientX > clip.left - margin && event.clientX < clip.right + margin &&
-        event.clientY > clip.top - margin && event.clientY < clip.bottom + margin;
+        event.clientX > logo.left - margin && event.clientX < logo.right + margin &&
+        event.clientY > logo.top - margin && event.clientY < logo.bottom + margin;
       pointer.x = event.clientX - rect.left - rect.width / 2;
       pointer.y = rect.top + rect.height / 2 - event.clientY;
       wake();
@@ -516,64 +426,38 @@ void main() {
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      if (!rect.width || !rect.height) return; // hidden (e.g. closed menu)
+      if (!rect.width || !rect.height) return; // hidden
       state.dpr = Math.min(window.devicePixelRatio || 1, 2);
       state.width = rect.width;
       state.height = rect.height;
       canvas.width = Math.round(state.width * state.dpr);
       canvas.height = Math.round(state.height * state.dpr);
 
-      const clip = wrapper.getBoundingClientRect();
-      const left = Math.max(clip.left, rect.left), right = Math.min(clip.right, rect.right);
-      const top = Math.max(clip.top, rect.top), bottom = Math.min(clip.bottom, rect.bottom);
-      view.cx = (left + right) / 2 - (rect.left + rect.width / 2);
-      view.cy = rect.top + rect.height / 2 - (top + bottom) / 2;
-      view.rx = Math.max(1, (right - left) / 2);
-      view.ry = Math.max(1, (bottom - top) / 2);
+      const logo = wrapper.getBoundingClientRect();
+      view.cx = logo.left + logo.width / 2 - (rect.left + rect.width / 2);
+      view.cy = rect.top + rect.height / 2 - (logo.top + logo.height / 2);
+      view.rx = Math.max(1, logo.width / 2);
+      view.ry = Math.max(1, logo.height / 2);
 
       allocate();
+      uploadLogo();
       render();
       wake();
     };
 
-    // With a margin, the canvas overhangs the wrapper (the logo box) so blur can spill past the logo
+    // The canvas overhangs the wrapper (the logo box) by `pad` × the logo width on every side
     const fitCanvas = (w, h) => {
-      if (!s.pad) return;
       canvas.style.left = `${-s.pad * 100}%`;
       canvas.style.marginTop = `${-s.pad * 100}%`; // % margins are relative to the wrapper's width
       canvas.style.width = `${(1 + 2 * s.pad) * 100}%`;
       canvas.style.aspectRatio = `${w * (1 + 2 * s.pad)} / ${h + 2 * s.pad * w}`;
     };
 
-    const image = new Image();
     image.onload = () => {
-      let source = image, field = null;
-      try {
-        if (s.keyWhite) source = keyOutWhite(image);
-        else {
-          // Rasterise (SVGs especially) at 1024px wide so the colour art stays sharp
-          source = document.createElement("canvas");
-          source.width = 1024;
-          source.height = Math.round(1024 * (image.naturalHeight / image.naturalWidth));
-          source.getContext("2d").drawImage(image, 0, 0, source.width, source.height);
-        }
-        field = buildField(source);
-      } catch (_) { field = null; }
-      if (!field) return;
-      fitCanvas(source.width, source.height);
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, fieldTexture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, FIELD, FIELD, 0, gl.RED, gl.FLOAT, field);
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_2D, artTexture);
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, buildArt(source, s.pad));
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-      gl.activeTexture(gl.TEXTURE0);
+      fitCanvas(image.naturalWidth, image.naturalHeight);
       state.ready = true;
-      render();
+      resize();
       wrapper.classList.add("is-live");
-      wake();
     };
     image.src = s.src;
 
@@ -585,6 +469,5 @@ void main() {
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     document.documentElement.addEventListener("pointerleave", onPointerLeave);
     canvas.addEventListener("webglcontextlost", () => wrapper.classList.remove("is-live"));
-    resize();
   };
 })();

@@ -202,9 +202,8 @@
       if (started || !desktop.matches) return;
       started = true;
       document.querySelectorAll("[data-shape-blur]").forEach(el => window.ShapeBlur(el, {
-        src: "assets/logo-footer-desktop.png",
-        keyWhite: true,   // the PNG has a white background
-        pad: 0.06,        // room round the logo for the blur to spill into
+        src: "assets/logo-footer-desktop.svg",
+        pad: 0.08,        // room round the logo for the blur to spill into
         blur: 16,
         lensSize: 0.3,
         lensSoftness: 0.7,
