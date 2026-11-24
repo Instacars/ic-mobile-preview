@@ -220,14 +220,16 @@ html.menu-open { overflow: hidden; }
 }
 
 /* ---------- Stage: tags band + composer + suggestions ---------- */
+/* No z-index here on purpose: the stage must not group its children into one layer, so the photo
+   (.hero-art, z-index 1) can sit between them: bubbles behind the head, composer and chips in front, as in Figma. */
 .stage {
   position: relative;
-  z-index: 2;
   padding: 88px var(--side) 0;   /* composer sits 88px below the header, over the tags */
 }
 
 .tags {
   position: absolute;
+  z-index: 0;
   top: 23px;
   left: 0;
   right: 0;
