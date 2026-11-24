@@ -931,5 +931,3 @@ html:has(.modal[open]) { overflow: hidden; } /* stop the page scrolling behind t
   .modal__a { transition: none; }
 }
 
-/* Phone menu (Figma 6408:1602): no EXPLORE heading; About us sits 15px under the top bar */
-.drawer__nav > .drawer__group:first-child { padding-top: 15px; }
