@@ -171,8 +171,7 @@ html.menu-open { overflow: hidden; }
   font-size: 15px;
   color: var(--text-muted);
 }
-.drawer__logo { width: 100%; height: auto; margin-top: 51px; }
-.drawer__logo--wide { display: none; }
+.drawer__mark { margin-top: 51px; }
 .navlink {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 8px 0;
@@ -630,7 +629,31 @@ html.menu-open { overflow: hidden; }
   color: var(--text-muted);
 }
 .footer__logo { width: 100%; height: auto; margin-top: 35px; }
-.footer__logo--wide { display: none; }
+.footer__mark { margin-top: 35px; }
+
+/* ---------- Big IC mark (footer on phones + mobile menu) ----------
+   A strip cropped from the top of the giant chat-bubble mark. The <img> is the static version;
+   shape-blur.js adds a canvas with the full mark (ic-mark.svg, 441 × 319) and sets .is-live. */
+.ic-mark {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 390 / 80;
+  overflow: hidden;
+}
+.ic-mark__img { width: 100%; height: 100%; }
+.ic-mark__img--wide { display: none; }
+.ic-mark__canvas {
+  position: absolute;
+  top: 0;
+  left: -6.667%;    /* mark box starts 26px left of the 390 strip */
+  width: 113.077%;  /* 441 / 390 */
+  aspect-ratio: 441 / 319;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.ic-mark.is-live .ic-mark__canvas { opacity: 1; }
+.ic-mark.is-live .ic-mark__img { visibility: hidden; }
 
 .footer__links {
   align-items: center; gap: 8px;
@@ -673,10 +696,12 @@ html.menu-open { overflow: hidden; }
   .faq__title { text-align: center; padding: 16px 16px 0; }
   .faq__title br { display: none; }
   .footer { padding-top: 32px; }
-  .footer__logo--narrow { display: none; }
-  .footer__logo--wide { display: block; width: 100%; height: auto; margin-top: 71px; }
-  .drawer__logo--narrow { display: none; }
-  .drawer__logo--wide { display: block; }
+  .footer__mark { margin-top: 71px; }
+  /* Wider strip (466 frame): bigger mark, starting 89px left of the strip */
+  .ic-mark { aspect-ratio: 466 / 80; }
+  .ic-mark__img--narrow { display: none; }
+  .ic-mark__img--wide { display: block; }
+  .ic-mark__canvas { left: -19.099%; width: 138.841%; } /* -89 / 466, 647 / 466 */
 }
 
 /* =====================================================================
@@ -760,7 +785,7 @@ html.menu-open { overflow: hidden; }
   .footer__left { display: flex; flex-direction: column; align-items: center; gap: 12px; }
   .footer__links { display: flex; }
   .footer__right { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-  .footer__logo--wide { display: none; }
+  .footer__mark { display: none; }
   .footer__logo--desktop { display: block; order: 1; width: min(540px, 100%); height: auto; margin: 24px 0 20px; }
 
   .cookie { left: 25px; right: auto; bottom: 25px; width: 287px; gap: 20px; }

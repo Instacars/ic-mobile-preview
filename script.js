@@ -194,6 +194,18 @@
     }
   });
 
+  /* ---------- Big IC mark: ShapeBlur lens (footer on phones, and the mobile menu) ---------- */
+  if (window.ShapeBlur) {
+    document.querySelectorAll("[data-shape-blur]").forEach(el => window.ShapeBlur(el, {
+      src: "assets/ic-mark.svg",
+      blur: 16,
+      lensSize: 0.3,
+      lensSoftness: 0.7,
+      chroma: 0.3,
+      idle: true,
+    }));
+  }
+
   /* ---------- Cookie banner: remembered per browser when storage is available ---------- */
   const cookie = document.querySelector("[data-cookie]");
   let choice = null;
