@@ -1,0 +1,33 @@
+<svg width="353" height="350" viewBox="0 0 353 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="353" height="350" fill="#161616"/>
+<g id="pricing">
+<rect width="2160" height="5779" transform="translate(-314.5 -1613)" fill="white"/>
+<g id="content">
+<g id="Frame 2147225611">
+<g id="Pill">
+<g id="Frame 2147225613">
+<g id="2">
+<g id="Help with document uploads">
+<g clip-path="url(#clip0_2078_563)">
+<rect width="353" height="350" rx="30" fill="white"/>
+<path id="Vector" d="M349.35 -492H4.65C-5.92625 -492 -14.5 -468.387 -14.5 -439.258V366.258C-14.5 395.387 -5.92625 419 4.65 419H349.35C359.926 419 368.5 395.387 368.5 366.258V-439.258C368.5 -468.387 359.926 -492 349.35 -492Z" fill="url(#paint0_linear_2078_563)"/>
+</g>
+<rect x="0.5" y="0.5" width="352" height="349" rx="29.5" stroke="#E4EEF9"/>
+<rect x="0.5" y="0.5" width="352" height="349" rx="29.5" stroke="#0D0D0D" stroke-opacity="0.15"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_2078_563" x1="177" y1="-519.5" x2="177" y2="619.42" gradientUnits="userSpaceOnUse">
+<stop offset="0.592916" stop-color="#C9DDF2" stop-opacity="0"/>
+<stop offset="0.921534" stop-color="#C9DDF2"/>
+</linearGradient>
+<clipPath id="clip0_2078_563">
+<rect width="353" height="350" rx="30" fill="white"/>
+</clipPath>
+</defs>
+</svg>

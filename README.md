@@ -1,5 +1,8 @@
-# Instacars mobile — team preview
+# Instacars — team preview
 
-Preview of the Instacars mobile landing page ("Shop cars by chatting").
+Preview pages for sharing with the team.
 
-Source of truth lives in the private `Instacars/ic-marketplace` repository (`mobile/` folder); this repository is a published copy for sharing.
+- `/` — Instacars landing page ("Shop cars by chatting"), phone to desktop.
+- `/pricing/` — dealer pricing page (desktop only for now).
+
+Source of truth lives in the private `Instacars/ic-marketplace` repository (`marketplace/` and `pricing/` folders); this repository is a published copy for sharing.
