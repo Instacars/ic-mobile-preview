@@ -5,6 +5,8 @@
   const toggle = document.querySelector("[data-menu-toggle]");
   const drawer = document.querySelector("[data-drawer]");
   const closeBtn = drawer.querySelector("[data-menu-close]");
+  // Lives in the header's markup, but runs from <body> so the header's slide animation can't clip it
+  document.body.appendChild(drawer);
   const isOpen = () => !drawer.hidden;
   const setMenu = open => {
     if (open === isOpen()) return;
@@ -29,6 +31,32 @@
     }
   });
   window.matchMedia("(min-width: 1024px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
+
+  /* ---------- Header: hide on scroll down, slide back in on scroll up (below 1024px) ---------- */
+  const header = document.querySelector("[data-menu]");
+  const wideMQ = window.matchMedia("(min-width: 1024px)");
+  let lastY = window.scrollY, ticking = false;
+  const onScroll = () => {
+    ticking = false;
+    const y = Math.max(window.scrollY, 0);
+    if (wideMQ.matches || isOpen()) {
+      header.classList.remove("is-hidden", "is-floating");
+      lastY = y;
+      return;
+    }
+    const dy = y - lastY;
+    if (Math.abs(dy) < 6) return;                 // ignore tiny jitters
+    const pastHeader = y > header.offsetHeight;
+    header.classList.toggle("is-hidden", dy > 0 && pastHeader);
+    header.classList.toggle("is-floating", pastHeader);
+    lastY = y;
+  };
+  window.addEventListener("scroll", () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  wideMQ.addEventListener("change", onScroll);
+  // Keyboard users tabbing into the header should always see it
+  header.addEventListener("focusin", () => header.classList.remove("is-hidden"));
 
   /* ---------- Tags band: chat bubbles behind the composer ----------
      Each row holds three copies of its items so no gap shows while it drifts.

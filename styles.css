@@ -71,9 +71,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   justify-content: space-between;
   padding: 30px 30px 20px;
   background: var(--bg);
-  position: relative;
+  position: sticky; /* phones/tablets: slides away on scroll down, back in on scroll up (script.js) */
+  top: 0;
   z-index: 10;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+.menu.is-hidden { transform: translateY(-100%); }
+.menu.is-floating { box-shadow: 0 1px 0 var(--border-default); }
 .menu__logo img { width: 136px; height: auto; }
 .menu__toggle { width: 24px; height: 24px; }
 
@@ -83,7 +87,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* ---------- Full-screen menu (phones, foldables, tablets) ---------- */
 html.menu-open { overflow: hidden; }
-html.menu-open .menu { z-index: 40; } /* lift the drawer above the cookie banner */
 .drawer {
   position: fixed;
   inset: 0;
@@ -775,6 +778,7 @@ html.menu-open .menu { z-index: 40; } /* lift the drawer above the cookie banner
     column-gap: 20px;
     row-gap: 10px;
     padding: 0 25px;
+    position: relative; /* desktop nav scrolls with the page, as before */
   }
   .menu__toggle, .drawer { display: none !important; }
   .menu .menu__nav { display: contents; }
@@ -843,4 +847,5 @@ html.menu-open .menu { z-index: 40; } /* lift the drawer above the cookie banner
   .tags__row, .marquee__track { animation: none !important; }
   .faq__a, .faq__icon { transition: none; }
   .drawer { animation: none; }
+  .menu { transition: none; }
 }
