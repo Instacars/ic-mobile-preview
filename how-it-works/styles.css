@@ -188,8 +188,6 @@ html.menu-open { overflow: hidden; }
 
   .hiw__steps { gap: 40px; }
   .step { flex-direction: column; gap: 10px; }
-  .step__label { width: auto; display: flex; gap: 8px; color: #5d5d5d; }
-  .step__label span { color: var(--text); }
   .step__body h2 { font-size: 20px; line-height: 28px; }
 
   .drawer__top { height: 80px; padding: 30px 15px 20px 19px; }
