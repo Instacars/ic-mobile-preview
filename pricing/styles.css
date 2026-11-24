@@ -91,7 +91,8 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 .intro__text { width: 678px; font-size: 15px; }
 
 /* ---------- Header image ---------- */
-.hero img { width: 100%; height: 586px; object-fit: cover; border-radius: 30px; }
+/* Scales evenly (no cropping) so the "Test drive booking" label baked into the photo keeps its margin */
+.hero img { width: 100%; height: auto; aspect-ratio: 1458 / 586; border-radius: 30px; }
 
 /* ---------- Section heads ---------- */
 .section-head { display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
