@@ -632,23 +632,6 @@ html.menu-open { overflow: hidden; }
 .footer__logo { width: 100%; height: auto; margin-top: 35px; }
 .footer__logo--wide { display: none; }
 
-/* Footer wordmark. On desktop, shape-blur.js adds a canvas (sized to overhang the logo a little,
-   so the blur can spill past it) and sets .is-live; the <img> is the static fallback. */
-.ic-word { position: relative; }
-.ic-word > img { display: block; width: 100%; height: auto; }
-.shape-blur__canvas {
-  position: absolute;
-  top: 0;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-@media (min-width: 1024px) {
-  .is-live > .shape-blur__canvas { opacity: 1; }
-  .ic-word.is-live > img { visibility: hidden; }
-}
-@media (max-width: 1023px) { .shape-blur__canvas { display: none; } } /* desktop only */
-
 .footer__links {
   align-items: center; gap: 8px;
   height: 36px; padding: 8px 16px;

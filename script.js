@@ -194,27 +194,6 @@
     }
   });
 
-  /* ---------- Footer wordmark: ShapeBlur lens, desktop only (started the first time the screen is 1024px+) ---------- */
-  if (window.ShapeBlur) {
-    const desktop = window.matchMedia("(min-width: 1024px)");
-    let started = false;
-    const start = () => {
-      if (started || !desktop.matches) return;
-      started = true;
-      document.querySelectorAll("[data-shape-blur]").forEach(el => window.ShapeBlur(el, {
-        src: "assets/logo-footer-desktop.svg",
-        pad: 0.08,        // room round the logo for the blur to spill into
-        blur: 16,
-        lensSize: 0.3,
-        lensSoftness: 0.7,
-        chroma: 0.3,
-        idle: true,
-      }));
-    };
-    start();
-    desktop.addEventListener("change", start);
-  }
-
   /* ---------- Cookie banner: remembered per browser when storage is available ---------- */
   const cookie = document.querySelector("[data-cookie]");
   let choice = null;
