@@ -32,4 +32,17 @@
 
   // Close it if the window grows to desktop width, where the full nav shows
   window.matchMedia("(min-width: 1180px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
+
+  /* ---------- Brand logos: copy both rows so the phone strip loops seamlessly ----------
+     The copies are hidden from screen readers and only shown on phones (styles.css). */
+  document.querySelectorAll("[data-marquee]").forEach(track => {
+    [...track.children].forEach(row => {
+      const clone = row.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      clone.removeAttribute("aria-label");
+      clone.querySelectorAll("img").forEach(img => (img.alt = ""));
+      clone.querySelectorAll("[role]").forEach(el => { el.removeAttribute("role"); el.removeAttribute("aria-label"); });
+      track.appendChild(clone);
+    });
+  });
 })();

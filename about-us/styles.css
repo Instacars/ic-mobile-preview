@@ -236,16 +236,32 @@ html.menu-open { overflow: hidden; }
 .bmw__l2 { left: 3.32px; top: 1.63px; width: 21.27px; height: 22.97px; }
 .klick { position: relative; width: 22px; height: 37px; overflow: hidden; }
 .klick img { position: absolute; width: 155.07%; height: 133.96%; left: -29.15%; top: -16.98%; }
+.minds__row[aria-hidden="true"] { display: none; } /* copies added by script.js only show in the phone strip */
+@keyframes minds-marquee { to { transform: translateX(-50%); } } /* the track holds two identical sets */
 
 @media (max-width: 767px) {
   .hiw__photo { aspect-ratio: 690 / 586; } /* keep the landscape crop so all three faces stay in frame */
-  /* Logos sit in an aligned 3-column grid; each one centred in its cell.
-     Johnson & Johnson (the widest, 143px) gets its own centred row at the end. */
-  .minds { align-self: stretch; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; justify-items: center; gap: 32px 12px; }
-  .minds__row { display: contents; }
-  .minds__wide { grid-column: 1 / -1; order: 1; }
+  /* All 13 logos glide in one looping strip, same as the marketplace homepage:
+     40s loop, edges fading over 8%. The strip runs edge to edge of the screen. */
+  .step--closing .step__body { align-self: stretch; min-width: 0; } /* stay screen-wide so the strip is clipped, not the page widened */
+  .minds {
+    align-self: stretch;
+    min-width: 0;
+    margin: 4px -15px 0;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .minds__track { display: flex; width: max-content; animation: minds-marquee 40s linear infinite; }
+  .minds__row,
+  .minds__row--1, .minds__row--2 {
+    display: flex; justify-content: flex-start; gap: 23px;
+    width: auto; max-width: none; height: 37px; margin: 0; padding-right: 23px;
+  }
+  .minds__row[aria-hidden="true"] { display: flex; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .drawer { animation: none; }
+  .minds__track { animation: none; }
 }
