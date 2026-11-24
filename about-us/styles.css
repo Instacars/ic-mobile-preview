@@ -239,9 +239,11 @@ html.menu-open { overflow: hidden; }
 
 @media (max-width: 767px) {
   .hiw__photo { aspect-ratio: 690 / 586; } /* keep the landscape crop so all three faces stay in frame */
-  /* Logos wrap onto centred rows instead of one 663px line */
-  .minds__row { flex-wrap: wrap; justify-content: center; gap: 20px 28px; width: 100%; max-width: none; height: auto; margin-left: 0; }
-  .minds__row--2 { margin-top: 20px; }
+  /* Logos sit in an aligned 3-column grid; each one centred in its cell.
+     Johnson & Johnson (the widest, 143px) gets its own centred row at the end. */
+  .minds { align-self: stretch; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; justify-items: center; gap: 32px 12px; }
+  .minds__row { display: contents; }
+  .minds__wide { grid-column: 1 / -1; order: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
