@@ -219,13 +219,22 @@ html.menu-open { overflow: hidden; }
    ===================================================================== */
 
 /* General / Dealer / Investor tabs (SegmentedControl 6012:15195) */
-.tabs { display: flex; padding: 4px; border-radius: 999px; background: #e8e8e8; }
+.tabs { position: relative; display: flex; padding: 4px; border-radius: 999px; background: #e8e8e8; }
 .tabs__tab {
+  position: relative; z-index: 1; /* above the sliding pill */
   height: 36px; padding: 8px 24px; border: 0; border-radius: 999px; background: none; cursor: pointer;
   font: 500 14px/20px var(--font); letter-spacing: -0.18px; color: var(--text); white-space: nowrap;
-  transition: background 0.15s, box-shadow 0.15s;
 }
-.tabs__tab[aria-selected="true"] { background: #fff; box-shadow: 0 9px 4.5px rgba(0, 0, 0, 0.01), 0 2px 2.5px rgba(0, 0, 0, 0.06); }
+/* One white pill glides behind the selected tab (script.js sets its position and width) */
+.tabs__pill {
+  position: absolute; top: 4px; left: 0; height: 36px; width: 0;
+  border-radius: 999px; background: #fff;
+  box-shadow: 0 9px 4.5px rgba(0, 0, 0, 0.01), 0 2px 2.5px rgba(0, 0, 0, 0.06);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tabs__pill.is-instant { transition: none; } /* first placement and window resizes don't animate */
+/* Fallback before script.js runs: show the selected tab's own white background */
+.tabs:not(.has-pill) .tabs__tab[aria-selected="true"] { background: #fff; box-shadow: 0 9px 4.5px rgba(0, 0, 0, 0.01), 0 2px 2.5px rgba(0, 0, 0, 0.06); }
 .tabs__tab:focus-visible { outline: 2px solid #0969dd; outline-offset: 2px; }
 
 /* Each tab's content ("Full content"): heading + text, then the form or a booking button, 30px apart */
@@ -263,4 +272,5 @@ html.menu-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .drawer { animation: none; }
+  .tabs__pill { transition: none; }
 }

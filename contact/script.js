@@ -39,8 +39,22 @@
   const tabs = [...document.querySelectorAll("[data-tab]")];
   const panels = [...document.querySelectorAll("[data-panel]")];
   const names = tabs.map(t => t.dataset.tab);
+  const pill = document.querySelector("[data-tabs-pill]");
 
-  const showTab = (name, { focus = false, updateUrl = false } = {}) => {
+  // Slide the white pill under the selected tab; `instant` skips the animation (first load, resizes)
+  const movePill = (instant = false) => {
+    const selected = tabs.find(t => t.getAttribute("aria-selected") === "true");
+    if (!selected) return;
+    pill.classList.toggle("is-instant", instant);
+    // Exact (sub-pixel) position relative to the tab bar, so the pill lines up perfectly
+    const bar = pill.parentElement.getBoundingClientRect();
+    const box = selected.getBoundingClientRect();
+    pill.style.width = `${box.width}px`;
+    pill.style.transform = `translateX(${box.left - bar.left}px)`;
+    if (instant) { pill.offsetWidth; pill.classList.remove("is-instant"); } // apply, then re-enable sliding
+  };
+
+  const showTab = (name, { focus = false, updateUrl = false, instant = false } = {}) => {
     if (!names.includes(name)) name = "general";
     tabs.forEach(t => {
       const on = t.dataset.tab === name;
@@ -49,6 +63,7 @@
       if (on && focus) t.focus();
     });
     panels.forEach(p => { p.hidden = p.dataset.panel !== name; });
+    movePill(instant);
     if (updateUrl) history.replaceState(null, "", name === "general" ? location.pathname : `#${name}`);
   };
 
@@ -66,9 +81,12 @@
     showTab(a.dataset.tabLink, { updateUrl: true });
     document.querySelector(".tabs").scrollIntoView({ behavior: "smooth", block: "center" });
   }));
-  const fromHash = () => showTab(location.hash.slice(1));
-  window.addEventListener("hashchange", fromHash);
-  fromHash();
+  window.addEventListener("hashchange", () => showTab(location.hash.slice(1)));
+  // Place the pill without sliding on load, and again once Poppins has loaded (tab widths change)
+  showTab(location.hash.slice(1), { instant: true });
+  pill.closest(".tabs").classList.add("has-pill");
+  if (document.fonts) document.fonts.ready.then(() => movePill(true));
+  window.addEventListener("resize", () => movePill(true));
 
   /* ---------- General form ----------
      No backend yet: checks the required fields, then thanks the visitor.
