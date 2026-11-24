@@ -89,26 +89,78 @@
   window.addEventListener("resize", () => movePill(true));
 
   /* ---------- General form ----------
-     No backend yet: checks the required fields, then thanks the visitor.
-     Hook point: dispatches "contact:submit" with { name, email, company, message } on document. */
+     No backend yet: checks the fields, screens out spam, then thanks the visitor.
+     Hook point: dispatches "contact:submit" with { name, email, company, message } on document,
+     only for messages that pass the spam checks below.
+
+     Spam checks (in the browser, so they stop simple bots; whatever receives the messages
+     should check again, e.g. Cloudflare Turnstile or the form service's own filter):
+       1. Hidden trap field "website" must stay empty.
+       2. At least 3 seconds between the page loading and sending (bots submit instantly).
+       3. One message per minute from the same browser.
+       4. No more than 2 links in the message.
+     Bots caught by 1–2 still see the normal thank-you, so they can't tell they were blocked. */
   const form = document.querySelector("[data-contact-form]");
   const status = form.querySelector("[data-form-status]");
+  const loadedAt = Date.now();
+  const MIN_FILL_MS = 3000;
+  const COOLDOWN_MS = 60000;
+  const MAX_LINKS = 2;
+  const lastSentKey = "ic-contact-last-sent";
+  let lastSent = 0;
+  try { lastSent = Number(localStorage.getItem(lastSentKey)) || 0; } catch (_) {}
+
+  const thankYou = () => { status.textContent = "Thanks! We'll get back to you soon."; form.reset(); };
+
   form.addEventListener("submit", e => {
     e.preventDefault();
+    const fields = [...form.querySelectorAll(".field__input")];
+    // The browser only enforces minlength for typed text, not text a bot inserts, so check it here too
+    const msg = form.querySelector("[name=message]");
+    msg.setCustomValidity(msg.value.trim() && msg.value.trim().length < 10 ? "too short" : "");
     let firstBad = null;
-    form.querySelectorAll("input, textarea").forEach(field => {
+    fields.forEach(field => {
       const bad = !field.checkValidity();
       field.setAttribute("aria-invalid", String(bad));
       if (bad && !firstBad) firstBad = field;
     });
     if (firstBad) {
-      status.textContent = "Please add your name, a valid email and a message.";
+      status.textContent = firstBad.name === "message" && firstBad.value.trim()
+        ? "Please write a little more in your message (at least 10 characters)."
+        : "Please add your name, a valid email and a message.";
       firstBad.focus();
       return;
     }
-    document.dispatchEvent(new CustomEvent("contact:submit", { detail: Object.fromEntries(new FormData(form)) }));
-    status.textContent = "Thanks! We'll get back to you soon.";
-    form.reset();
+
+    const data = Object.fromEntries(new FormData(form));
+    // 1 + 2: likely a bot. Pretend it worked and send nothing.
+    if (data.website || Date.now() - loadedAt < MIN_FILL_MS) { thankYou(); return; }
+    // 3: a real person sending again too quickly
+    const now = Date.now();
+    if (now - lastSent < COOLDOWN_MS) {
+      const wait = Math.ceil((COOLDOWN_MS - (now - lastSent)) / 1000);
+      status.textContent = `Thanks, we've got your message. You can send another in ${wait} seconds.`;
+      return;
+    }
+    // 4: link-stuffed messages
+    // Count each link once: a full address (http..., www...) is one match; bare domains like example.com count too
+    const links = (data.message.match(/(?:https?:\/\/|www\.)\S+|\b[a-z0-9-]+\.(?:com|net|org|io|co|ru|xyz|top|info|biz)\b/gi) || []).length;
+    if (links > MAX_LINKS) {
+      const box = form.querySelector("[name=message]");
+      box.setAttribute("aria-invalid", "true");
+      status.textContent = `Please keep links to ${MAX_LINKS} or fewer.`;
+      box.focus();
+      return;
+    }
+
+    delete data.website;
+    document.dispatchEvent(new CustomEvent("contact:submit", { detail: data }));
+    lastSent = now;
+    try { localStorage.setItem(lastSentKey, String(now)); } catch (_) {}
+    thankYou();
   });
-  form.addEventListener("input", e => e.target.removeAttribute("aria-invalid"));
+  form.addEventListener("input", e => {
+    e.target.removeAttribute("aria-invalid");
+    if (e.target.name === "message") e.target.setCustomValidity("");
+  });
 })();

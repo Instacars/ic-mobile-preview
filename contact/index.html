@@ -119,11 +119,15 @@
         </div>
         <form class="form" data-contact-form novalidate>
           <div class="form__row">
-            <label class="field"><span class="field__label">Full Name</span><input class="field__input" type="text" name="name" placeholder="Your name" autocomplete="name" required /></label>
-            <label class="field"><span class="field__label">Email</span><input class="field__input" type="email" name="email" placeholder="you@company.com" autocomplete="email" required /></label>
+            <label class="field"><span class="field__label">Full Name</span><input class="field__input" type="text" name="name" placeholder="Your name" autocomplete="name" maxlength="100" required /></label>
+            <label class="field"><span class="field__label">Email</span><input class="field__input" type="email" name="email" placeholder="you@company.com" autocomplete="email" maxlength="254" required /></label>
           </div>
-          <label class="field"><span class="field__label">Company (Optional)</span><input class="field__input" type="text" name="company" placeholder="Organization name" autocomplete="organization" /></label>
-          <label class="field"><span class="field__label">How we can help?</span><textarea class="field__input field__input--area" name="message" placeholder="Write your message..." required></textarea></label>
+          <label class="field"><span class="field__label">Company (Optional)</span><input class="field__input" type="text" name="company" placeholder="Organization name" autocomplete="organization" maxlength="120" /></label>
+          <label class="field"><span class="field__label">How we can help?</span><textarea class="field__input field__input--area" name="message" placeholder="Write your message..." minlength="10" maxlength="2000" required></textarea></label>
+          <!-- Spam trap: hidden from people (and screen readers); bots that fill every field give themselves away -->
+          <div class="form__trap" aria-hidden="true">
+            <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
           <button type="submit" class="btn btn--dark">Submit</button>
           <p class="form__status" role="status" data-form-status></p>
         </form>

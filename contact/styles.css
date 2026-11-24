@@ -267,6 +267,8 @@ html.menu-open { overflow: hidden; }
 .field__input:focus { border-color: #107cfe; box-shadow: 0 0 0 3px rgba(16, 124, 254, 0.15); }
 .field__input[aria-invalid="true"] { border-color: #d92d20; }
 .form .btn { border: 0; cursor: pointer; font-family: var(--font); }
+/* Spam trap field: off-screen rather than display:none, which some bots skip */
+.form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form__status { font-size: 14px; line-height: 20px; }
 .form__status:empty { display: none; }
 
