@@ -1,0 +1,98 @@
+/* Instacars "How it works" page (desktop), from Figma "Patrick", frame "how it works" (5999:1806).
+   Nav and footer match ../pricing; the text column is 690px wide. */
+
+:root {
+  --text: #0d0d0d;
+  --text-nav: #1b1b20;
+  --text-muted: #5b5b5b;
+  --line: rgba(13, 13, 13, 0.1);
+  --pill: #f5f5f7;
+  --font: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --col: 1458px;
+  --text-col: 690px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-width: 1200px; /* desktop-only build for now, like the pricing page */
+  background: #fff;
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: none; }
+ul { margin: 0; padding: 0; }
+h1, h2, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+
+.col { width: min(var(--col), calc(100% - 50px)); margin-inline: auto; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  height: 44px; padding: 0 24px; border-radius: 999px;
+  font-weight: 500; font-size: 15px; line-height: 24px; letter-spacing: -0.24px;
+  color: #fff; white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.85; }
+.btn img { width: 20px; height: 20px; flex: none; }
+.btn--dark { background: var(--text); }
+
+/* ---------- Top nav (same as pricing) ---------- */
+.nav { display: flex; flex-direction: column; gap: 10px; }
+.nav__account { list-style: none; height: 70px; display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
+.nav__main { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
+.nav__logo img { width: 176px; height: auto; }
+.nav__links { list-style: none; display: flex; align-items: center; gap: 30px; }
+.nav__link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-weight: 500; font-size: 15px; color: var(--text-nav);
+  transition: opacity 0.15s;
+}
+.nav__link img { width: 21.213px; height: 21.213px; }
+.nav__link:hover { opacity: 0.65; }
+.nav__cta { display: flex; align-items: center; padding: 10px; border-radius: 35px; background: var(--pill); }
+.nav__btn { padding: 10px 15px; border-radius: 35px; font-weight: 500; font-size: 15px; color: var(--text-nav); transition: opacity 0.15s, background 0.15s; }
+.nav__btn:hover { background: rgba(13, 13, 13, 0.06); }
+.nav__btn--dark { background: var(--text-nav); color: #fff; }
+.nav__btn--dark:hover { background: var(--text-nav); opacity: 0.85; }
+
+/* ---------- Page (5999:4292): 690px column, 90px between blocks ---------- */
+main { padding-top: 66px; } /* nav frame is 174px tall in the design, 55px above the label */
+.hiw { width: min(var(--text-col), 100%); margin-inline: auto; display: flex; flex-direction: column; gap: 90px; }
+.page-label { padding: 10px 0; font-weight: 700; font-size: 20px; line-height: 30px; text-align: center; }
+
+.hiw__head { display: flex; flex-direction: column; align-items: center; gap: 25px; text-align: center; }
+.hiw__title { font-weight: 700; font-size: 40px; line-height: 47px; }
+.hiw__intro { font-size: 15px; line-height: 23px; } /* Figma's "normal" for 15px Poppins is 23px */
+.hiw__photo { width: 100%; height: auto; aspect-ratio: 690 / 586; object-fit: cover; border-radius: 31px; }
+
+.hiw__steps { display: flex; flex-direction: column; gap: 30px; }
+.step { display: flex; align-items: flex-start; gap: 20px; }
+.step__label { flex: none; width: 131px; font-weight: 600; font-size: 15px; line-height: 23px; }
+.step__label span { display: block; }
+.step__body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.step__body h2 { font-weight: 700; font-size: 24px; line-height: 36px; }
+.step__text { font-size: 15px; line-height: 23px; }
+.step__text p + p { margin-top: 23px; } /* one blank line between paragraphs, as in the design */
+.step__lead { font-weight: 600; }
+.step__list { display: flex; flex-direction: column; gap: 10px; padding-left: 22.5px; font-size: 15px; line-height: 23px; }
+.step__list li { list-style: disc; }
+
+/* ---------- Footer (same as pricing, six social icons) ---------- */
+.footer { margin-top: 133px; }
+.footer__top { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.footer__inner { height: 88px; display: flex; align-items: center; justify-content: space-between; }
+.footer__links { display: flex; align-items: center; margin-left: -3.5px; }
+.footer__links a { padding: 10px; font-size: 15px; color: var(--text-nav); transition: opacity 0.15s; }
+.footer__links a:hover { opacity: 0.6; }
+.footer__dot { width: 9px; height: 9px; margin: 10px; border-radius: 40px; background: #29292e; opacity: 0.2; }
+.footer__social { display: flex; align-items: center; gap: 24px; margin-right: 4px; }
+.footer__social img { width: 24px; height: 24px; }
+.footer__social a:hover { opacity: 0.6; }
+.footer__bottom { height: 61px; display: flex; align-items: center; justify-content: space-between; padding: 0 4px; font-size: 15px; color: var(--text-muted); }
+.footer__legal { display: flex; gap: 8px; line-height: 30px; }
+.footer__legal a:hover { color: var(--text); }
