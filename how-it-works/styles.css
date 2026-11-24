@@ -171,28 +171,43 @@ html.menu-open { overflow: hidden; }
   .footer__bottom { height: auto; flex-direction: column; gap: 4px; padding: 16px 0 24px; text-align: center; }
 }
 
+.hiw__picture { display: block; }
+.footer__mark { display: none; }
+
 /* =====================================================================
-   Phones: tighter rhythm, smaller headings, step labels above the text
+   Phones: Figma frame "how it works.mobile" (6440:2649), 390px wide
    ===================================================================== */
 @media (max-width: 767px) {
-  .col { width: calc(100% - 40px); }
-  .nav.col { width: calc(100% - 50px); }
-  .nav__main { padding: 30px 5px 20px; }
+  .col { width: calc(100% - 30px); }           /* 15px side margins */
+  .nav.col { width: calc(100% - 60px); }       /* menu: 30px side padding */
+  .nav__main { padding: 30px 0 19px; }         /* 75px menu, as in the design */
   .nav__logo img { width: 136px; }
 
-  main { padding-top: 20px; }
-  .hiw { gap: 50px; }
-  .hiw__head { gap: 20px; }
-  .hiw__title { font-size: 32px; line-height: 38px; }
-  .hiw__photo { border-radius: 24px; }
+  main { padding-top: 0; }                     /* title sits right under the 75px menu */
+  .hiw { gap: 45px; }
+  .hiw__head { gap: 25px; }
+  .hiw__title { font-size: 25px; line-height: 36px; }
+  .hiw__photo { aspect-ratio: 360 / 462; border-radius: 31px; }
 
   .hiw__steps { gap: 40px; }
   .step { flex-direction: column; gap: 10px; }
-  .step__label { width: auto; } /* number stays on its own line; the label runs the full width */
-  .step__body h2 { font-size: 20px; line-height: 28px; }
+  .step__label { width: auto; }                /* number on its own line; the label runs the full width */
+  .step__body h2 { font-size: 23px; line-height: 35px; }
+  .step--loose .step__body,
+  .step--loose .step__list { gap: 15px; }      /* steps 02 and 03 (and their bullets) are spaced 15px apart in the design */
+
+  /* Footer: copyright only, then the big IC mark peeking in at the bottom */
+  .footer { margin-top: 45px; overflow: hidden; }
+  .footer__top, .footer__legal { display: none; }
+  .footer__bottom { height: auto; padding: 4px 0; }
+  .footer__mark--narrow { display: block; width: 100%; height: auto; margin-top: 36px; }
 
   .drawer__top { height: 80px; padding: 30px 15px 20px 19px; }
   .drawer__nav { padding: 0 10px; }
+}
+@media (min-width: 440px) and (max-width: 767px) {
+  .footer__mark--narrow { display: none; }
+  .footer__mark--wide { display: block; width: 100%; height: auto; margin-top: 36px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

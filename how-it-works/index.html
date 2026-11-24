@@ -104,7 +104,11 @@
         <h1 class="hiw__title">Finding your next car starts with a conversation.</h1>
         <p class="hiw__intro">Forget endless filters and comparing hundreds of listings. Tell Kaia what matters to you, explore your options, and discover cars that fit your life.</p>
         <a class="btn btn--dark" href="../">Chat with Kaia <img src="assets/icon-arrow-up-right.svg" width="20" height="20" alt="" /></a>
-        <img class="hiw__photo" src="assets/hero.jpg" width="690" height="586" alt="Friends gathered around a campfire beside an orange camper van strung with lights, with a white dog in the foreground" />
+        <!-- Phones get the taller crop from the mobile Figma frame (6440:2649) -->
+        <picture class="hiw__picture">
+          <source media="(max-width: 767px)" srcset="assets/hero-mobile.jpg" width="360" height="462" />
+          <img class="hiw__photo" src="assets/hero.jpg" width="690" height="586" alt="Friends gathered around a campfire beside an orange camper van strung with lights, with a white dog in the foreground" />
+        </picture>
       </header>
 
       <!-- Full content (5999:4305) -->
@@ -126,7 +130,7 @@
           </div>
         </section>
 
-        <section class="step" aria-labelledby="step-2">
+        <section class="step step--loose" aria-labelledby="step-2">
           <p class="step__label"><span>02</span>Discover cars you might love</p>
           <div class="step__body">
             <h2 id="step-2">Find options you wouldn't have thought to search for.</h2>
@@ -138,7 +142,7 @@
           </div>
         </section>
 
-        <section class="step" aria-labelledby="step-3">
+        <section class="step step--loose" aria-labelledby="step-3">
           <p class="step__label"><span>03</span>Keep exploring with Kaia</p>
           <div class="step__body">
             <h2 id="step-3">Every question takes you somewhere new.</h2>
@@ -218,6 +222,9 @@
       <p>© 2026 Instacars, Inc. All rights reserved</p>
       <p class="footer__legal"><a href="https://instacars.io/page/terms-of-use" target="_blank" rel="noopener">Terms of use</a><span aria-hidden="true">|</span><a href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></p>
     </div>
+    <!-- Phones only: the big IC mark peeking in at the bottom, as in the mobile Figma frame -->
+    <img src="assets/logo-footer.svg" class="footer__mark footer__mark--narrow" width="390" height="80" alt="" />
+    <img src="assets/logo-footer-wide.svg" class="footer__mark footer__mark--wide" width="466" height="80" alt="" />
   </footer>
 
   <script src="script.js"></script>
