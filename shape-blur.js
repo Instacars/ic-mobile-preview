@@ -1,11 +1,11 @@
-/* ShapeBlur for the big IC mark: a soft blur "lens" that drifts across the logo
+/* ShapeBlur for the desktop footer wordmark: a soft blur "lens" that drifts across the logo
    (or follows the pointer), with a slight colour split at its edge.
 
    Plain-JS port of React Bits' <ShapeBlur /> (JS-CSS variant, https://reactbits.dev/animations/shape-blur),
-   trimmed to the image-shape mode with fill on, and changed in three ways for this page:
-   - the logo keeps its own artwork colours (gradient + highlight) instead of one flat colour;
-   - the mark is sized to fill its canvas, so it can be cropped by a parent with overflow: hidden;
-   - the idle lens drifts only over the part of the logo that's actually visible in that crop.
+   trimmed to the image-shape mode with fill on, and changed for this page:
+   - the logo keeps its own artwork colours (gradient + dark text) instead of one flat colour;
+   - the image fills its canvas (plus an optional margin), and can have a white background keyed out;
+   - the idle lens drifts only over the part of the logo that's visible in its wrapper.
 
    Usage: ShapeBlur(wrapperEl, { src, ...options }). The wrapper holds a static <img> fallback;
    it gets the class "is-live" once the WebGL version is drawing, so CSS can swap the two.
@@ -135,7 +135,6 @@ void main() {
   const FIELD = 512;
   const PAD = 0.35;
   const FAR = 1e20;
-  const ART_GRADIENT = [[0, "#000000"], [0.335, "#02152B"], [1, "#0B79FE"]];
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -202,14 +201,34 @@ void main() {
     for (let y = 0; y < size; y++) sweep(grid, y * size, 1, size, f, v, z);
   };
 
+  // Images on a solid white background (like the desktop wordmark PNG): turn white into transparency
+  // ("colour to alpha"), so the logo has an outline to blur.
+  const keyOutWhite = image => {
+    const c = document.createElement("canvas");
+    c.width = image.naturalWidth;
+    c.height = image.naturalHeight;
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    ctx.drawImage(image, 0, 0);
+    const data = ctx.getImageData(0, 0, c.width, c.height);
+    const px = data.data;
+    for (let i = 0; i < px.length; i += 4) {
+      const a = Math.max(255 - px[i], 255 - px[i + 1], 255 - px[i + 2]) / 255;
+      if (a < 0.004) { px[i + 3] = 0; continue; }
+      for (let k = 0; k < 3; k++) px[i + k] = 255 - (255 - px[i + k]) / a;
+      px[i + 3] = Math.round(a * px[i + 3]);
+    }
+    ctx.putImageData(data, 0, 0);
+    return c;
+  };
+
   const buildField = image => {
     const raster = document.createElement("canvas");
     raster.width = FIELD;
     raster.height = FIELD;
     const ctx = raster.getContext("2d", { willReadFrequently: true });
     if (!ctx) return null;
-    const width = image.naturalWidth || FIELD;
-    const height = image.naturalHeight || FIELD;
+    const width = image.width || FIELD;
+    const height = image.height || FIELD;
     const scale = FIELD / (1 + PAD) / Math.max(width, height);
     ctx.drawImage(image, (FIELD - width * scale) / 2, (FIELD - height * scale) / 2, width * scale, height * scale);
     const pixels = ctx.getImageData(0, 0, FIELD, FIELD).data;
@@ -228,18 +247,24 @@ void main() {
     return field;
   };
 
-  // The logo's colours on an opaque canvas: brand gradient everywhere, artwork on top,
-  // so blurred edges that spill past the shape still pick up the right colour.
-  const buildArt = image => {
+  // The logo's colours, matching the canvas layout (image centred, `pad` × its width of margin all round),
+  // with each colour smeared outward past the edges so blurred edges keep the right hue.
+  // Only RGB is used by the shader; the shape's coverage comes from the distance field.
+  const buildArt = (image, pad) => {
+    const scale = 1024 / image.width;
+    const w = image.width * scale, h = image.height * scale, m = pad * w;
     const art = document.createElement("canvas");
-    art.width = 1024;
-    art.height = Math.round(1024 * (image.naturalHeight / image.naturalWidth));
+    art.width = Math.round(w + 2 * m);
+    art.height = Math.round(h + 2 * m);
     const ctx = art.getContext("2d");
-    const gradient = ctx.createLinearGradient(0, 0, art.width, 0);
-    ART_GRADIENT.forEach(([stop, color]) => gradient.addColorStop(stop, color));
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, art.width, art.height);
-    ctx.drawImage(image, 0, 0, art.width, art.height);
+    ctx.drawImage(image, m, m, w, h);
+    ctx.globalCompositeOperation = "destination-over"; // later layers go underneath
+    for (const r of [2, 4, 8, 16, 32, 64]) {
+      for (let k = 0; k < 8; k++) {
+        const a = (k * Math.PI) / 4;
+        ctx.drawImage(image, m + r * Math.cos(a), m + r * Math.sin(a), w, h);
+      }
+    }
     return art;
   };
 
@@ -252,10 +277,12 @@ void main() {
       focus: !!options.focus,
       chroma: clamp(options.chroma ?? 0.3, 0, 1),
       idle: options.idle ?? true,
+      pad: Math.max(0, options.pad ?? 0),      // margin round the image, as a fraction of its width
+      keyWhite: !!options.keyWhite,          // image has a white background to remove
     };
 
     const canvas = document.createElement("canvas");
-    canvas.className = "ic-mark__canvas";
+    canvas.className = "shape-blur__canvas";
     canvas.setAttribute("aria-hidden", "true");
     const gl = canvas.getContext("webgl2", { alpha: true, premultipliedAlpha: true, antialias: false });
     if (!gl) return;
@@ -354,7 +381,8 @@ void main() {
 
     const drawShape = () => {
       const { width, height } = state;
-      const fieldHalf = (width / 2) * (1 + PAD); // the image spans the full canvas width
+      const imageWidth = width / (1 + 2 * s.pad); // the image spans the canvas width minus the margins
+      const fieldHalf = (imageWidth / 2) * (1 + PAD);
       const key = [canvas.width, canvas.height, state.ready].join("|");
       if (key === pyramid.key) return;
       pyramid.key = key;
@@ -508,18 +536,38 @@ void main() {
       wake();
     };
 
+    // With a margin, the canvas overhangs the wrapper (the logo box) so blur can spill past the logo
+    const fitCanvas = (w, h) => {
+      if (!s.pad) return;
+      canvas.style.left = `${-s.pad * 100}%`;
+      canvas.style.marginTop = `${-s.pad * 100}%`; // % margins are relative to the wrapper's width
+      canvas.style.width = `${(1 + 2 * s.pad) * 100}%`;
+      canvas.style.aspectRatio = `${w * (1 + 2 * s.pad)} / ${h + 2 * s.pad * w}`;
+    };
+
     const image = new Image();
     image.onload = () => {
-      let field = null;
-      try { field = buildField(image); } catch (_) { field = null; }
+      let source = image, field = null;
+      try {
+        if (s.keyWhite) source = keyOutWhite(image);
+        else {
+          // Rasterise (SVGs especially) at 1024px wide so the colour art stays sharp
+          source = document.createElement("canvas");
+          source.width = 1024;
+          source.height = Math.round(1024 * (image.naturalHeight / image.naturalWidth));
+          source.getContext("2d").drawImage(image, 0, 0, source.width, source.height);
+        }
+        field = buildField(source);
+      } catch (_) { field = null; }
       if (!field) return;
+      fitCanvas(source.width, source.height);
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, fieldTexture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, FIELD, FIELD, 0, gl.RED, gl.FLOAT, field);
       gl.activeTexture(gl.TEXTURE1);
       gl.bindTexture(gl.TEXTURE_2D, artTexture);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, buildArt(image));
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, buildArt(source, s.pad));
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
       gl.activeTexture(gl.TEXTURE0);
       state.ready = true;

@@ -194,16 +194,26 @@
     }
   });
 
-  /* ---------- Big IC mark: ShapeBlur lens (footer on phones, and the mobile menu) ---------- */
+  /* ---------- Footer wordmark: ShapeBlur lens, desktop only (started the first time the screen is 1024px+) ---------- */
   if (window.ShapeBlur) {
-    document.querySelectorAll("[data-shape-blur]").forEach(el => window.ShapeBlur(el, {
-      src: "assets/ic-mark.svg",
-      blur: 16,
-      lensSize: 0.3,
-      lensSoftness: 0.7,
-      chroma: 0.3,
-      idle: true,
-    }));
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    let started = false;
+    const start = () => {
+      if (started || !desktop.matches) return;
+      started = true;
+      document.querySelectorAll("[data-shape-blur]").forEach(el => window.ShapeBlur(el, {
+        src: "assets/logo-footer-desktop.png",
+        keyWhite: true,   // the PNG has a white background
+        pad: 0.06,        // room round the logo for the blur to spill into
+        blur: 16,
+        lensSize: 0.3,
+        lensSoftness: 0.7,
+        chroma: 0.3,
+        idle: true,
+      }));
+    };
+    start();
+    desktop.addEventListener("change", start);
   }
 
   /* ---------- Cookie banner: remembered per browser when storage is available ---------- */

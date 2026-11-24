@@ -74,10 +74,8 @@
             <a href="https://www.facebook.com/instacars.io/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/social-facebook.svg" width="24" height="24" alt="" /></a>
           </div>
           <p class="drawer__copy">© 2026 Instacars, Inc. All rights reserved</p>
-          <div class="ic-mark drawer__mark" aria-hidden="true" data-shape-blur>
-            <img src="assets/logo-footer.svg" class="ic-mark__img ic-mark__img--narrow" width="390" height="80" alt="" />
-            <img src="assets/logo-footer-wide.svg" class="ic-mark__img ic-mark__img--wide" width="466" height="80" alt="" />
-          </div>
+          <img src="assets/logo-footer.svg" class="drawer__logo drawer__logo--narrow" width="390" height="80" alt="" />
+          <img src="assets/logo-footer-wide.svg" class="drawer__logo drawer__logo--wide" width="466" height="80" alt="" />
         </div>
       </div>
       <nav class="menu__nav" aria-label="Main">
@@ -280,7 +278,10 @@
         </nav>
         <p class="footer__copy">© 2026 Instacars, Inc. All rights reserved</p>
       </div>
-      <img src="assets/logo-footer-desktop.png" class="footer__logo footer__logo--desktop" width="898" height="166" alt="" />
+      <!-- Desktop wordmark: static image, upgraded to the ShapeBlur lens effect on desktop with WebGL2 -->
+      <div class="footer__logo footer__logo--desktop ic-word" aria-hidden="true" data-shape-blur>
+        <img src="assets/logo-footer-desktop.png" width="898" height="166" alt="" />
+      </div>
       <div class="footer__right">
         <div class="footer__social">
           <a href="https://www.linkedin.com/company/instacars-io/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/social-linkedin.svg" width="24" height="24" alt="" /></a>
@@ -292,11 +293,8 @@
         </div>
         <p class="footer__legal"><a href="https://instacars.io/page/terms-of-use" target="_blank" rel="noopener">Terms of use</a><span aria-hidden="true">|</span><a href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></p>
       </div>
-      <!-- Big IC mark: static image, upgraded to the ShapeBlur lens effect where WebGL2 is available -->
-      <div class="ic-mark footer__mark" aria-hidden="true" data-shape-blur>
-        <img src="assets/logo-footer.svg" class="ic-mark__img ic-mark__img--narrow" width="390" height="80" alt="" />
-        <img src="assets/logo-footer-wide.svg" class="ic-mark__img ic-mark__img--wide" width="466" height="80" alt="" />
-      </div>
+      <img src="assets/logo-footer.svg" class="footer__logo footer__logo--narrow" width="390" height="80" alt="" />
+      <img src="assets/logo-footer-wide.svg" class="footer__logo footer__logo--wide" width="466" height="80" alt="" />
     </footer>
   </div>
 
