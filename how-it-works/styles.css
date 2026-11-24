@@ -1,5 +1,7 @@
-/* Instacars "How it works" page (desktop), from Figma "Patrick", frame "how it works" (5999:1806).
-   Nav and footer match ../pricing; the text column is 690px wide. */
+/* Instacars "How it works" page, from Figma "Patrick", frame "how it works" (5999:1806).
+   Desktop (1180px and up) follows the Figma frame exactly: nav and footer match the pricing page,
+   the text column is 690px wide. Smaller screens have no Figma design yet: the nav collapses into
+   the landing page's full-screen menu and the content reflows (rules at the end of this file). */
 
 :root {
   --text: #0d0d0d;
@@ -16,7 +18,6 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  min-width: 1200px; /* desktop-only build for now, like the pricing page */
   background: #fff;
   color: var(--text);
   font-family: var(--font);
@@ -96,3 +97,105 @@ main { padding-top: 66px; } /* nav frame is 174px tall in the design, 55px above
 .footer__bottom { height: 61px; display: flex; align-items: center; justify-content: space-between; padding: 0 4px; font-size: 15px; color: var(--text-muted); }
 .footer__legal { display: flex; gap: 8px; line-height: 30px; }
 .footer__legal a:hover { color: var(--text); }
+
+/* ---------- Menu button + full-screen menu (shown below 1180px; same as the landing page) ---------- */
+.nav__toggle { display: none; width: 24px; height: 24px; padding: 0; background: none; border: 0; cursor: pointer; }
+.nav__toggle img { width: 24px; height: 24px; }
+html.menu-open { overflow: hidden; }
+.drawer {
+  position: fixed; inset: 0; z-index: 30;
+  display: flex; flex-direction: column;
+  min-height: 100%;
+  overflow-y: auto; overscroll-behavior: contain;
+  background: #fff;
+  animation: drawer-in 0.18s ease-out;
+}
+.drawer[hidden] { display: none; }
+@keyframes drawer-in { from { opacity: 0; transform: translateY(-6px); } }
+.drawer__top {
+  position: sticky; top: 0; z-index: 1; flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 80px; padding: 30px 15px 20px 19px;
+  background: #fff;
+}
+.drawer__logo-link img { width: 136px; height: auto; }
+.drawer__nav { flex: none; display: flex; flex-direction: column; gap: 5px; padding: 0 10px; }
+.drawer__group { display: flex; flex-direction: column; gap: 5px; }
+.drawer__label, .drawer__row {
+  display: flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 8px 0 10px; border-radius: 6px;
+  font-size: 13px; line-height: 18px; letter-spacing: -0.08px; color: var(--text);
+}
+.drawer__label { font-weight: 600; }
+.drawer__links { list-style: none; display: flex; flex-direction: column; gap: 15px; }
+.drawer__row { font-weight: 500; transition: background 0.15s; }
+.drawer__row--tall { height: 40px; }
+.drawer__row:hover, .drawer__row[aria-current="page"] { background: rgba(13, 13, 13, 0.05); }
+.drawer__row:focus-visible, .nav__toggle:focus-visible { outline: 2px solid #0969dd; outline-offset: 2px; }
+.drawer__row img { width: 18px; height: 18px; flex: none; object-fit: contain; }
+.drawer__row .drawer__ext { margin-left: auto; }
+.drawer__divider { margin: 6px 0; border: 0; height: 1px; background: var(--line); }
+.drawer__foot { flex: 1 0 auto; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-top: 64px; }
+.drawer__social { display: flex; justify-content: space-between; align-items: center; width: calc(100% - 56px); max-width: 334px; }
+.drawer__social a { display: block; transition: opacity 0.15s; }
+.drawer__social a:hover { opacity: 0.6; }
+.drawer__social img { width: 24px; height: 24px; }
+.drawer__copy { margin-top: 23px; padding: 0 10px; text-align: center; font-size: 15px; color: var(--text-muted); }
+.drawer__logo { width: 100%; height: auto; margin-top: 51px; }
+.drawer__logo--wide { display: none; }
+@media (min-width: 440px) {
+  .drawer__logo--narrow { display: none; }
+  .drawer__logo--wide { display: block; }
+}
+
+/* =====================================================================
+   Below 1180px the desktop nav no longer fits: logo + menu button
+   ===================================================================== */
+@media (max-width: 1179px) {
+  .nav { gap: 0; }
+  .nav__account, .nav__main > nav, .nav__cta { display: none; }
+  .nav__main { padding: 24px 0; }
+  .nav__toggle { display: block; }
+  main { padding-top: 40px; }
+  .drawer__top { height: auto; padding: 24px 25px; }
+  .drawer__nav { padding: 10px 15px 0; }
+}
+
+/* Footer stacks once its two rows no longer fit side by side */
+@media (max-width: 899px) {
+  .footer { margin-top: 90px; }
+  .footer__inner { height: auto; flex-direction: column; gap: 16px; padding: 20px 0; }
+  .footer__links { flex-wrap: wrap; justify-content: center; column-gap: 8px; margin-left: 0; }
+  .footer__dot { display: none; } /* dots would dangle at the end of a wrapped row */
+  .footer__social { margin-right: 0; }
+  .footer__bottom { height: auto; flex-direction: column; gap: 4px; padding: 16px 0 24px; text-align: center; }
+}
+
+/* =====================================================================
+   Phones: tighter rhythm, smaller headings, step labels above the text
+   ===================================================================== */
+@media (max-width: 767px) {
+  .col { width: calc(100% - 40px); }
+  .nav.col { width: calc(100% - 50px); }
+  .nav__main { padding: 30px 5px 20px; }
+  .nav__logo img { width: 136px; }
+
+  main { padding-top: 20px; }
+  .hiw { gap: 50px; }
+  .hiw__head { gap: 20px; }
+  .hiw__title { font-size: 32px; line-height: 38px; }
+  .hiw__photo { border-radius: 24px; }
+
+  .hiw__steps { gap: 40px; }
+  .step { flex-direction: column; gap: 10px; }
+  .step__label { width: auto; display: flex; gap: 8px; color: #5d5d5d; }
+  .step__label span { color: var(--text); }
+  .step__body h2 { font-size: 20px; line-height: 28px; }
+
+  .drawer__top { height: 80px; padding: 30px 15px 20px 19px; }
+  .drawer__nav { padding: 0 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer { animation: none; }
+}
