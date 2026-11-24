@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Team preview: ask search engines not to list this page. Remove at public launch. -->
+  <meta name="robots" content="noindex, nofollow" />
+  <title>About Us | Instacars</title>
+  <meta name="description" content="We're rethinking how people find their next car, connecting car shoppers with the businesses helping them find it." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Top nav (6002:4653), same as How it works. Links are written for the published site, where this page sits in /about-us/. -->
+  <header class="nav col">
+    <ul class="nav__account">
+      <li><a class="nav__link" href="#">Sign In <img src="assets/nav-arrow.svg" width="21" height="21" alt="" /></a></li>
+      <li><a class="nav__link" href="#">Register <img src="assets/nav-arrow.svg" width="21" height="21" alt="" /></a></li>
+    </ul>
+    <div class="nav__main">
+      <a class="nav__logo" href="../" aria-label="Instacars home"><img src="assets/logo-header.svg" width="176" height="34" alt="Instacars" /></a>
+      <nav aria-label="Main">
+        <ul class="nav__links">
+          <li><a class="nav__link" href="./" aria-current="page">About us</a></li>
+          <li><a class="nav__link" href="../how-it-works/">How it works</a></li>
+          <li><a class="nav__link" href="#">Compare</a></li>
+          <li><a class="nav__link" href="#">Dealers <img src="assets/nav-arrow.svg" width="21" height="21" alt="" /></a></li>
+          <li><a class="nav__link" href="../pricing/">Pricing <img src="assets/nav-arrow.svg" width="21" height="21" alt="" /></a></li>
+          <li><a class="nav__link" href="#">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="nav__cta">
+        <a class="nav__btn nav__btn--dark" href="../">Chat with Kaia</a>
+        <a class="nav__btn" href="../pricing/">For Dealers</a>
+      </div>
+      <!-- Below 1180px the nav collapses into this button and the full-screen menu (same as the marketplace homepage) -->
+      <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <img src="assets/icon-menu.svg" width="24" height="24" alt="" />
+      </button>
+    </div>
+  </header>
+
+  <div class="drawer" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-drawer>
+    <div class="drawer__top">
+      <a href="../" class="drawer__logo-link" aria-label="Instacars home">
+        <img src="assets/logo-header.svg" width="136" height="26" alt="Instacars" />
+      </a>
+      <button class="nav__toggle" type="button" aria-label="Close menu" data-menu-close>
+        <img src="assets/icon-close.svg" width="24" height="24" alt="" />
+      </button>
+    </div>
+    <nav class="drawer__nav" aria-label="Mobile">
+      <div class="drawer__group">
+        <p class="drawer__label">EXPLORE</p>
+        <ul class="drawer__links">
+          <li><a class="drawer__row drawer__row--tall" href="../how-it-works/"><img src="assets/mi-how.svg" alt="" />How it works</a></li>
+          <li><a class="drawer__row" href="#"><img src="assets/mi-compare.svg" alt="" />Compare kaia</a></li>
+          <li><a class="drawer__row" href="#"><img src="assets/mi-dealer.svg" alt="" />Dealer<img class="drawer__ext" src="assets/mi-arrow.svg" alt="" /></a></li>
+          <li><a class="drawer__row" href="../pricing/"><img src="assets/mi-pricing.svg" alt="" />Pricing<img class="drawer__ext" src="assets/mi-arrow.svg" alt="" /></a></li>
+          <li><a class="drawer__row" href="../#faq"><img src="assets/mi-help.svg" alt="" />Help &amp; support</a></li>
+        </ul>
+      </div>
+      <hr class="drawer__divider" />
+      <div class="drawer__group">
+        <p class="drawer__label">ACCOUNT</p>
+        <ul class="drawer__links">
+          <li><a class="drawer__row drawer__row--tall" href="#"><img src="assets/mi-preferences.svg" alt="" />Preferences</a></li>
+          <li><a class="drawer__row" href="#"><img src="assets/mi-signout.svg" alt="" />Sign out</a></li>
+        </ul>
+      </div>
+      <hr class="drawer__divider" />
+      <div class="drawer__group">
+        <p class="drawer__label">LEGAL</p>
+        <ul class="drawer__links">
+          <li><a class="drawer__row drawer__row--tall" href="https://instacars.io/page/terms-of-use" target="_blank" rel="noopener"><img src="assets/mi-terms.svg" alt="" />Terms of use</a></li>
+          <li><a class="drawer__row" href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener"><img src="assets/mi-privacy.svg" alt="" />Privacy policy</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="drawer__foot">
+      <div class="drawer__social">
+        <a href="https://www.linkedin.com/company/instacars-io/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/social-linkedin.svg" width="24" height="24" alt="" /></a>
+        <a href="https://www.instagram.com/instacars.io/" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/social-instagram.svg" width="24" height="24" alt="" /></a>
+        <a href="https://twitter.com/instacarsio" target="_blank" rel="noopener" aria-label="X"><img src="assets/social-x.svg" width="24" height="24" alt="" /></a>
+        <a href="https://www.youtube.com/@instacarsio" target="_blank" rel="noopener" aria-label="YouTube"><img src="assets/social-youtube.svg" width="24" height="24" alt="" /></a>
+        <a href="https://www.reddit.com/user/instacarsio" target="_blank" rel="noopener" aria-label="Reddit"><img src="assets/social-reddit.svg" width="24" height="24" alt="" /></a>
+        <a href="https://www.facebook.com/instacars.io/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/social-facebook.svg" width="24" height="24" alt="" /></a>
+      </div>
+      <p class="drawer__copy">© 2026 Instacars, Inc. All rights reserved</p>
+      <img src="assets/logo-footer.svg" class="drawer__logo drawer__logo--narrow" width="390" height="80" alt="" />
+      <img src="assets/logo-footer-wide.svg" class="drawer__logo drawer__logo--wide" width="466" height="80" alt="" />
+    </div>
+  </div>
+
+  <main class="col">
+    <article class="hiw">
+      <p class="page-label">About Us</p>
+
+      <!-- Header content (6002:4570) -->
+      <header class="hiw__head">
+        <h1 class="hiw__title">We're rethinking how people find their next car.</h1>
+        <p class="hiw__intro">We're bringing a new perspective to the automotive industry, connecting the people looking for their next car with the businesses helping them find it. Different sides of the same journey, united by one belief: finding the right car should be easier for everyone.</p>
+        <a class="btn btn--dark" href="../">Try Kaia <img src="assets/icon-arrow-up-right.svg" width="20" height="20" alt="" /></a>
+        <img class="hiw__photo" src="assets/hero.jpg" width="690" height="586" alt="Friends laughing together at the open door of an off-road vehicle" />
+      </header>
+
+      <!-- Full content (6002:4580) -->
+      <div class="hiw__steps">
+        <section class="step" aria-labelledby="mission">
+          <p class="step__label">The mission</p>
+          <div class="step__body">
+            <h2 id="mission">Making car discovery more human.</h2>
+            <div class="step__text">
+              <p>Instacars is rethinking how people navigate the journey of finding a car. We believe it should be easier to explore possibilities, understand your options, and make confident decisions. We're building a future where technology brings people and the automotive world closer together.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" aria-labelledby="beliefs">
+          <p class="step__label">What we believe</p>
+          <div class="step__body">
+            <h2 id="beliefs">Four beliefs guide everything we build.</h2>
+            <ul class="beliefs">
+              <li><strong>01: Technology should feel human.</strong> Make complicated things simpler, not more complicated.</li>
+              <li><strong>02. Discovery goes beyond search.</strong> Help people uncover possibilities they didn't know to look for.</li>
+              <li><strong>03. Trust comes before transactions.</strong> Better decisions start with useful information and transparency.</li>
+              <li><strong>04. Better experiences benefit everyone.</strong> The automotive journey can work better for both the people buying cars and the people selling them.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="step" aria-labelledby="how-we-work">
+          <p class="step__label">How we work</p>
+          <div class="step__body">
+            <h2 id="how-we-work">Build with purpose. Learn from reality.</h2>
+            <div class="step__text">
+              <p>We challenge assumptions, listen to the people we're building for, and focus on solving real problems rather than adding technology for its own sake. We believe the best products come from understanding people's needs, testing ideas in the real world, and continuously improving what we create.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" aria-labelledby="work-with-us">
+          <p class="step__label">Work with us</p>
+          <div class="step__body">
+            <h2 id="work-with-us">Help us rethink car discovery.</h2>
+            <div class="step__text">
+              <p>We're building something different for an industry ready for a better experience. Whether you're exploring Instacars as a customer, interested in working with us, or looking to collaborate, <a class="text-link" href="#">we'd love to hear from you.</a></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Brand logos (6041:1864): two rows, spread edge to edge -->
+        <section class="step step--closing" aria-labelledby="minds">
+          <div class="step__body">
+            <h2 id="minds">Find the minds who worked on</h2>
+            <div class="minds">
+              <ul class="minds__row minds__row--1" aria-label="Brands our team has worked with">
+                <li><img src="assets/b-gm.svg" width="31" height="31" alt="GM" /></li>
+                <li class="bmw" role="img" aria-label="BMW">
+                  <img src="assets/b-bmw-l3.svg" alt="" class="bmw__l3" />
+                  <img src="assets/b-bmw-l5.svg" alt="" class="bmw__l5" />
+                  <img src="assets/b-bmw-l4.svg" alt="" class="bmw__l4" />
+                  <img src="assets/b-bmw-l2.svg" alt="" class="bmw__l2" />
+                </li>
+                <li><img src="assets/b-tata.svg" width="33" height="29" alt="Tata" /></li>
+                <li><img src="assets/b-mini.svg" width="64" height="29" alt="MINI" /></li>
+                <li><img src="assets/b-kia.svg" width="50" height="12" alt="Kia" /></li>
+                <li><img src="assets/b-ford.svg" width="71" height="27" alt="Ford" /></li>
+                <li><img src="assets/b-ferrari.svg" width="76" height="16" alt="Ferrari" /></li>
+              </ul>
+              <ul class="minds__row minds__row--2" aria-label="More brands our team has worked with">
+                <li><img src="assets/b-fortive.svg" width="81" height="17" alt="Fortive" /></li>
+                <li><img src="assets/b-medtronic.svg" width="85" height="14" alt="Medtronic" /></li>
+                <li><img src="assets/b-creative.svg" width="69" height="23" alt="redtag.ca" /></li>
+                <li><img src="assets/b-rbc.svg" width="34" height="34" alt="RBC" /></li>
+                <li><img src="assets/b-jnj.svg" width="143" height="13" alt="Johnson &amp; Johnson" /></li>
+                <li class="klick"><img src="assets/b-klick.jpg" alt="Klick Health" /></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer (6437:278), same as How it works -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="col footer__inner">
+        <nav class="footer__links" aria-label="Footer">
+          <a href="./" aria-current="page">About Us</a><span class="footer__dot" aria-hidden="true"></span>
+          <a href="../#faq">FAQ</a><span class="footer__dot" aria-hidden="true"></span>
+          <a href="#">Investors</a><span class="footer__dot" aria-hidden="true"></span>
+          <a href="#">Blog</a><span class="footer__dot" aria-hidden="true"></span>
+          <a href="#">Contact</a>
+        </nav>
+        <div class="footer__social">
+          <a href="https://www.linkedin.com/company/instacars-io/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/social-linkedin.svg" width="24" height="24" alt="" /></a>
+          <a href="https://www.instagram.com/instacars.io/" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/social-instagram.svg" width="24" height="24" alt="" /></a>
+          <a href="https://twitter.com/instacarsio" target="_blank" rel="noopener" aria-label="X"><img src="assets/social-x.svg" width="24" height="24" alt="" /></a>
+          <a href="https://www.youtube.com/@instacarsio" target="_blank" rel="noopener" aria-label="YouTube"><img src="assets/social-youtube.svg" width="24" height="24" alt="" /></a>
+          <a href="https://www.reddit.com/user/instacarsio" target="_blank" rel="noopener" aria-label="Reddit"><img src="assets/social-reddit.svg" width="24" height="24" alt="" /></a>
+          <a href="https://www.facebook.com/instacars.io/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/social-facebook.svg" width="24" height="24" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="col footer__bottom">
+      <p>© 2026 Instacars, Inc. All rights reserved</p>
+      <p class="footer__legal"><a href="https://instacars.io/page/terms-of-use" target="_blank" rel="noopener">Terms of use</a><span aria-hidden="true">|</span><a href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></p>
+    </div>
+    <!-- Phones only: the big IC mark peeking in at the bottom, as on How it works -->
+    <img src="assets/logo-footer.svg" class="footer__mark footer__mark--narrow" width="390" height="80" alt="" />
+    <img src="assets/logo-footer-wide.svg" class="footer__mark footer__mark--wide" width="466" height="80" alt="" />
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
