@@ -115,8 +115,11 @@
     e.preventDefault();
     const message = input.value.trim();
     if (!message) { input.focus(); return; }
-    // Hook point: open the Kaia chat with the first message.
-    document.dispatchEvent(new CustomEvent("kaia:start", { detail: { message } }));
+    // Hook point: a real Kaia integration can listen for "kaia:start" and call preventDefault()
+    // to take over. Otherwise open the chat page with the message (after "#", so it isn't sent to the server).
+    const start = new CustomEvent("kaia:start", { detail: { message }, cancelable: true });
+    if (!document.dispatchEvent(start)) return;
+    window.location.href = `chat/index.html#q=${encodeURIComponent(message)}`;
   });
 
   // "Chat with Kaia" in the nav jumps to the composer.

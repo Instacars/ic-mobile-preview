@@ -37,11 +37,24 @@
   document.querySelectorAll("[data-send-text]").forEach(b => b.addEventListener("click", () => send(b.dataset.sendText)));
 
   /* "New search" (and ⌘N / Ctrl+N would open a new browser window, so only the link) clears the conversation */
+  const clearChat = () => {
+    chat.querySelectorAll(".msg, .cars, .actions, .tokens--reply").forEach(n => n.remove());
+    input.value = ""; grow();
+  };
   document.querySelector("[data-new-search]").addEventListener("click", e => {
     e.preventDefault();
-    chat.querySelectorAll(".msg, .cars, .actions, .tokens--reply").forEach(n => n.remove());
-    input.value = ""; grow(); input.focus();
+    clearChat(); input.focus();
   });
+
+  /* Arriving from the marketplace homepage search box (chat/index.html#q=...): start a fresh
+     conversation with that message instead of the sample one. */
+  const first = new URLSearchParams(location.hash.slice(1)).get("q");
+  if (first && first.trim()) {
+    clearChat();
+    history.replaceState(null, "", location.pathname + location.search); // tidy the address bar
+    send(first.slice(0, 2000));
+    input.focus();
+  }
 
   /* Thumbs up / down toggle */
   document.querySelectorAll(".actions__btn[aria-pressed]").forEach(b => b.addEventListener("click", () => {
