@@ -93,6 +93,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .bubble--typing i:nth-child(3) { animation-delay: 0.3s; }
 @keyframes typing { 0%, 60%, 100% { opacity: 0.35; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
 .chat__note { align-self: center; font-size: 13px; line-height: 18px; color: #6c6c6c; text-align: center; }
+.chat__sound-preview { border: 0; padding: 0; background: transparent; color: var(--price); font: inherit; text-decoration: underline; cursor: pointer; }
+.chat__sound-preview:focus-visible { outline: 2px solid var(--price); outline-offset: 3px; border-radius: 2px; }
 .chat__images { display: flex; gap: 8px; margin-left: 10px; }
 .chat__images img { width: 120px; height: 90px; object-fit: cover; border-radius: 12px; }
 .composer__send:disabled { opacity: 0.4; cursor: default; }

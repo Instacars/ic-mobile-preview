@@ -43,34 +43,44 @@
   const add = el => { chat.appendChild(el); return el; };
   const el = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
 
-  /* A soft reply chime, unlocked by the visitor's first chat interaction. */
+  /* A soft sent-message-style swoosh, unlocked by the visitor's first interaction. */
   let replyAudio = null;
   let replyAudioReady = false;
   const unlockReplyAudio = () => {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return;
+    if (!AudioContextClass) return Promise.resolve();
     try {
       if (!replyAudio) replyAudio = new AudioContextClass();
       if (replyAudio.state === "suspended") {
-        replyAudio.resume().then(() => { replyAudioReady = replyAudio.state === "running"; }).catch(() => {});
-      } else replyAudioReady = replyAudio.state === "running";
-    } catch (e) { /* Audio is optional; chat still works if unavailable. */ }
+        return replyAudio.resume().then(() => { replyAudioReady = replyAudio.state === "running"; }).catch(() => {});
+      }
+      replyAudioReady = replyAudio.state === "running";
+      return Promise.resolve();
+    } catch (e) { /* Audio is optional; chat still works if unavailable. */ return Promise.resolve(); }
   };
   const playReplySound = () => {
     if (!replyAudio || !replyAudioReady || replyAudio.state !== "running") return;
     const now = replyAudio.currentTime;
-    const tone = replyAudio.createOscillator();
+    const duration = 0.28;
+    const sampleRate = replyAudio.sampleRate;
+    const buffer = replyAudio.createBuffer(1, Math.ceil(sampleRate * duration), sampleRate);
+    const samples = buffer.getChannelData(0);
+    for (let i = 0; i < samples.length; i++) samples[i] = (Math.random() * 2 - 1) * (1 - i / samples.length);
+    const noise = replyAudio.createBufferSource();
+    const filter = replyAudio.createBiquadFilter();
     const volume = replyAudio.createGain();
-    tone.type = "sine";
-    tone.frequency.setValueAtTime(560, now);
-    tone.frequency.exponentialRampToValueAtTime(740, now + 0.16);
+    noise.buffer = buffer;
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(1700, now);
+    filter.frequency.exponentialRampToValueAtTime(420, now + duration);
     volume.gain.setValueAtTime(0.0001, now);
-    volume.gain.exponentialRampToValueAtTime(0.045, now + 0.025);
-    volume.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
-    tone.connect(volume);
+    volume.gain.exponentialRampToValueAtTime(0.075, now + 0.035);
+    volume.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    noise.connect(filter);
+    filter.connect(volume);
     volume.connect(replyAudio.destination);
-    tone.start(now);
-    tone.stop(now + 0.23);
+    noise.start(now);
+    noise.stop(now + duration);
   };
 
   /* Small, safe Markdown for Kaia's replies: paragraphs, **bold**, *italic*, bullet/numbered lists, links */
@@ -231,7 +241,15 @@
     document.dispatchEvent(new CustomEvent("kaia:message", { detail: { message: text } }));
     toBottom(true);
     if (!backend) {
-      if (!chat.querySelector(".chat__note")) noteRow("Kaia isn't connected on this preview. Try it on dev.instacars.io.");
+      if (!chat.querySelector(".chat__note")) {
+        const note = noteRow("Kaia isn't connected on this preview. Try it on dev.instacars.io.");
+        const preview = document.createElement("button");
+        preview.type = "button";
+        preview.className = "chat__sound-preview";
+        preview.textContent = "Hear the sound";
+        preview.addEventListener("click", () => { unlockReplyAudio().then(playReplySound); });
+        note.append(" ", preview);
+      }
       return;
     }
     const payload = JSON.stringify(metadata ? { type: "message", text, metadata } : { type: "message", text });
