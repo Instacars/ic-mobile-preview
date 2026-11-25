@@ -146,8 +146,7 @@
         <li class="feature-card-image"><img src="assets/features-row1-card4.png" alt="" /><span class="features__sr"><strong>Guide to financing approval.</strong> Timelines, checklists, and pre-qual steps, all in the chat.</span></li>
       </ul>
       <ul class="cards features__slide" data-feature-slide="2" aria-label="Feature card row 2 of 4" aria-hidden="false">
-        <li class="card card--feature">
-          <img class="card__art" src="assets/feat-docs-bg.svg" width="353" height="350" alt="" style="left:-1px; top:-1px" />
+        <li class="card card--feature card--docs">
           <div class="card__text">
             <h3>Help with document uploads</h3>
             <p>IDs and proof of income, uploaded in the chat. No follow-ups required.</p>
@@ -226,7 +225,8 @@
       </div>
 
       <div class="plans-wrap">
-        <div class="billing" role="radiogroup" aria-label="Billing period">
+        <div class="billing" role="radiogroup" aria-label="Billing period" data-billing-group>
+          <span class="billing__pill" aria-hidden="true"></span>
           <button type="button" class="billing__opt is-selected" role="radio" aria-checked="true" data-billing="monthly">Monthly</button>
           <button type="button" class="billing__opt" role="radio" aria-checked="false" data-billing="annual">Annual <span class="billing__save">(2 months free)</span></button>
         </div>
@@ -238,7 +238,7 @@
               <a class="btn btn--dark btn--block" href="#contact"><img src="assets/icon-calendar.svg" width="20" height="20" alt="" />Start free<img src="assets/icon-arrow-up-right.svg" width="20" height="20" alt="" /></a>
               <div class="plan__row">
                 <div><p class="plan__label">1 Rooftop</p><p class="plan__desc">Best for independent dealers</p></div>
-                <p class="plan__price"><span data-monthly="$0" data-annual="$0">$0</span><span class="plan__per" data-monthly="/month" data-annual="/month">/month</span></p>
+                <p class="plan__price"><span class="plan__num">$0</span><span class="plan__per">/month</span></p>
               </div>
               <hr />
             </div>
@@ -251,7 +251,7 @@
               <a class="btn btn--dark btn--block" href="#contact"><img src="assets/icon-calendar.svg" width="20" height="20" alt="" />List your inventory<img src="assets/icon-arrow-up-right.svg" width="20" height="20" alt="" /></a>
               <div class="plan__row">
                 <div><p class="plan__label">1 Rooftop</p><p class="plan__desc">Scale without limits.</p></div>
-                <p class="plan__price"><span data-monthly="$299" data-annual="$2,990">$299</span><span class="plan__per" data-monthly="/month" data-annual="/year">/month</span></p>
+                <p class="plan__price"><span class="plan__num" data-monthly="299" data-annual="249">$299</span><span class="plan__per">/month</span><span class="plan__save" aria-hidden="true">Billed $2,990/yr · Save $598</span></p>
               </div>
               <hr />
             </div>
@@ -265,7 +265,7 @@
               <a class="btn btn--blue btn--block" href="#contact"><img src="assets/icon-calendar.svg" width="20" height="20" alt="" />List your inventory<img src="assets/icon-arrow-up-right.svg" width="20" height="20" alt="" /></a>
               <div class="plan__row">
                 <div><p class="plan__label">2 to 5 Rooftops</p><p class="plan__desc">Manage multiple rooftops.</p></div>
-                <p class="plan__price"><span data-monthly="$499" data-annual="$4,990">$499</span><span class="plan__per" data-monthly="/month" data-annual="/year">/month</span></p>
+                <p class="plan__price"><span class="plan__num" data-monthly="499" data-annual="416">$499</span><span class="plan__per">/month</span><span class="plan__save" aria-hidden="true">Billed $4,990/yr · Save $998</span></p>
               </div>
               <div class="plan__foot">
                 <hr />

@@ -125,6 +125,8 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
   border-radius: 30px;
 }
 .card--feature { border-color: var(--border-card); }
+/* Docs card: soft blue wash towards the bottom, from the Figma gradient (drawn in CSS so it fits any width) */
+.card--docs { background: linear-gradient(to bottom, rgba(201, 221, 242, 0) 156px, rgba(201, 221, 242, 0.52) 350px), #fff; }
 .card__text {
   position: absolute; left: -1px; top: -1px; z-index: 1;
   width: 353px; max-width: calc(100% + 2px);
@@ -161,10 +163,20 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 
 .plans-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
-.billing { display: flex; padding: 4px; border-radius: 999px; background: var(--segment); }
+.billing { position: relative; display: flex; padding: 4px; border-radius: 999px; background: var(--segment); }
+/* White pill that slides between Monthly and Annual (before the script measures it, the selected
+   option is highlighted directly) */
+.billing__pill {
+  position: absolute; top: 4px; left: 4px; height: 36px; width: 0; border-radius: 999px;
+  background: #fff; box-shadow: 0 9px 4.5px rgba(0, 0, 0, 0.01), 0 2px 2.5px rgba(0, 0, 0, 0.06);
+  opacity: 0;
+}
+.billing.is-ready .billing__pill { opacity: 1; transition: transform 0.45s cubic-bezier(.65,0,.35,1), width 0.45s cubic-bezier(.65,0,.35,1); }
+.billing.is-ready .billing__opt.is-selected { background: none; box-shadow: none; }
 .billing__opt {
   height: 36px; padding: 8px 24px; border-radius: 999px;
   font-weight: 500; font-size: 14px; line-height: 20px; letter-spacing: -0.18px; white-space: nowrap;
+  position: relative; z-index: 1;
   transition: background 0.15s, box-shadow 0.15s;
 }
 .billing__opt.is-selected { background: #fff; box-shadow: 0 9px 4.5px rgba(0, 0, 0, 0.01), 0 2px 2.5px rgba(0, 0, 0, 0.06); }
@@ -185,7 +197,21 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 .plan__row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .plan__label { font-weight: 600; font-size: 15px; white-space: nowrap; }
 .plan__desc { font-size: 12px; }
-.plan__price { font-weight: 600; font-size: 15px; white-space: nowrap; }
+.plan__price { font-weight: 600; font-size: 15px; white-space: nowrap; text-align: right; }
+/* Price change: the number counts to its new value, flashes blue, then fades back */
+.plan__num { display: inline-block; font-variant-numeric: tabular-nums; }
+.plan__num.is-flash { animation: price-flash 1.1s ease-out; }
+@keyframes price-flash { 0%, 35% { color: var(--blue); } 100% { color: var(--text); } }
+/* Annual savings tag under the price. It always takes its space (just invisible on Monthly),
+   so switching never makes the cards jump. */
+.plan__save {
+  display: block; width: fit-content; margin: 4px 0 0 auto;
+  padding: 2px 8px; border-radius: 999px;
+  background: #e7f7ee; color: #0f8a4a;
+  font-weight: 600; font-size: 11px; line-height: 15px;
+  opacity: 0; transform: translateY(-4px); transition: opacity 0.35s, transform 0.35s; pointer-events: none;
+}
+.plan__save.is-on { opacity: 1; transform: none; }
 .plan__per { font-weight: 400; color: rgba(13, 13, 13, 0.6); }
 .plan__notes { width: 100%; font-size: 12px; opacity: 0.7; }
 
@@ -418,7 +444,7 @@ html.menu-open { overflow: hidden; }
   /* Brands: one centred row, cut off at both screen edges as in the designs */
   .brands { width: 100vw; overflow: hidden; }
 
-  .founding { flex-direction: column; gap: 12px; text-align: center; }
+  .founding, .addon { display: none; }   /* desktop only */
   .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 15px; }
   .plan { justify-content: flex-start; }
   .plan--enterprise { height: auto; justify-content: center; }
@@ -427,12 +453,6 @@ html.menu-open { overflow: hidden; }
   .includes { gap: 40px; padding: 40px 20px; }
   .includes .plan__name h3 { white-space: normal; }
   .includes__cols { display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; align-items: start; column-gap: 66px; row-gap: 36px; padding: 0; }
-
-  .addon { height: auto; flex-direction: column; align-items: stretch; gap: 24px; padding: 30px 20px 0; }
-  .addon__text { height: auto; gap: 14px; flex: none; }
-  .addon__desc { white-space: normal; }
-  .addon__board { width: 100%; height: auto; aspect-ratio: 721 / 307; }
-  .addon__board img { left: 0; top: -6%; width: 109%; }
 
   /* Contact: photo, form card on the left, Kaia chat bubbles on the right (tablet 6499:7632) */
   .contact { height: 631px; }
@@ -522,9 +542,6 @@ html.menu-open { overflow: hidden; }
   .includes__toggle { cursor: pointer; color: rgba(13, 13, 13, 0.6); }
   .includes__toggle img { display: block; }
 
-  .addon { padding: 20px 20px 0; }
-  .addon__cta { width: 100%; }
-
   /* Dealer cards stack on phones */
   .dealer { margin-top: 50px; }
   .dealer .cards { width: 100%; margin-inline: 0; padding-inline: 0; overflow: visible; flex-direction: column; margin-top: 24px; }
@@ -540,7 +557,11 @@ html.menu-open { overflow: hidden; }
   .contact__form { position: relative; left: auto; top: auto; width: 100%; max-width: none; padding: 20px 19px; }
   .contact__bubbles { right: auto; left: calc(50% - 138px); top: 224px; width: 288px; height: 227px; z-index: 0; }
 
-  .faq { max-width: none; margin-top: 0; }
+  .supported__row { width: 100%; gap: 4.5%; }
+  .supported__row li { flex: 0 1 auto; min-width: 0; }
+  .supported__row img { width: auto; height: 34px; max-width: 100%; }
+  .supported__row li:first-child img { height: 21px; }   /* MaRS is a wide wordmark */
+  .faq { max-width: none; margin-top: 20px; }
 
   .footer__mark--wide { display: none; }
   .footer__mark--narrow { display: block; width: 100%; height: auto; margin-top: 36px; }
@@ -555,5 +576,7 @@ html.menu-open { overflow: hidden; }
   .faq__a { transition: none; }
   .features__track { transition: none; }
   .drawer { animation: none; }
+  .billing.is-ready .billing__pill, .plan__save { transition: none; }
+  .plan__num.is-flash { animation: none; }
 }
 

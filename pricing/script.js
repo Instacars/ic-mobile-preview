@@ -94,22 +94,58 @@
   phone.addEventListener("change", syncSoon);
   syncSoon();
 
-  /* ---------- Billing toggle ----------
-     Annual = "2 months free": 10 × the monthly price, billed yearly.
-     Prices live in each element's data-monthly / data-annual attributes. */
-  const options = document.querySelectorAll("[data-billing]");
-  const priced = document.querySelectorAll("[data-monthly]");
+  /* ---------- Billing toggle (same feel as info.instacars.io) ----------
+     Annual = "2 months free": 10 × the monthly price, billed yearly, shown as its per-month price
+     (Starter $2,990/yr = $249/month). A white pill slides to the chosen option, prices count to the
+     new value with a short blue flash, and a "Billed …/yr · Save $…" tag appears under paid plans.
+     Prices live in each .plan__num's data-monthly / data-annual attributes. */
+  const group = document.querySelector("[data-billing-group]");
+  const pill = group.querySelector(".billing__pill");
+  const options = group.querySelectorAll("[data-billing]");
+  const prices = document.querySelectorAll(".plan__num[data-monthly]");
+  const saves = document.querySelectorAll(".plan__save");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const placePill = () => {
+    const on = group.querySelector(".is-selected");
+    pill.style.width = on.offsetWidth + "px";
+    pill.style.transform = `translateX(${on.offsetLeft - 4}px)`; // 4px = the switch's inner padding
+  };
+  placePill();
+  group.classList.add("is-ready"); // the pill takes over from the static highlight
+  new ResizeObserver(placePill).observe(group);
+  document.fonts?.ready.then(placePill);
+
+  const countTo = (el, to) => {
+    const from = parseInt(el.textContent.replace(/\D/g, ""), 10) || 0;
+    if (from === to) return;
+    el.classList.remove("is-flash");
+    void el.offsetWidth; // restart the flash
+    el.classList.add("is-flash");
+    if (reduceMotion.matches) { el.textContent = "$" + to; return; }
+    const t0 = performance.now(), DURATION = 600;
+    cancelAnimationFrame(el._raf);
+    const step = now => {
+      const t = Math.min(1, (now - t0) / DURATION);
+      el.textContent = "$" + Math.round(from + (to - from) * (1 - Math.pow(1 - t, 3))); // ease-out
+      if (t < 1) el._raf = requestAnimationFrame(step);
+    };
+    el._raf = requestAnimationFrame(step);
+  };
+
   const setBilling = period => {
     options.forEach(opt => {
       const on = opt.dataset.billing === period;
       opt.classList.toggle("is-selected", on);
       opt.setAttribute("aria-checked", String(on));
     });
-    priced.forEach(el => { el.textContent = el.dataset[period]; });
+    placePill();
+    prices.forEach(el => countTo(el, Number(el.dataset[period])));
+    saves.forEach(el => { el.classList.toggle("is-on", period === "annual"); el.setAttribute("aria-hidden", String(period !== "annual")); });
   };
   options.forEach(opt => opt.addEventListener("click", () => setBilling(opt.dataset.billing)));
   // Arrow keys move between the two options, as in a radio group.
-  document.querySelector(".billing").addEventListener("keydown", e => {
+  group.addEventListener("keydown", e => {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
     const next = [...options].find(o => !o.classList.contains("is-selected"));
     setBilling(next.dataset.billing);
