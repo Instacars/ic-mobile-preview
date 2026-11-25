@@ -169,8 +169,32 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   font: inherit; font-size: 15px; line-height: 24px; letter-spacing: -0.32px; color: var(--text); background: none;
 }
 .composer__input::placeholder { color: rgba(13, 13, 13, 0.5); }
-.composer__send { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 999px; background: var(--text); transition: opacity 0.15s; }
-.composer__send:hover { opacity: 0.85; }
+.composer { position: relative; }
+.composer__right { display: flex; align-items: center; gap: 6px; flex: none; }
+/* Send: light grey until there's text, then dark (same as the homepage) */
+.composer__send { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 999px; background: var(--bubble-kaia); transition: background 0.15s; }
+.composer__send.is-ready { background: var(--text); }
+.composer__send.is-ready img { filter: invert(1); }
+.composer__send.is-ready:hover { background: #2a2a2a; }
+/* Mic: tap to speak; Instacars blue with a soft pulse while listening */
+.composer__mic { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 26px; transition: background 0.15s; }
+.composer__mic img { width: 34px; height: 34px; }
+.composer__mic:hover { background: rgba(13, 13, 13, 0.05); }
+.composer__mic.is-listening { background: #107cfe; transition: none; animation: mic-pulse 1.4s ease-out infinite; }
+.composer__mic.is-listening:hover { background: #0b6fe6; }
+.composer__mic.is-listening img { filter: invert(1); }
+@keyframes mic-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 124, 254, 0.45); }
+  100% { box-shadow: 0 0 0 12px rgba(16, 124, 254, 0); }
+}
+/* Voice messages (mic blocked, nothing heard, browser without voice) float just above the box */
+.composer__status {
+  position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translateX(-50%);
+  width: max-content; max-width: min(360px, calc(100vw - 32px));
+  padding: 8px 12px; border-radius: 12px; background: var(--text); color: #fff;
+  font-size: 13px; line-height: 18px; text-align: center; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.composer__status[hidden] { display: none; }
 .dock .tokens { margin-top: 20px; justify-content: center; }
 .dock__how { margin-top: 10px; padding: 10px; font-size: 15px; line-height: 23px; letter-spacing: -0.18px; text-decoration: underline; text-underline-position: from-font; }
 
@@ -178,4 +202,5 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .cars__row { scroll-behavior: auto; }
   .msg--new { animation: none; }
   .bubble--typing i { animation: none; opacity: 0.6; }
+  .composer__mic.is-listening { animation: none; }
 }

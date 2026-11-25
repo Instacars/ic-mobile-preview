@@ -130,10 +130,14 @@
   <!-- Composer + suggestions, pinned to the bottom (5969:2677) -->
   <div class="dock">
     <form class="composer" data-composer>
+      <p class="composer__status" role="status" aria-live="polite" data-voice-status hidden></p>
       <button type="button" class="composer__add" aria-label="Add attachment"><img src="assets/icon-plus-composer.svg" width="20" height="20" alt="" /></button>
       <label class="visually-hidden" for="chat-input">Message Kaia</label>
-      <textarea id="chat-input" class="composer__input" rows="1" placeholder="Ask Kaia anything about cars..." data-input>is it easy to drive on winter? and whats the monthly gas on this?</textarea>
-      <button type="submit" class="composer__send" aria-label="Send"><img src="assets/icon-send.svg" width="20" height="20" alt="" /></button>
+      <textarea id="chat-input" class="composer__input" rows="1" placeholder="SUV under $25k, good on gas..." data-input></textarea>
+      <div class="composer__right">
+        <button type="button" class="composer__mic" aria-label="Speak instead of typing" aria-pressed="false" data-mic><img src="assets/icon-mic.svg" width="34" height="34" alt="" /></button>
+        <button type="submit" class="composer__send" aria-label="Send"><img src="assets/icon-send.svg" width="20" height="20" alt="" /></button>
+      </div>
     </form>
     <ul class="tokens" aria-label="Suggested searches">
       <li><button type="button" class="token" data-fill="Apple Carplay"><img src="assets/tok-smartphone.svg" width="18" height="18" alt="" />Apple Carplay</button></li>
@@ -145,6 +149,7 @@
     <a class="dock__how" href="../#faq">How does this work?</a>
   </div>
 
+  <script src="../voice-input.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

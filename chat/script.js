@@ -24,10 +24,18 @@
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   window.addEventListener("load", () => window.scrollTo(0, document.documentElement.scrollHeight));
 
-  /* Composer grows with its text (up to 5 lines) */
-  const grow = () => { input.style.height = "24px"; input.style.height = `${Math.min(input.scrollHeight, 120)}px`; fitDock(); };
+  /* Composer grows with its text (up to 5 lines); the send button darkens once there's something to send */
+  const grow = () => {
+    input.style.height = "24px";
+    input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
+    sendBtn.classList.toggle("is-ready", input.value.trim().length > 0);
+    fitDock();
+  };
   input.addEventListener("input", grow);
   grow();
+
+  /* Voice input on the mic button (shared with the homepage: ../voice-input.js) */
+  if (window.KaiaVoice) KaiaVoice.attach({ mic: document.querySelector("[data-mic]"), input, status: document.querySelector("[data-voice-status]"), onChange: grow });
 
   const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const nearBottom = () => window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 160;
