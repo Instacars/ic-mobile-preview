@@ -265,7 +265,7 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 .addon__free { font-size: 12px; opacity: 0.6; white-space: nowrap; }
 /* 721 × 307 window onto the 788px-wide board image, cropped as in the design */
 .addon__board { position: relative; width: 721px; height: 307px; flex: none; overflow: hidden; }
-.addon__board img { position: absolute; left: -29.5px; top: -36px; width: 788px; height: auto; }
+.addon__board video { position: absolute; left: -29.5px; top: -36px; width: 788px; height: auto; }
 
 /* ---------- Dealer ---------- */
 .dealer { display: flex; flex-direction: column; align-items: center; }

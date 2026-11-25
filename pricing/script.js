@@ -152,6 +152,12 @@
     next.focus();
   });
 
+  /* ---------- Add-on lead board video: hold on the still frame for people who prefer less motion ---------- */
+  const board = document.querySelector("[data-leadboard]");
+  const syncBoard = () => { if (reduceMotion.matches) { board.pause(); board.currentTime = 0; } else board.play().catch(() => {}); };
+  reduceMotion.addEventListener("change", syncBoard);
+  if (reduceMotion.matches) syncBoard();
+
   /* ---------- Contact forms (the one by the photo on phones, and the one near the end) ----------
      No backend yet: validates, then shows a confirmation. Hook point: dispatches "kaia:lead". */
   document.querySelectorAll("[data-contact]").forEach(form => {
