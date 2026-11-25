@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Team preview: ask search engines not to list this page. Remove at public launch. -->
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Chat with Kaia | Instacars</title>
+  <meta name="description" content="Tell Kaia what you're looking for and explore cars that fit your life." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Left sidebar card (5969:2818): logo, New search, recent searches -->
+  <aside class="side side--left" aria-label="Searches">
+    <div class="side__card">
+      <div class="side__head">
+        <a href="../" class="side__logo" aria-label="Instacars home"><img src="assets/logo-header.svg" width="107" height="20" alt="Instacars" /></a>
+      </div>
+      <nav class="side__list" aria-label="Recent searches">
+        <a class="side__row side__row--new" href="./" data-new-search>
+          <span class="side__plus"><img src="assets/plus.svg" width="18" height="18" alt="" /></span>
+          <span class="side__label">New search</span>
+          <kbd class="side__kbd">⌘N</kbd>
+        </a>
+        <a class="side__row" href="#">G2 options under $30k for...</a>
+        <a class="side__row" href="#">Comfortable cars under...</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Right sidebar card (5973:3441): account + tools -->
+  <aside class="side side--right" aria-label="Account">
+    <div class="side__card side__bar">
+      <a class="side__signin" href="#">Sign in</a>
+      <a class="side__register" href="#">Register</a>
+      <div class="side__tools">
+        <button type="button" class="side__tool" aria-label="Search preferences"><img src="assets/sliders.svg" width="18" height="18" alt="" /></button>
+        <button type="button" class="side__tool" aria-label="Invite people"><img src="assets/people.svg" width="24" height="19" alt="" /></button>
+        <button type="button" class="side__tool" aria-label="Share"><img src="assets/share.svg" width="24" height="24" alt="" /></button>
+        <button type="button" class="side__tool side__tool--menu" aria-label="Menu"><img src="assets/menu.svg" width="24" height="24" alt="" /></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Conversation (5969:2706) -->
+  <main class="chat" id="chat" aria-live="polite" data-chat>
+    <div class="msg msg--me">
+      <p class="bubble bubble--me">Show me cars under $10k range</p>
+      <img class="avatar" src="assets/avatar-user.jpg" width="32" height="32" alt="You" />
+    </div>
+
+    <div class="msg msg--kaia">
+      <img class="avatar" src="assets/avatar-kaia.png" width="32" height="32" alt="Kaia" />
+      <div class="msg__stack">
+        <p class="bubble bubble--kaia bubble--wide">Hey! 👋🏽 Let me find you a budget-friendly car under $10K near you!</p>
+        <p class="bubble bubble--kaia">btw, does the type of car matter?</p>
+      </div>
+    </div>
+
+    <div class="msg msg--me">
+      <p class="bubble bubble--me">4 door would be nice</p>
+      <img class="avatar" src="assets/avatar-user.jpg" width="32" height="32" alt="You" />
+    </div>
+
+    <div class="msg msg--kaia">
+      <img class="avatar" src="assets/avatar-kaia.png" width="32" height="32" alt="Kaia" />
+      <div class="msg__stack">
+        <p class="bubble bubble--kaia bubble--wide bubble--small">Awesome! here are few options! LMK if you need help with more search</p>
+      </div>
+    </div>
+
+    <!-- Car carousel (5969:2738) -->
+    <section class="cars" aria-label="Suggested cars" data-carousel>
+      <div class="cars__row" data-track>
+        <!-- Sample listing from the design, shown five times -->
+        <a class="car" href="#">
+          <img class="car__img" src="assets/car.jpg" width="255" height="175" alt="White 2021 BMW M440i on a country road" />
+          <span class="car__title">2021 BMW M440i Limited With Apple Carplay &amp; New All Season...</span>
+          <span class="car__info">Gas<i></i>Sunroof<i></i>Carplay</span>
+          <span class="car__price">$38,078</span>
+        </a>
+        <a class="car" href="#">
+          <img class="car__img" src="assets/car.jpg" width="255" height="175" alt="White 2021 BMW M440i on a country road" />
+          <span class="car__title">2021 BMW M440i Limited With Apple Carplay &amp; New All Season...</span>
+          <span class="car__info">Gas<i></i>Sunroof<i></i>Carplay</span>
+          <span class="car__price">$38,078</span>
+        </a>
+        <a class="car" href="#">
+          <img class="car__img" src="assets/car.jpg" width="255" height="175" alt="White 2021 BMW M440i on a country road" />
+          <span class="car__title">2021 BMW M440i Limited With Apple Carplay &amp; New All Season...</span>
+          <span class="car__info">Gas<i></i>Sunroof<i></i>Carplay</span>
+          <span class="car__price">$38,078</span>
+        </a>
+        <a class="car" href="#">
+          <img class="car__img" src="assets/car.jpg" width="255" height="175" alt="White 2021 BMW M440i on a country road" />
+          <span class="car__title">2021 BMW M440i Limited With Apple Carplay &amp; New All Season...</span>
+          <span class="car__info">Gas<i></i>Sunroof<i></i>Carplay</span>
+          <span class="car__price">$38,078</span>
+        </a>
+        <a class="car" href="#">
+          <img class="car__img" src="assets/car.jpg" width="255" height="175" alt="White 2021 BMW M440i on a country road" />
+          <span class="car__title">2021 BMW M440i Limited With Apple Carplay &amp; New All Season...</span>
+          <span class="car__info">Gas<i></i>Sunroof<i></i>Carplay</span>
+          <span class="car__price">$38,078</span>
+        </a>
+      </div>
+      <button type="button" class="cars__btn cars__btn--prev" aria-label="Previous cars" data-prev><img src="assets/chevron-right.svg" width="24" height="24" alt="" /></button>
+      <button type="button" class="cars__btn cars__btn--next" aria-label="Next cars" data-next><img src="assets/chevron-right.svg" width="24" height="24" alt="" /></button>
+      <div class="cars__dots" data-dots></div>
+    </section>
+
+    <div class="actions" aria-label="Rate this answer">
+      <button type="button" class="actions__btn" aria-label="Good answer" aria-pressed="false"><img src="assets/thumb-up.svg" width="20" height="20" alt="" /></button>
+      <button type="button" class="actions__btn" aria-label="Bad answer" aria-pressed="false"><img src="assets/thumb-down.svg" width="20" height="20" alt="" /></button>
+      <button type="button" class="actions__btn" aria-label="Try again"><img src="assets/regenerate.svg" width="20" height="20" alt="" /></button>
+      <button type="button" class="actions__btn" aria-label="Report a problem"><img src="assets/bug.svg" width="18" height="18" alt="" /></button>
+    </div>
+
+    <ul class="tokens tokens--reply" aria-label="Quick replies">
+      <li><button type="button" class="token" data-send-text="Under 90k">Under 90k</button></li>
+      <li><button type="button" class="token" data-send-text="Used">Used</button></li>
+      <li><button type="button" class="token" data-send-text="bluetooth">bluetooth</button></li>
+    </ul>
+  </main>
+
+  <!-- Composer + suggestions, pinned to the bottom (5969:2677) -->
+  <div class="dock">
+    <form class="composer" data-composer>
+      <button type="button" class="composer__add" aria-label="Add attachment"><img src="assets/icon-plus-composer.svg" width="20" height="20" alt="" /></button>
+      <label class="visually-hidden" for="chat-input">Message Kaia</label>
+      <textarea id="chat-input" class="composer__input" rows="1" placeholder="Ask Kaia anything about cars..." data-input>is it easy to drive on winter? and whats the monthly gas on this?</textarea>
+      <button type="submit" class="composer__send" aria-label="Send"><img src="assets/icon-send.svg" width="20" height="20" alt="" /></button>
+    </form>
+    <ul class="tokens" aria-label="Suggested searches">
+      <li><button type="button" class="token" data-fill="Apple Carplay"><img src="assets/tok-smartphone.svg" width="18" height="18" alt="" />Apple Carplay</button></li>
+      <li><button type="button" class="token" data-fill="SUV under $40k"><img src="assets/tok-car.svg" width="18" height="18" alt="" />SUV under $40k</button></li>
+      <li><button type="button" class="token" data-fill="First-time buyer"><img src="assets/tok-cap.svg" width="18" height="18" alt="" />First-time buyer</button></li>
+      <li><button type="button" class="token" data-fill="Low mileage"><img src="assets/tok-gauge.svg" width="18" height="18" alt="" />Low mileage</button></li>
+      <li><button type="button" class="token" data-fill="Electric or hybrid"><img src="assets/tok-plug.svg" width="18" height="18" alt="" />Electric or hybrid</button></li>
+    </ul>
+    <a class="dock__how" href="../#faq">How does this work?</a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
