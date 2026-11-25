@@ -9,7 +9,7 @@
   <meta name="description" content="Instacars guides shoppers from “just browsing” to a booked test drive with your dealership. Pay for test drives, not eyeballs." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,500;9..40,700&family=Fredoka:wght@600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -161,183 +161,166 @@
       <div class="features__viewport">
         <div class="features__track" data-feature-track>
       <ul class="cards features__slide" data-feature-slide="1" aria-label="Feature card row 1 of 4" aria-hidden="true">
-        <li class="fcard fcard--grad">
-          <div class="fcard__copy"><h3>Suggest the right extras</h3><p>Kaia brings up what’s right at the right time, based on real buyer intent.</p></div>
-          <div class="fx fx-extras">
-            <div class="fx-msg"><span class="fx-kav">K</span><p class="fx-bub">Most CR-V buyers add winter tires. Want to see the package?</p></div>
-            <div class="fx-box fx-extras__item"><div><b>Winter tire package</b><small>Popular with CR-V buyers</small></div><span class="fx-add fx-add--on"><svg class="fi"><use href="#fi-plus"/></svg>Add</span></div>
-            <div class="fx-box fx-extras__item"><div><b>Extended warranty</b><small>5 years of coverage</small></div><span class="fx-add"><svg class="fi"><use href="#fi-plus"/></svg>Add</span></div>
-          </div>
+        <li class="fcard fcard--soft">
+          <div class="fcard__copy fc-extras__copy"><h3>Suggest the right extras</h3><p>Kaia brings up what’s right at the right time, based on real buyer intent.</p></div>
+          <span class="fa fk fc-extras__k">K</span>
+          <p class="fa fc-extras__bub">Most CR-V buyers add winter tires.<br />Want to see the package?</p>
+          <div class="fa fb fb--12 fc-extras__item fc-extras__item--1"><b>Winter tire package</b><small>Popular with CR-V buyers</small></div>
+          <span class="fa fc-add fc-add--on fc-add--1"><svg class="fi"><use href="#fi-plus"/></svg>Add</span>
+          <div class="fa fb fb--12 fc-extras__item fc-extras__item--2"><b>Extended warranty</b><small>5 years of coverage</small></div>
+          <span class="fa fc-add fc-add--2"><svg class="fi"><use href="#fi-plus"/></svg>Add</span>
         </li>
         <li class="fcard">
           <div class="fcard__copy"><h3>Discover deals</h3><p>Find vehicles with current promotions and discounts tailored to each shopper.</p></div>
-          <div class="fx fx-deals">
-            <span class="fx-chip fx-deals__updated"><svg class="fi"><use href="#fi-refresh"/></svg>Deals updated</span>
-            <div class="fx-box fx-panel">
-              <p class="fx-panel__title"><svg class="fi"><use href="#fi-tag"/></svg>Deals for you</p>
-              <ul class="fx-rows">
-                <li><span>2024 VW Atlas SE</span><span class="fx-tag fx-tag--green">-$2,000</span></li>
-                <li><span>2023 Honda CR-V</span><span class="fx-tag fx-tag--green">-$1,500</span></li>
-                <li><span>2022 Ford F-150</span><span class="fx-tag fx-tag--green">-$2,500</span></li>
-              </ul>
-            </div>
-          </div>
+          <div class="fa fb fb--06 fc-deals__panel"></div>
+          <svg class="fa fi fc-deals__tag"><use href="#fi-tag"/></svg>
+          <p class="fa ft17 fc-deals__title">Deals for you</p>
+          <span class="fa frow fc-deals__r1">2024 VW Atlas SE</span><span class="fa fpill fpill--green fc-deals__p1">−$2,000</span>
+          <i class="fa fline fc-deals__l1"></i>
+          <span class="fa frow fc-deals__r2">2023 Honda CR-V</span><span class="fa fpill fpill--green fc-deals__p2">−$1,500</span>
+          <i class="fa fline fc-deals__l2"></i>
+          <span class="fa frow fc-deals__r3">2022 Ford F-150</span><span class="fa fpill fpill--green fc-deals__p3">−$2,500</span>
+          <span class="fa fchip fb--14 fc-deals__chip"><svg class="fi"><use href="#fi-refresh"/></svg>Deals updated</span>
         </li>
         <li class="fcard">
           <div class="fcard__copy"><h3>Snap &amp; search</h3><p>Snap a photo and Kaia finds similar vehicles in your inventory.</p></div>
-          <div class="fx fx-snap">
-            <div class="fx-box fx-snap__photo"><svg class="fi"><use href="#fi-camera"/></svg><small>Photo uploaded</small></div>
-            <ul class="fx-snap__matches">
-              <li class="fx-box"><b>2023 CR-V</b><span class="fx-tag fx-tag--green">96% match</span></li>
-              <li class="fx-box"><b>2022 RAV4</b><span class="fx-tag fx-tag--green">91% match</span></li>
-              <li class="fx-box"><b>2024 CX-5</b><span class="fx-tag fx-tag--green">88% match</span></li>
-            </ul>
-          </div>
+          <div class="fa fc-snap__photo"><svg class="fi"><use href="#fi-camera"/></svg><small>Photo uploaded</small></div>
+          <div class="fa fc-snap__m fc-snap__m1"><b>2023 CR-V</b><span class="fc-snap__pill">96% match</span></div>
+          <div class="fa fc-snap__m fc-snap__m2"><b>2022 RAV4</b><span class="fc-snap__pill fc-snap__pill--n">91% match</span></div>
+          <div class="fa fc-snap__m fc-snap__m3"><b>2024 CX-5</b><span class="fc-snap__pill">88% match</span></div>
         </li>
         <li class="fcard">
           <div class="fcard__copy"><h3>Guide to financing approval</h3><p>Timelines, checklists, and pre-qual steps, all in the chat.</p></div>
-          <div class="fx fx-finance">
-            <div class="fx-box fx-panel fx-finance__panel">
-              <p class="fx-panel__title"><svg class="fi"><use href="#fi-list"/></svg>Financing checklist</p>
-              <ul class="fx-checks">
-                <li class="is-done"><span class="fx-cb"><svg class="fi"><use href="#fi-check"/></svg></span>Choose a vehicle</li>
-                <li class="is-done"><span class="fx-cb"><svg class="fi"><use href="#fi-check"/></svg></span>Pre-qualify</li>
-                <li><span class="fx-cb"></span>Upload documents</li>
-                <li><span class="fx-cb"></span>Sign and drive</li>
-              </ul>
-            </div>
-            <span class="fx-chip fx-finance__done"><svg class="fi"><use href="#fi-check"/></svg>2 of 4 done</span>
-          </div>
+          <div class="fa fb fb--06 fc-fin__panel"></div>
+          <svg class="fa fi fc-fin__icon"><use href="#fi-list"/></svg>
+          <p class="fa ft17 fc-fin__title">Financing checklist</p>
+          <span class="fa fc-cb fc-cb--on fc-fin__c1"><svg class="fi"><use href="#fi-check"/></svg></span><span class="fa frow frow--done fc-fin__t1">Choose a vehicle</span>
+          <span class="fa fc-cb fc-cb--on fc-fin__c2"><svg class="fi"><use href="#fi-check"/></svg></span><span class="fa frow frow--done fc-fin__t2">Pre-qualify</span>
+          <span class="fa fc-cb fc-fin__c3"></span><span class="fa frow fc-fin__t3">Upload documents</span>
+          <span class="fa fc-cb fc-fin__c4"></span><span class="fa frow fc-fin__t4">Sign and drive</span>
+          <span class="fa fchip fb--14 fc-fin__done"><svg class="fi"><use href="#fi-check"/></svg>2 of 4 done</span>
         </li>
       </ul>
 
       <ul class="cards features__slide" data-feature-slide="2" aria-label="Feature card row 2 of 4" aria-hidden="false">
-        <li class="fcard fcard--grad">
+        <li class="fcard fcard--wash">
           <div class="fcard__copy"><h3>Help with document uploads</h3><p>IDs and proof of income, uploaded in the chat. No follow-ups required.</p></div>
-          <div class="fx fx-docs">
-            <div class="fx-box fx-panel">
-              <p class="fx-panel__title">Documents</p>
-              <ul class="fx-rows fx-rows--icons">
-                <li><span><svg class="fi"><use href="#fi-file"/></svg>Driver’s licence</span><span class="fx-tag fx-tag--green">Uploaded</span></li>
-                <li><span><svg class="fi"><use href="#fi-file"/></svg>Proof of income</span><span class="fx-tag fx-tag--blue">Uploading</span></li>
-              </ul>
-              <span class="fx-chip fx-docs__drop"><svg class="fi"><use href="#fi-up"/></svg>Drop files or snap a photo</span>
-            </div>
-          </div>
+          <div class="fa fb fb--06 fc-docs__panel"></div>
+          <p class="fa ft17 fc-docs__title">Documents</p>
+          <svg class="fa fi fc-docs__f1"><use href="#fi-file"/></svg><span class="fa frow fc-docs__t1">Driver’s licence</span><span class="fa fpill fpill--green fc-docs__p1">Uploaded</span>
+          <i class="fa fline fc-docs__line"></i>
+          <svg class="fa fi fc-docs__f2"><use href="#fi-file"/></svg><span class="fa frow fc-docs__t2">Proof of income</span><span class="fa fpill fpill--blue fc-docs__p2">Uploading</span>
+          <span class="fa fchip fb--14 fc-docs__drop"><svg class="fi"><use href="#fi-up"/></svg>Drop files or snap a photo</span>
         </li>
         <li class="fcard">
           <div class="fcard__copy"><h3>Payment estimator</h3><p>Based on down payment, credit range and interest, all in real time.</p></div>
-          <div class="fx fx-pay">
-            <p class="fx-pay__amt">$489<span>/mo</span></p>
-            <div class="fx-pay__row"><span>Down payment</span><b>$3,000</b></div>
-            <div class="fx-pay__track"><span class="fx-pay__fill"></span><span class="fx-pay__knob"></span></div>
-            <div class="fx-pay__chips"><span class="fx-tag fx-tag--blue">Credit: Good</span><span class="fx-tag">60 months</span><span class="fx-tag">6.9% APR</span></div>
-          </div>
+          <p class="fa fc-pay__amt">$489</p><span class="fa fc-pay__mo">/mo</span>
+          <span class="fa fc-pay__lbl">Down payment</span><span class="fa fc-pay__val">$3,000</span>
+          <span class="fa fc-pay__track"><i></i></span><span class="fa fc-pay__knob"></span>
+          <span class="fa fc-pay__chip fc-pay__chip--1">Credit: Good</span><span class="fa fc-pay__chip fc-pay__chip--2">60 months</span><span class="fa fc-pay__chip fc-pay__chip--3">6.9% APR</span>
         </li>
         <li class="fcard">
-          <div class="fcard__copy"><h3>See how trade-in affects payments</h3><p>Updated estimates, adjusted loan amounts and clearer next steps.</p></div>
-          <div class="fx fx-trade">
-            <div class="fx-box fx-panel">
-              <p class="fx-panel__title fx-trade__title"><svg class="fi"><use href="#fi-swap"/></svg>Trade-in estimate</p>
-              <dl class="fx-trade__rows">
-                <div><dt><svg class="fi"><use href="#fi-car"/></svg>Vehicle</dt><dd>2017 Honda Civic</dd></div>
-                <div><dt><svg class="fi"><use href="#fi-tag"/></svg>Trade-in value</dt><dd><span class="fx-tag fx-tag--green">$9,500</span></dd></div>
-                <div><dt><svg class="fi"><use href="#fi-calc"/></svg>New payment</dt><dd><s>$489</s> → <b>$352/mo</b></dd></div>
-              </dl>
-            </div>
-          </div>
+          <div class="fcard__copy fcard__copy--tall"><h3>See how trade-in affects payments</h3><p>Updated estimates, adjusted loan amounts and clearer next steps.</p></div>
+          <div class="fa fb fb--06 fc-trade__panel"></div>
+          <svg class="fa fi fc-trade__icon"><use href="#fi-swap"/></svg>
+          <p class="fa ft17 fc-trade__title">Trade-in estimate</p>
+          <svg class="fa fi fc-trade__i fc-trade__i1"><use href="#fi-car"/></svg><span class="fa frow fc-trade__lbl fc-trade__y1">Vehicle</span><span class="fa frow fc-trade__val fc-trade__y1">2017 Honda Civic</span>
+          <svg class="fa fi fc-trade__i fc-trade__i2"><use href="#fi-tag"/></svg><span class="fa frow fc-trade__lbl fc-trade__y2">Trade-in value</span><span class="fa fpill fpill--green fc-trade__pill">$9,500</span>
+          <svg class="fa fi fc-trade__i fc-trade__i3"><use href="#fi-calc"/></svg><span class="fa frow fc-trade__lbl fc-trade__y3">New payment</span>
+          <span class="fa frow fc-trade__val fc-trade__y3"><s>$489</s><span class="fc-trade__arrow">→</span><b>$352/mo</b></span>
         </li>
-        <li class="fcard">
-          <div class="fcard__copy"><h3>Pre-qualify without pressure</h3><p>No hard credit check, just next steps that feel easy.</p></div>
-          <div class="fx fx-prequal">
-            <span class="fx-confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-            <div class="fx-box fx-prequal__card">
-              <span class="fx-tag fx-tag--green fx-prequal__pill">No hard credit check</span>
-              <p class="fx-prequal__steps"><span>Basic info</span><i></i><span>Income</span><i></i><span>Result</span></p>
-              <p class="fx-prequal__ok"><span class="fx-prequal__tick"><svg class="fi"><use href="#fi-check"/></svg></span>You’re pre-qualified!</p>
-            </div>
-          </div>
+        <li class="fcard fcard--soft">
+          <div class="fcard__copy fc-pq__copy"><h3>Pre-qualify without pressure</h3><p>No hard credit check, just next steps that feel easy.</p></div>
+          <svg class="fa fc-pq__confetti" viewBox="0 0 353 220" aria-hidden="true"><rect x="22" y="22" width="9" height="4" rx="2" fill="#F59E0B" transform="rotate(-20 26 24)"/><rect x="100" y="18" width="9" height="4" rx="2" fill="#2563EB" transform="rotate(25 104 20)"/><circle cx="196" cy="24" r="3" fill="#10B981"/><rect x="255" y="20" width="9" height="4" rx="2" fill="#7C3AED" transform="rotate(50 259 22)"/><path d="M298 16q4-4 8 0t8 0" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="333" cy="27" r="3" fill="#2563EB"/><rect x="8" y="85" width="9" height="4" rx="2" fill="#10B981" transform="rotate(20 12 87)"/><rect x="335" y="72" width="9" height="4" rx="2" fill="#F59E0B" transform="rotate(-40 339 74)"/><circle cx="12" cy="139" r="3" fill="#2563EB"/><circle cx="338" cy="127" r="3.5" fill="#7C3AED"/><path d="M14 202q4-4 8 0t8 0" stroke="#F59E0B" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="88" y="206" width="9" height="4" rx="2" fill="#7C3AED" transform="rotate(10 92 208)"/><circle cx="212" cy="211" r="3.5" fill="#F59E0B"/><path d="M262 209q4-4 8 0t8 0" stroke="#7C3AED" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="306" y="208" width="9" height="4" rx="2" fill="#2563EB" transform="rotate(-20 310 210)"/></svg>
+          <div class="fa fb fb--06 fc-pq__card"></div>
+          <span class="fa fc-pq__pill">No hard credit check</span>
+          <span class="fa fc-pq__step fc-pq__s1">Basic info</span><i class="fa fc-pq__line fc-pq__l1"></i><span class="fa fc-pq__step fc-pq__s2">Income</span><i class="fa fc-pq__line fc-pq__l2"></i><span class="fa fc-pq__step fc-pq__s3">Result</span>
+          <span class="fa fc-pq__ok"></span><span class="fa fc-pq__tick"><svg class="fi"><use href="#fi-check"/></svg></span><span class="fa fc-pq__oktext">You’re pre-qualified!</span>
         </li>
       </ul>
 
       <ul class="cards features__slide" data-feature-slide="3" aria-label="Feature card row 3 of 4" aria-hidden="true">
-        <li class="fcard fcard--grad">
+        <li class="fcard fcard--wash">
           <div class="fcard__copy"><h3>Your stock. Instant answers.</h3><p>Give buyers the right price, mileage and availability from your inventory.</p></div>
-          <div class="fx fx-stock">
-            <div class="fx-box fx-stock__item fx-stock__item--back2"></div>
-            <div class="fx-box fx-stock__item fx-stock__item--back1"></div>
-            <div class="fx-box fx-stock__item"><b>2024 VW Atlas SE</b><small>$31,450 · 18,200 mi</small><span class="fx-tag fx-tag--green">In stock</span></div>
+          <!-- Live inventory: cars appear one by one, are checked, then marked in stock (CSS animation, 8 s loop) -->
+          <div class="fa fc-inv" role="img" aria-label="Live inventory: 2024 VW Atlas SE, 2023 Honda CR-V and 2022 Ford F-150, all in stock">
+            <div class="fc-inv__car fc-inv__car--1"><div><b>2024 VW Atlas SE</b><small>$31,450 · 18,200 mi</small></div><span class="fc-inv__check"><i></i>Checking…</span><span class="fc-inv__ok"><svg class="fi"><use href="#fi-check"/></svg>In stock</span></div>
+            <div class="fc-inv__car fc-inv__car--2"><div><b>2023 Honda CR-V</b><small>$27,900 · 24,600 mi</small></div><span class="fc-inv__check"><i></i>Checking…</span><span class="fc-inv__ok"><svg class="fi"><use href="#fi-check"/></svg>In stock</span></div>
+            <div class="fc-inv__car fc-inv__car--3"><div><b>2022 Ford F-150</b><small>$38,200 · 41,000 mi</small></div><span class="fc-inv__check"><i></i>Checking…</span><span class="fc-inv__ok"><svg class="fi"><use href="#fi-check"/></svg>In stock</span></div>
           </div>
         </li>
-        <li class="fcard fcard--grad">
+        <li class="fcard">
           <div class="fcard__copy"><h3>A chat. Then a test drive.</h3><p>Kaia agrees on a time with the shopper and sends your team a confirmed test-drive appointment.</p></div>
-          <div class="fx appt">
+          <div class="fa appt">
             <div class="appt__top"><span class="pill pill--white"><i class="dot" style="background:var(--blue);width:8px;height:8px"></i>TEST DRIVE</span><span class="pill pill--green"><i class="dot" style="background:#10b981"></i>CONFIRMED</span></div>
             <div class="appt__body"><div><span>Shopper</span><span>Alex Morgan</span></div><div><span>Vehicle</span><span>Civic Hybrid</span></div><div><span>When</span><span>Thu, 18 Jul · 2:30 PM</span></div></div>
             <div class="appt__foot"><span class="appt__ready">Handoff ready</span><span class="pill pill--white pill--link"><i class="dot" style="background:var(--blue)"></i>View Details</span></div>
           </div>
         </li>
-        <li class="fcard fcard--grad">
+        <li class="fcard">
           <div class="fcard__copy"><h3>Leads to your CRM</h3><p>Contact info, an AI summary and the full chat, plus instant SMS alerts.</p></div>
-          <div class="fx crm">
-            <div class="crm__head"><div class="crm__title"><span class="crm__ico"><svg class="fi"><use href="#fi-db"/></svg></span>Dealer CRM</div><span class="pill pill--green pill--roomy"><i class="dot" style="background:#10b981;width:8px;height:8px"></i>Synced</span></div>
+          <div class="fa crm">
+            <div class="crm__head"><div class="crm__title"><span class="crm__ico"><svg class="fi"><use href="#fi-db"/></svg></span>Dealer CRM</div><span class="pill pill--synced"><i class="dot" style="background:#10b981;width:8px;height:8px"></i>Synced</span></div>
             <div class="crm__contact">
               <div class="crm__row"><div class="crm__who"><span class="fx-avatar">JR</span><div><b>Jamie Rivera</b><small>SUV · Budget under $28k</small></div></div><span class="pill pill--lead">New lead</span></div>
               <p class="crm__meta">jamie.rivera@gmail.com  ·  (555) 810-2841</p>
             </div>
-            <div class="crm__panels"><span><svg class="fi"><use href="#fi-spark"/></svg>AI summary</span><span><svg class="fi"><use href="#fi-msgc"/></svg>SMS</span><span><svg class="fi"><use href="#fi-msgs"/></svg>Full chat</span></div>
+            <div class="crm__panels"><span style="width:107px"><svg class="fi"><use href="#fi-spark"/></svg>AI summary</span><span style="width:70px"><svg class="fi"><use href="#fi-msgc"/></svg>SMS</span><span style="width:96px"><svg class="fi"><use href="#fi-msgs"/></svg>Full chat</span></div>
           </div>
         </li>
-        <li class="fcard">
-          <div class="fcard__copy"><h3>20+ languages.<br />Zero awkward hellos.</h3><p>From bonjour to a booked test drive. Kaia speaks their language, so you don’t have to.</p></div>
-          <div class="fx lang">
+        <li class="fcard fcard--open">
+          <div class="fa lang">
             <div class="lang__opts"><span>EN</span><span class="on">FR</span><span>ES</span><span class="more">+17</span></div>
             <div class="bub bub--shopper">Ce SUV est disponible ?</div>
             <div class="lang__reply"><div class="bub bub--kaia">Oui ! On réserve un essai ?</div><span class="k-av">K</span></div>
           </div>
+          <div class="fcard__copy"><h3>20+ languages.<br />Zero awkward hellos.</h3><p class="fc-lang__p">From bonjour to a booked test drive. Kaia speaks their language, so you don’t have to.</p></div>
         </li>
       </ul>
 
       <ul class="cards features__slide" data-feature-slide="4" aria-label="Feature card row 4 of 4" aria-hidden="true">
-        <li class="fcard fcard--grad">
-          <div class="fcard__copy"><h3>Invite a partner to the chat</h3><p>Loop in a friend, partner or family member to decide together.</p></div>
-          <div class="fx fx-invite">
-            <div class="fx-invite__faces"><span class="fx-face fx-face--jr">JR</span><span class="fx-face fx-face--sr">SR</span><span class="fx-face fx-face--add"><svg class="fi"><use href="#fi-plus"/></svg></span></div>
-            <div class="fx-box fx-invite__msg"><b>Sam joined the chat</b><p>“Love the blue one. Can we test drive Saturday?”</p></div>
-          </div>
+        <li class="fcard fcard--invite">
+          <div class="fcard__copy fc-invite__copy"><h3>Invite a partner to the chat</h3><p>Loop in a friend, partner or family member to decide together.</p></div>
+          <span class="fa fc-face fc-face--jr">JR</span>
+          <span class="fa fc-face fc-face--sr">SR</span>
+          <span class="fa fc-face fc-face--add"><svg class="fi"><use href="#fi-plus"/></svg></span>
+          <div class="fa fb fb--12 fc-invite__msg"></div>
+          <b class="fa fc-invite__who">Sam joined the chat</b>
+          <p class="fa fc-invite__quote">“Love the blue one. Can we test drive<br />Saturday?”</p>
         </li>
-        <li class="fcard fcard--band">
+        <li class="fcard">
           <div class="fcard__copy"><h3>Return visitor recognition</h3><p>Kaia picks up right where each shopper left off.</p></div>
-          <div class="fx fx-return">
-            <span class="fx-tag fx-tag--purple">Returning visitor</span>
-            <div class="fx-msg"><span class="fx-kav">K</span><p class="fx-bub fx-bub--white">Welcome back, Jamie! The 2023 CR-V you saved is still in stock.</p></div>
-            <div class="fx-box fx-return__car"><span class="fx-return__ico"><svg class="fi"><use href="#fi-car"/></svg></span><div><b>2023 Honda CR-V</b><small>$27,900 · Saved</small></div><span class="fx-return__stock"><svg class="fi"><use href="#fi-check"/></svg>In stock</span></div>
-          </div>
+          <span class="fa fc-rv__band"></span>
+          <span class="fa fc-rv__pill">Returning visitor</span>
+          <span class="fa fk fc-rv__k">K</span>
+          <p class="fa fc-rv__bub">Welcome back, Jamie! The 2023 CR-V<br />you saved is still in stock.</p>
+          <div class="fa fc-rv__car"></div>
+          <span class="fa fc-rv__tile"><svg class="fi"><use href="#fi-car"/></svg></span>
+          <b class="fa fc-rv__name">2023 Honda CR-V</b>
+          <small class="fa fc-rv__sub">$27,900 · Saved</small>
+          <span class="fa fc-rv__stock"><svg class="fi"><use href="#fi-check"/></svg>In stock</span>
         </li>
         <li class="fcard">
-          <div class="fcard__copy"><h3>Incentive discovery</h3><p>Updated estimates, adjusted loan amounts and clearer next steps.</p></div>
-          <div class="fx fx-incent">
-            <span class="fx-incent__mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#107cfe"/><rect x="14" y="21" width="36" height="20" rx="10" fill="none" stroke="#fff" stroke-width="5"/><path d="M18 40l-4 9 10-5" fill="#fff"/></svg></span>
-            <ul class="fx-incent__list">
-              <li><svg class="fi" style="color:#f59e0b"><use href="#fi-gift"/></svg>Loyalty rebate</li>
-              <li><svg class="fi" style="color:#107cfe"><use href="#fi-tag"/></svg>Recent grad program</li>
-              <li><svg class="fi" style="color:#047857"><use href="#fi-calc"/></svg>0.9% APR offer</li>
-              <li><svg class="fi" style="color:#7c3aed"><use href="#fi-gift"/></svg>Spring promo</li>
-            </ul>
-          </div>
+          <div class="fcard__copy fcard__copy--tall"><h3>Incentive discovery</h3><p>Updated estimates, adjusted loan amounts and clearer next steps.</p></div>
+          <img class="fa fc-inc__mark" src="assets/kaia-mark.png" width="64" height="64" alt="" />
+          <ul class="fa fc-inc__list">
+            <li style="width:138.58px"><svg class="fi" style="color:#f59e0b"><use href="#fi-gift"/></svg>Loyalty rebate</li>
+            <li style="width:185.31px"><svg class="fi" style="color:#2563eb"><use href="#fi-tag"/></svg>Recent grad program</li>
+            <li style="width:137.23px"><svg class="fi" style="color:#047857"><use href="#fi-calc"/></svg>0.9% APR offer</li>
+            <li style="width:135.19px"><svg class="fi" style="color:#7c3aed"><use href="#fi-gift"/></svg>Spring promo</li>
+          </ul>
         </li>
         <li class="fcard">
-          <div class="fcard__copy"><h3>Personalized search</h3><p>Understands requests like “an SUV under $40k with 7 seats.”</p></div>
-          <div class="fx fx-search">
-            <div class="fx-box fx-panel fx-search__panel">
-              <p class="fx-panel__title"><svg class="fi"><use href="#fi-search"/></svg>Results</p>
-              <ul class="fx-rows">
-                <li><span>2024 VW Atlas SE</span><span><span class="fx-tag fx-tag--purple">7 seats</span> <span class="fx-tag">$31,450</span></span></li>
-                <li><span>2023 Kia Telluride</span><span><span class="fx-tag fx-tag--purple">7 seats</span> <span class="fx-tag">$38,900</span></span></li>
-              </ul>
-            </div>
-            <div class="fx-box fx-search__input"><span>SUV under $40k with 7 seats</span><span class="fx-search__send"><svg class="fi"><use href="#fi-up"/></svg></span></div>
-          </div>
+          <div class="fcard__copy fcard__copy--tall"><h3>Personalized search</h3><p>Understands requests like “an SUV under $40k with 7 seats.”</p></div>
+          <div class="fa fb fb--06 fc-srch__panel"></div>
+          <svg class="fa fi fc-srch__icon"><use href="#fi-search"/></svg>
+          <p class="fa ft17 fc-srch__title">Results</p>
+          <span class="fa frow fc-srch__r1">2024 VW Atlas SE</span><span class="fa fpill fpill--purple fc-srch__s1">7 seats</span><span class="fa fpill fpill--grey fc-srch__p1">$31,450</span>
+          <i class="fa fline fc-srch__line"></i>
+          <span class="fa frow fc-srch__r2">2023 Kia Telluride</span><span class="fa fpill fpill--purple fc-srch__s2">7 seats</span><span class="fa fpill fpill--grey fc-srch__p2">$38,900</span>
+          <div class="fa fb fb--14 fc-srch__input"></div>
+          <span class="fa fc-srch__q">SUV under $40k with 7 seats</span>
+          <span class="fa fc-srch__send"><svg class="fi"><use href="#fi-up"/></svg></span>
         </li>
       </ul>
         </div>

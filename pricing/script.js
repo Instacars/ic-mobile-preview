@@ -76,11 +76,33 @@
     window.addEventListener("resize", syncFeatureArrows);
     // In strip mode every card is reachable, so none is hidden from screen readers
     const syncHidden = () => featureSlides.forEach((slide, i) => slide.setAttribute("aria-hidden", String(desktop.matches && i !== featureIndex)));
-    desktop.addEventListener("change", () => { syncHidden(); startStrip(); syncFeatureArrows(); });
+    // Desktop: cards keep their 353px design size and are scaled to fit a quarter of the row
+    const fitCards = () => {
+      if (!desktop.matches) { featureTrack.style.removeProperty("--fz"); return; }
+      const col = (featureSlides[0].clientWidth - 45) / 4;
+      featureTrack.style.setProperty("--fz", Math.min(1, col / 353).toFixed(4));
+    };
+    window.addEventListener("resize", fitCards);
+    fitCards();
+    desktop.addEventListener("change", () => { fitCards(); syncHidden(); startStrip(); syncFeatureArrows(); });
     syncHidden();
     startStrip();
     syncFeatureArrows();
   }
+
+  /* ---------- Brand logos: an endless scrolling row on phones ----------
+     The logos are repeated once (hidden from screen readers); the row slides by exactly one set. */
+  const brands = document.querySelector(".brands");
+  const brandItems = [...brands.children];
+  brandItems.forEach(li => { const copy = li.cloneNode(true); copy.classList.add("brands__clone"); copy.setAttribute("aria-hidden", "true"); brands.appendChild(copy); });
+  const firstClone = brands.querySelector(".brands__clone");
+  const measureBrands = () => {
+    const shift = firstClone.offsetLeft - brandItems[0].offsetLeft;
+    if (shift > 0) { brands.style.setProperty("--brands-shift", shift + "px"); brands.style.setProperty("--brands-time", Math.round(shift / 40) + "s"); }
+  };
+  window.addEventListener("resize", measureBrands);
+  window.addEventListener("load", measureBrands);
+  measureBrands();
 
   /* ---------- Dealer cards: a swipeable strip with arrows on tablets ---------- */
   const dealerTrack = document.querySelector("[data-dealer-track]");
