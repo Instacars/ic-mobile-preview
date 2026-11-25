@@ -152,6 +152,12 @@
     next.focus();
   });
 
+  /* ---------- Header chat animation: people who prefer less motion see the finished conversation ---------- */
+  const heroChat = document.querySelector("[data-hero-chat]");
+  const syncHeroChat = () => { heroChat.src = reduceMotion.matches ? "assets/header-chat-still.webp" : "assets/header-chat.webp"; };
+  reduceMotion.addEventListener("change", syncHeroChat);
+  if (reduceMotion.matches) syncHeroChat();
+
   /* ---------- Add-on lead board video: hold on the still frame for people who prefer less motion ---------- */
   const board = document.querySelector("[data-leadboard]");
   const syncBoard = () => { if (reduceMotion.matches) { board.pause(); board.currentTime = 0; } else board.play().catch(() => {}); };

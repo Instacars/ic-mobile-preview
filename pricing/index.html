@@ -109,10 +109,11 @@
 
     <!-- Header image (6246:13591) -->
     <div class="hero">
-      <picture>
-        <source media="(max-width: 1179px)" srcset="assets/header-photo.jpg" />
-        <img src="assets/header.jpg" width="1458" height="586" alt="Woman sitting on an open-top car at sunset, taking a photo with her phone. Overlay: Test drive booking, See Kaia on your inventory." />
-      </picture>
+      <div class="hero__media">
+        <img class="hero__photo" src="assets/header-photo.jpg" width="2000" height="1333" alt="Woman standing up through a car's sunroof at sunset, taking a photo of the view with her phone." />
+        <!-- Kaia chat playing over the photo (Figma layer "kaia-chat-transparent@2x"), 11.5 s loop -->
+        <img class="hero__chat" src="assets/header-chat.webp" width="556" height="480" alt="Kaia chat: a shopper asks for an SUV under $28k, Kaia suggests the 2023 CR-V at $27,900, and a test drive is booked for Thursday at 2:30 PM." data-hero-chat />
+      </div>
       <!-- Phones only: the sign-up card sits over the photo -->
       <form class="lead-card hero__form" data-contact novalidate>
         <h2 class="lead-card__title">Finding your next car starts with a conversation.</h2>

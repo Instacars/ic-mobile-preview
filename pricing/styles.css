@@ -92,8 +92,11 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 .intro__text { width: 678px; font-size: 15px; }
 
 /* ---------- Header image ---------- */
-/* Scales evenly (no cropping) so the "Test drive booking" label baked into the photo keeps its margin */
-.hero picture img { width: 100%; height: auto; aspect-ratio: 1458 / 586; border-radius: 30px; }
+/* Photo cropped as in the design (shifted up so her head and the car fill the frame), with the
+   Kaia chat animation over its top-left corner, sized and placed in proportion to the photo */
+.hero__media { position: relative; }
+.hero__photo { display: block; width: 100%; height: auto; aspect-ratio: 1458 / 586; object-fit: cover; object-position: 50% 74%; border-radius: 30px; }
+.hero__chat { position: absolute; left: 2.88%; top: 4.61%; width: 33.88%; height: auto; pointer-events: none; }
 
 /* ---------- Section heads ---------- */
 .section-head { display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
@@ -389,7 +392,6 @@ html.menu-open { overflow: hidden; }
 }
 
 /* ---------- Pieces that only appear on tablets and phones ---------- */
-.hero picture { display: block; }
 .hero__form, .contact__bubbles, .supported, .dealer__arrows, .footer__mark { display: none; }
 .includes__toggle { display: inline-flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; font: inherit; text-align: left; cursor: default; }
 .includes__toggle img { display: none; width: 44px; height: 44px; flex: none; }
@@ -419,7 +421,8 @@ html.menu-open { overflow: hidden; }
 
   .intro__title { font-size: 30px; line-height: 40px; }
   .intro__text { width: auto; max-width: 600px; }
-  .hero picture img { aspect-ratio: auto; height: 586px; object-fit: cover; }
+  .hero__photo { aspect-ratio: auto; height: 586px; object-position: 50% 50%; }
+  .hero__chat { left: 28px; top: 33px; width: 404px; }
   .section-title { font-size: 30px; line-height: 40px; }
   .section-title br, .section-sub br { display: none; }
   .section-head { padding-inline: 10px; }
@@ -500,7 +503,8 @@ html.menu-open { overflow: hidden; }
   /* The page opens straight on the photo with the sign-up card over it (6490:5578) */
   .page-label, .intro { display: none; }
   .hero { margin-top: 0; width: 100vw; margin-inline: calc(50% - 50vw); }
-  .hero picture img { height: 353px; border-radius: 30px 30px 0 0; }
+  .hero__photo { height: 353px; object-position: 36% 50%; border-radius: 30px 30px 0 0; }
+  .hero__chat { left: 20px; top: 15px; width: 190px; }
   .hero__form {
     position: relative; display: flex; flex-direction: column; gap: 15px;
     left: auto; top: auto; width: 100%; max-width: none;
