@@ -320,6 +320,24 @@ html.menu-open { overflow: hidden; }
 }
 .composer__btn:hover { background: rgba(13, 13, 13, 0.05); }
 .composer__btn--mic { display: block; }
+/* Listening: red button with a soft pulse */
+.composer__btn--mic.is-listening { background: #e5484d; transition: none; animation: mic-pulse 1.4s ease-out infinite; }
+.composer__btn--mic.is-listening:hover { background: #d63c41; }
+.composer__btn--mic.is-listening img { filter: invert(1); }
+@keyframes mic-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(229, 72, 77, 0.45); }
+  100% { box-shadow: 0 0 0 12px rgba(229, 72, 77, 0); }
+}
+/* Voice messages (mic blocked, nothing heard, browser without voice) float just above the box */
+.composer__status {
+  position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translateX(-50%);
+  width: max-content; max-width: min(360px, calc(100vw - 32px));
+  padding: 8px 12px; border-radius: 12px;
+  background: var(--text-primary); color: #fff;
+  font-size: 13px; line-height: 18px; text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.composer__status[hidden] { display: none; }
 .composer__send {
   width: 36px; height: 36px;
   border-radius: 999px;
@@ -929,5 +947,6 @@ html:has(.modal[open]) { overflow: hidden; } /* stop the page scrolling behind t
   .menu { transition: none; }
   .modal[open], .modal[open]::backdrop { animation: none; }
   .modal__a { transition: none; }
+  .composer__btn--mic.is-listening { animation: none; }
 }
 

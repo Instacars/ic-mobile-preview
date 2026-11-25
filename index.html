@@ -117,6 +117,7 @@
         <div class="tags" aria-hidden="true" data-tags></div>
 
         <form class="composer" data-composer>
+          <p class="composer__status" role="status" aria-live="polite" data-voice-status hidden></p>
           <label class="visually-hidden" for="kaia-input">Tell Kaia what you're looking for</label>
           <textarea id="kaia-input" class="composer__input" rows="1"
             placeholder="SUV under $25k, good on gas..." data-input></textarea>
@@ -125,7 +126,7 @@
               <img src="assets/icon-plus.svg" width="20" height="20" alt="" />
             </button>
             <div class="composer__right">
-              <button type="button" class="composer__btn composer__btn--mic" aria-label="Voice input">
+              <button type="button" class="composer__btn composer__btn--mic" aria-label="Speak instead of typing" aria-pressed="false" data-mic>
                 <img src="assets/icon-mic.svg" width="34" height="34" alt="" />
               </button>
               <button type="submit" class="composer__send" aria-label="Send" data-send>
