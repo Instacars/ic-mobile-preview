@@ -36,8 +36,66 @@
         <a class="nav__btn nav__btn--dark" href="#">Chat with Kaia</a>
         <a class="nav__btn" href="#">For Dealers</a>
       </div>
+      <!-- Below 1180px the nav collapses into this button and the full-screen menu (same as the other pages) -->
+      <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <img src="assets/icon-menu.svg" width="24" height="24" alt="" />
+      </button>
     </div>
   </header>
+
+  <div class="drawer" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-drawer>
+    <div class="drawer__top">
+      <a href="../" class="drawer__logo-link" aria-label="Instacars home">
+        <img src="assets/logo-header.svg" width="136" height="26" alt="Instacars" />
+      </a>
+      <button class="nav__toggle" type="button" aria-label="Close menu" data-menu-close>
+        <img src="assets/icon-close.svg" width="24" height="24" alt="" />
+      </button>
+    </div>
+    <nav class="drawer__nav" aria-label="Mobile">
+      <div class="drawer__group">
+        <p class="drawer__label">EXPLORE</p>
+        <ul class="drawer__links">
+          <li><a class="drawer__row" href="../about-us/"><img src="assets/mi-about.svg" alt="" />About us</a></li>
+          <li><a class="drawer__row drawer__row--tall" href="../how-it-works/"><img src="assets/mi-how.svg" alt="" />How it works</a></li>
+          <li><a class="drawer__row" href="../compare/"><img src="assets/mi-compare.svg" alt="" />Compare kaia</a></li>
+          <li><a class="drawer__row" href="#"><img src="assets/mi-dealer.svg" alt="" />Dealers<img class="drawer__ext" src="assets/mi-arrow.svg" alt="" /></a></li>
+          <li><a class="drawer__row" href="./" aria-current="page"><img src="assets/mi-pricing.svg" alt="" />Pricing<img class="drawer__ext" src="assets/mi-arrow.svg" alt="" /></a></li>
+          <li><a class="drawer__row" href="../#faq"><img src="assets/mi-help.svg" alt="" />Help &amp; support</a></li>
+        </ul>
+      </div>
+      <hr class="drawer__divider" />
+      <div class="drawer__group">
+        <p class="drawer__label">ACCOUNT</p>
+        <ul class="drawer__links">
+          <li><a class="drawer__row drawer__row--tall" href="#"><img src="assets/mi-preferences.svg" alt="" />Preferences</a></li>
+          <li><a class="drawer__row" href="#"><img src="assets/mi-signout.svg" alt="" />Sign out</a></li>
+        </ul>
+      </div>
+      <hr class="drawer__divider" />
+      <div class="drawer__group">
+        <p class="drawer__label">LEGAL</p>
+        <ul class="drawer__links">
+          <li><a class="drawer__row drawer__row--tall" href="https://instacars.io/page/terms-of-use" target="_blank" rel="noopener"><img src="assets/mi-terms.svg" alt="" />Terms of use</a></li>
+          <li><a class="drawer__row" href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener"><img src="assets/mi-privacy.svg" alt="" />Privacy policy</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="drawer__foot">
+      <div class="drawer__social">
+        <a href="https://www.linkedin.com/company/instacars-io/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/social-linkedin.svg" width="24" height="24" alt="" /></a>
+        <a href="https://www.instagram.com/instacars.io/" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/social-instagram.svg" width="24" height="24" alt="" /></a>
+        <a href="https://twitter.com/instacarsio" target="_blank" rel="noopener" aria-label="X"><img src="assets/social-x.svg" width="24" height="24" alt="" /></a>
+        <a href="https://www.youtube.com/@instacarsio" target="_blank" rel="noopener" aria-label="YouTube"><img src="assets/social-youtube.svg" width="24" height="24" alt="" /></a>
+        <a href="https://www.reddit.com/user/instacarsio" target="_blank" rel="noopener" aria-label="Reddit"><img src="assets/social-reddit.svg" width="24" height="24" alt="" /></a>
+        <a href="https://www.facebook.com/instacars.io/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/social-facebook.svg" width="24" height="24" alt="" /></a>
+      </div>
+      <p class="drawer__copy">© 2026 Instacars, Inc. All rights reserved</p>
+      <img src="assets/logo-footer.svg" class="drawer__logo drawer__logo--narrow" width="390" height="80" alt="" />
+      <img src="assets/logo-footer-wide.svg" class="drawer__logo drawer__logo--wide" width="466" height="80" alt="" />
+    </div>
+  </div>
+
 
   <main class="col">
     <p class="page-label">Pricing</p>
@@ -51,17 +109,43 @@
 
     <!-- Header image (6246:13591) -->
     <div class="hero">
-      <img src="assets/header.jpg" width="1458" height="586" alt="Woman sitting on an open-top car at sunset, taking a photo with her phone. Overlay: Test drive booking, See Kaia on your inventory." />
+      <picture>
+        <source media="(max-width: 1179px)" srcset="assets/header-photo.jpg" />
+        <img src="assets/header.jpg" width="1458" height="586" alt="Woman sitting on an open-top car at sunset, taking a photo with her phone. Overlay: Test drive booking, See Kaia on your inventory." />
+      </picture>
+      <!-- Phones only: the sign-up card sits over the photo -->
+      <form class="lead-card hero__form" data-contact novalidate>
+        <h2 class="lead-card__title">Finding your next car starts with a conversation.</h2>
+        <p class="lead-card__sub">AI that helps every shopper discover cars, get answers, and book test drives.</p>
+        <div class="contact__fields">
+          <label class="field"><span>Full Name</span><input type="text" name="name" autocomplete="name" required /></label>
+          <label class="field"><span>Phone</span><input type="tel" name="phone" autocomplete="tel" /></label>
+          <label class="field"><span>Email</span><input type="email" name="email" autocomplete="email" required /></label>
+          <button type="submit" class="btn btn--blue btn--block btn--tall">Get Kaia for your dealership <img src="assets/icon-arrow-up-right.svg" width="20" height="20" alt="" /></button>
+          <p class="contact__status" role="status" data-status></p>
+        </div>
+      </form>
     </div>
 
     <!-- Everything a shopper asks (6246:13595) -->
     <section class="features">
       <div class="section-head">
-        <h2 class="section-title">Everything a shopper asks,<br />handled on your site</h2>
-        <p class="section-sub">Forget endless filters and comparing hundreds of listings.<br />Tell Kaia what matters to you, explore your options, and discover cars that fit your life.</p>
+        <h2 class="section-title">Everything a shopper asks, <br />handled on your site</h2>
+        <p class="section-sub">Forget endless filters and comparing hundreds of listings. <br />Tell Kaia what matters to you, explore your options, and discover cars that fit your life.</p>
       </div>
-      <img class="features__arrows" src="assets/carousel-arrows.svg" width="54" height="13" alt="" />
-      <ul class="cards">
+      <div class="features__arrows" role="group" aria-label="Feature card rows">
+        <button type="button" data-feature-prev aria-label="Previous card row"><img src="assets/arrow-left.svg" width="17" height="13" alt="" /></button>
+        <button type="button" data-feature-next aria-label="Next card row"><img src="assets/arrow-right.svg" width="17" height="13" alt="" /></button>
+      </div>
+      <div class="features__viewport">
+        <div class="features__track" data-feature-track>
+      <ul class="cards features__slide" data-feature-slide="1" aria-label="Feature card row 1 of 4" aria-hidden="true">
+        <li class="feature-card-image"><img src="assets/features-row1-card1.png" alt="" /><span class="features__sr"><strong>Suggest the right extras.</strong> Kaia brings up what’s right at the right time, based on real buyer intent.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row1-card2.png" alt="" /><span class="features__sr"><strong>Discover deals.</strong> Find vehicles with current promotions and discounts tailored to each shopper.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row1-card3.png" alt="" /><span class="features__sr"><strong>Snap &amp; search.</strong> Snap a photo and Kaia finds similar vehicles in your inventory.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row1-card4.png" alt="" /><span class="features__sr"><strong>Guide to financing approval.</strong> Timelines, checklists, and pre-qual steps, all in the chat.</span></li>
+      </ul>
+      <ul class="cards features__slide" data-feature-slide="2" aria-label="Feature card row 2 of 4" aria-hidden="false">
         <li class="card card--feature">
           <img class="card__art" src="assets/feat-docs-bg.svg" width="353" height="350" alt="" style="left:-1px; top:-1px" />
           <div class="card__text">
@@ -92,6 +176,21 @@
           <img class="card__art" src="assets/feat-prequal.svg" width="423" height="262" alt="No hard credit check: basic info, income, result. You’re pre-qualified!" style="left:-36px; top:127px" />
         </li>
       </ul>
+      <ul class="cards features__slide" data-feature-slide="3" aria-label="Feature card row 3 of 4" aria-hidden="true">
+        <li class="feature-card-image"><img src="assets/features-row3-card1.png" alt="" /><span class="features__sr"><strong>Your stock. Instant answers.</strong> Give buyers the right price, mileage and availability from your inventory.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row3-card2.png" alt="" /><span class="features__sr"><strong>A chat. Then a test drive.</strong> Kaia agrees on a time with the shopper and sends your team a confirmed test-drive appointment.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row3-card3.png" alt="" /><span class="features__sr"><strong>Leads to your CRM.</strong> Contact info, an AI summary and the full chat, plus instant SMS alerts.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row3-card4.png" alt="" /><span class="features__sr"><strong>20+ languages. Zero awkward hellos.</strong> From bonjour to a booked test drive. Kaia speaks their language, so you don’t have to.</span></li>
+      </ul>
+      <ul class="cards features__slide" data-feature-slide="4" aria-label="Feature card row 4 of 4" aria-hidden="true">
+        <li class="feature-card-image"><img src="assets/features-row4-card1.png" alt="" /><span class="features__sr"><strong>Invite a partner to the chat.</strong> Loop in a friend, partner or family member to decide together.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row4-card2.png" alt="" /><span class="features__sr"><strong>Return visitor recognition.</strong> Kaia picks up right where each shopper left off.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row4-card3.png" alt="" /><span class="features__sr"><strong>Incentive discovery.</strong> Updated estimates, adjusted loan amounts and clearer next steps.</span></li>
+        <li class="feature-card-image"><img src="assets/features-row4-card4.png" alt="" /><span class="features__sr"><strong>Personalized search.</strong> Understands requests like “an SUV under $40k with 7 seats.”</span></li>
+      </ul>
+        </div>
+        <p class="features__sr" data-feature-status aria-live="polite">Card row 2 of 4</p>
+      </div>
     </section>
 
     <!-- Pricing (6246:13729) -->
@@ -213,7 +312,7 @@
               <li>Bookings sent to the right rooftop</li>
             </ul>
             <ul class="includes__col includes__col--soon">
-              <li class="includes__head">Coming soon, included</li>
+              <li class="includes__head"><button type="button" class="includes__toggle" aria-expanded="false" data-soon-toggle>Coming soon, included<img src="assets/faq-closed.svg" width="44" height="44" alt="" /></button></li>
               <li>Discover deals</li>
               <li>Payment estimator</li>
               <li>Trade-in estimates</li>
@@ -243,10 +342,10 @@
     <!-- Dealer portal (6246:14036) -->
     <section class="dealer">
       <div class="section-head">
-        <h2 class="section-title">Your dealership activity.<br />All in one place.</h2>
+        <h2 class="section-title">Your dealership activity. <br />All in one place.</h2>
         <p class="section-sub">See shopper conversations, review captured leads, track performance and configure how Kaia appears on your website.</p>
       </div>
-      <ul class="cards">
+      <ul class="cards" data-dealer-track>
         <li class="card card--dealer">
           <img class="card__shot" src="assets/dealer-dashboard.png" alt="Dealer dashboard with conversations, leads and platform trend chart" style="left:-16.5px; top:111px; width:384px; height:377px" loading="lazy" />
           <div class="card__text"><h3>Better visibility</h3><p>See conversations, leads and conversion trends across your dealership activity.</p></div>
@@ -264,6 +363,10 @@
           <div class="card__text"><h3>Leads in one place</h3><p>Find captured shopper details with searchable contact, dealership and date information.</p></div>
         </li>
       </ul>
+      <div class="features__arrows dealer__arrows" role="group" aria-label="Dealer cards">
+        <button type="button" data-dealer-prev aria-label="Previous card"><img src="assets/arrow-left.svg" width="17" height="13" alt="" /></button>
+        <button type="button" data-dealer-next aria-label="Next card"><img src="assets/arrow-right.svg" width="17" height="13" alt="" /></button>
+      </div>
     </section>
 
     <!-- Contact (6246:14063) -->
@@ -271,7 +374,7 @@
       <img class="contact__bg" src="assets/contact-bg.jpg" alt="" loading="lazy" />
       <form class="contact__form" data-contact novalidate>
         <h2 class="contact__title">Discover what Kaia can do for you</h2>
-        <p class="contact__sub">Find out how Kaia can help you deliver better<br />outcomes with AI.</p>
+        <p class="contact__sub">Find out how Kaia can help you deliver better <br />outcomes with AI.</p>
         <div class="contact__fields">
           <div class="contact__row">
             <label class="field"><span>Full Name</span><input type="text" name="name" autocomplete="name" required /></label>
@@ -282,14 +385,26 @@
           <p class="contact__status" role="status" data-status></p>
         </div>
       </form>
+      <img class="contact__bubbles" src="assets/kaia-bubbles.gif" width="328" height="259" alt="Kaia chat: a shopper asks about trade-ins and Kaia books an appraisal for Thursday at 2:30 PM." loading="lazy" />
       <div class="contact__steps">
         <img src="assets/contact-steps.gif" alt="1: Shopper asks, “Any SUVs under $28k?” Kaia replies the 2023 CR-V is $27,900. 2: Kaia books it: 2023 Honda CR-V test drive confirmed for Thursday at 2:30 PM." loading="lazy" />
       </div>
     </section>
 
+    <!-- Supported by (tablet 6499:7567 / phone 6490:5694; not in the desktop frame) -->
+    <section class="supported">
+      <p class="supported__title">Supported by</p>
+      <ul class="supported__row">
+        <li><img src="assets/s-mars.svg" width="85" height="26" alt="MaRS" /></li>
+        <li><img src="assets/s-aws.svg" width="44" height="44" alt="AWS" /></li>
+        <li><img src="assets/s-nvidia-inception.svg" width="121" height="45" alt="NVIDIA Inception Program" /></li>
+        <li><img src="assets/s-oci.svg" width="109" height="45" alt="OCI" /></li>
+      </ul>
+    </section>
+
     <!-- FAQ (6246:14091) -->
     <section class="faq" id="faq">
-      <h2 class="faq__title">A few things you might be wondering.</h2>
+      <h2 class="faq__title">A few things you might be <br class="faq__br" />wondering.</h2>
       <div class="faq__list" data-faq></div>
     </section>
   </main>
@@ -323,6 +438,8 @@
       <p>© 2026 Instacars, Inc. All rights reserved</p>
       <p class="footer__legal"><a href="https://instacars.io/page/terms-of-use" target="_blank" rel="noopener">Terms of use</a><span aria-hidden="true">|</span><a href="https://instacars.io/page/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></p>
     </div>
+    <img src="assets/logo-footer.svg" class="footer__mark footer__mark--narrow" width="390" height="80" alt="" />
+    <img src="assets/logo-footer-wide.svg" class="footer__mark footer__mark--wide" width="466" height="80" alt="" />
   </footer>
 
   <script src="script.js"></script>

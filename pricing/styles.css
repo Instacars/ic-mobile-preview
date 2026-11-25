@@ -1,5 +1,7 @@
-/* Instacars pricing page (desktop), from Figma "Patrick" file, frame "pricing" (6213:3327).
-   Content column is 1458px wide in the design; it narrows with the window on smaller desktops. */
+/* Instacars pricing page, from Figma "Patrick" file: desktop frame "pricing" (6213:3327),
+   tablet frame "Tablet" (6488:2687, 834px) and phone frame "pricing.mobile" (6469:2747, 390px).
+   Desktop rules come first; the tablet (768-1179px) and phone (below 768px) rules are at the end.
+   Content column is 1458px wide in the desktop design; it narrows with the window on smaller desktops. */
 
 :root {
   --text: #0d0d0d;
@@ -22,7 +24,6 @@
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   margin: 0;
-  min-width: 1200px; /* desktop-only build for now */
   background: #fff;
   color: var(--text);
   font-family: var(--font);
@@ -92,7 +93,7 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 
 /* ---------- Header image ---------- */
 /* Scales evenly (no cropping) so the "Test drive booking" label baked into the photo keeps its margin */
-.hero img { width: 100%; height: auto; aspect-ratio: 1458 / 586; border-radius: 30px; }
+.hero picture img { width: 100%; height: auto; aspect-ratio: 1458 / 586; border-radius: 30px; }
 
 /* ---------- Section heads ---------- */
 .section-head { display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
@@ -101,8 +102,18 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 
 /* ---------- Card rows (features + dealer) ---------- */
 .features { display: flex; flex-direction: column; align-items: center; }
-.features__arrows { margin-top: 50px; width: 54px; height: 13px; }
+.features__arrows { margin-top: 50px; width: 54px; height: 13px; display: flex; justify-content: space-between; }
+.features__arrows button { width: 17px; height: 13px; padding: 0; display: block; cursor: pointer; }
+.features__arrows button img { display: block; width: 17px; height: 13px; }
+.features__arrows button:hover { opacity: 0.55; }
+.features__arrows button:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+.features__viewport { width: 100%; overflow: hidden; }
+.features__track { display: flex; width: 400%; transform: translateX(-25%); transition: transform 360ms cubic-bezier(.22,.61,.36,1); }
+.features__slide { flex: 0 0 25%; min-width: 0; }
 .features .cards { margin-top: 30px; }
+.feature-card-image { position: relative; height: 350px; min-width: 0; overflow: hidden; border-radius: 30px; }
+.feature-card-image img { display: block; width: 100%; height: 100%; object-fit: fill; }
+.features__sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .dealer .cards { margin-top: 50px; }
 .cards { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
 .card {
@@ -301,7 +312,248 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 .footer__legal { display: flex; gap: 8px; line-height: 30px; }
 .footer__legal a:hover { color: var(--text); }
 
+/* ---------- Menu button + full-screen menu (shown below 1180px; same as the other pages) ---------- */
+.nav__toggle { display: none; width: 24px; height: 24px; padding: 0; background: none; border: 0; cursor: pointer; }
+.nav__toggle img { width: 24px; height: 24px; }
+html.menu-open { overflow: hidden; }
+.drawer {
+  position: fixed; inset: 0; z-index: 30;
+  display: flex; flex-direction: column;
+  min-height: 100%;
+  overflow-y: auto; overscroll-behavior: contain;
+  background: #fff;
+  animation: drawer-in 0.18s ease-out;
+}
+.drawer[hidden] { display: none; }
+@keyframes drawer-in { from { opacity: 0; transform: translateY(-6px); } }
+.drawer__top {
+  position: sticky; top: 0; z-index: 1; flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 80px; padding: 30px 15px 20px 19px;
+  background: #fff;
+}
+.drawer__logo-link img { width: 136px; height: auto; }
+.drawer__nav { flex: none; display: flex; flex-direction: column; gap: 5px; padding: 0 10px; }
+.drawer__group { display: flex; flex-direction: column; gap: 5px; }
+.drawer__label, .drawer__row {
+  display: flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 8px 0 10px; border-radius: 6px;
+  font-size: 13px; line-height: 18px; letter-spacing: -0.08px; color: var(--text);
+}
+.drawer__label { font-weight: 600; }
+.drawer__links { list-style: none; display: flex; flex-direction: column; gap: 15px; }
+.drawer__row { font-weight: 500; transition: background 0.15s; }
+.drawer__row--tall { height: 40px; }
+.drawer__row:hover, .drawer__row[aria-current="page"] { background: rgba(13, 13, 13, 0.05); }
+.drawer__row:focus-visible, .nav__toggle:focus-visible { outline: 2px solid #0969dd; outline-offset: 2px; }
+.drawer__row img { width: 18px; height: 18px; flex: none; object-fit: contain; }
+.drawer__row .drawer__ext { margin-left: auto; }
+.drawer__divider { margin: 6px 0; border: 0; height: 1px; background: var(--line); }
+.drawer__foot { flex: 1 0 auto; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-top: 64px; }
+.drawer__social { display: flex; justify-content: space-between; align-items: center; width: calc(100% - 56px); max-width: 334px; }
+.drawer__social a { display: block; transition: opacity 0.15s; }
+.drawer__social a:hover { opacity: 0.6; }
+.drawer__social img { width: 24px; height: 24px; }
+.drawer__copy { margin-top: 23px; padding: 0 10px; text-align: center; font-size: 15px; color: var(--text-muted); }
+.drawer__logo { width: 100%; height: auto; margin-top: 51px; }
+.drawer__logo--wide { display: none; }
+@media (min-width: 440px) {
+  .drawer__logo--narrow { display: none; }
+  .drawer__logo--wide { display: block; }
+}
+
+/* ---------- Pieces that only appear on tablets and phones ---------- */
+.hero picture { display: block; }
+.hero__form, .contact__bubbles, .supported, .dealer__arrows, .footer__mark { display: none; }
+.includes__toggle { display: inline-flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; font: inherit; text-align: left; cursor: default; }
+.includes__toggle img { display: none; width: 44px; height: 44px; flex: none; }
+
+/* =====================================================================
+   Tablet and phone (below 1180px). Tablet frame is 834px wide, 10px side margins.
+   ===================================================================== */
+@media (max-width: 1179px) {
+  html { overflow-x: clip; }
+  .col { width: calc(100% - 20px); }
+  .nav.col { width: calc(100% - 60px); }       /* menu: 30px side padding */
+  .nav { gap: 0; }
+  .nav__account, .nav__main > nav, .nav__cta { display: none; }
+  .nav__main { padding: 30px 0 19px; }         /* 75px menu */
+  .nav__logo img { width: 136px; }
+  .nav__toggle { display: block; }
+  .drawer__top { height: 80px; padding: 30px 30px 20px; }
+  .drawer__nav { padding: 0 20px; }
+
+  main { padding-top: 0; }
+  .intro, .hero { margin-top: 30px; }
+  .features { margin-top: 42px; }
+  .pricing { margin-top: 70px; gap: 30px; }
+  .dealer { margin-top: 70px; }
+  .contact { margin-top: 56px; }
+  .faq { margin-top: 33px; }
+
+  .intro__title { font-size: 30px; line-height: 40px; }
+  .intro__text { width: auto; max-width: 600px; }
+  .hero picture img { aspect-ratio: auto; height: 586px; object-fit: cover; }
+  .section-title { font-size: 30px; line-height: 40px; }
+  .section-title br, .section-sub br { display: none; }
+  .section-head { padding-inline: 10px; }
+
+  /* Card rows: swipeable strips that run to the screen edges, arrows under the right end */
+  .features__viewport, .dealer .cards {
+    width: 100vw; margin-inline: calc(50% - 50vw);
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+    scroll-padding-inline: 10px; padding-inline: 10px;
+    scrollbar-width: none;
+  }
+  .features__viewport::-webkit-scrollbar, .dealer .cards::-webkit-scrollbar { display: none; }
+  .features__track { width: max-content; transform: none !important; transition: none; gap: 15px; }
+  .features__slide { display: contents; }
+  .features .cards { margin-top: 0; }
+  .feature-card-image, .card--feature, .card--dealer { flex: 0 0 352px; scroll-snap-align: start; }
+  .features__viewport { order: 2; margin-top: 50px; }
+  .features__arrows { order: 3; margin-top: 30px; align-self: flex-end; }
+  .dealer .cards { display: flex; gap: 15px; margin-top: 50px; }
+  .dealer__arrows { display: flex; margin-top: 50px; align-self: flex-end; }
+
+  /* Brands: one centred row, cut off at both screen edges as in the designs */
+  .brands { width: 100vw; overflow: hidden; }
+
+  .founding { flex-direction: column; gap: 12px; text-align: center; }
+  .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 15px; }
+  .plan { justify-content: flex-start; }
+  .plan--enterprise { height: auto; justify-content: center; }
+  .plan__top, .plan__body { gap: 20px; }
+
+  .includes { gap: 40px; padding: 40px 20px; }
+  .includes .plan__name h3 { white-space: normal; }
+  .includes__cols { display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; align-items: start; column-gap: 66px; row-gap: 36px; padding: 0; }
+
+  .addon { height: auto; flex-direction: column; align-items: stretch; gap: 24px; padding: 30px 20px 0; }
+  .addon__text { height: auto; gap: 14px; flex: none; }
+  .addon__desc { white-space: normal; }
+  .addon__board { width: 100%; height: auto; aspect-ratio: 721 / 307; }
+  .addon__board img { left: 0; top: -6%; width: 109%; }
+
+  /* Contact: photo, form card on the left, Kaia chat bubbles on the right (tablet 6499:7632) */
+  .contact { height: 631px; }
+  .contact__bg { top: 0; width: 100%; height: 100%; object-position: 60% center; }
+  .contact__form, .lead-card {
+    left: 18px; top: 46px; width: 393px; max-width: calc(100% - 36px); height: auto;
+    gap: 15px; padding: 20px;
+  }
+  .contact__title, .lead-card__title { font-weight: 500; font-size: 25px; line-height: 39px; letter-spacing: -1px; }
+  .contact__sub, .lead-card__sub { font-weight: 500; font-size: 14px; line-height: 23px; letter-spacing: -0.18px; }
+  .contact__sub br { display: none; }
+  .contact__row { flex-direction: column; gap: 15px; }
+  .contact__steps { display: none; }
+  .contact__bubbles { display: block; position: absolute; z-index: 1; right: 31px; top: 282px; width: 328px; height: 259px; object-fit: cover; }
+
+  .supported { display: flex; flex-direction: column; align-items: center; gap: 20px; padding-top: 20px; }
+  .supported__title { font-size: 15px; }
+  .supported__row { display: flex; align-items: center; justify-content: center; gap: 23px; width: 100vw; overflow: hidden; }
+  .supported__row li { flex: none; }
+  .supported__row img { max-width: none; }
+
+  .faq { width: 100%; max-width: 662px; }
+  .faq__title { height: auto; padding: 16px 16px 0; }
+  .faq__q-text { font-size: 15px; line-height: 22px; letter-spacing: -0.3px; }
+  .faq__a p { font-size: 13px; line-height: 20px; padding-right: 16px; }
+
+  /* Footer: copyright, then the big Instacars mark peeking in at the bottom */
+  .footer { margin-top: 33px; overflow: hidden; }
+  .footer__top, .footer__legal { display: none; }
+  .footer__bottom { height: auto; justify-content: center; padding: 4px 0; }
+  .footer__mark--wide { display: block; width: 100%; height: auto; margin-top: 36px; }
+}
+@media (min-width: 768px) and (max-width: 1179px) {
+  .faq__br { display: none; }
+}
+
+/* =====================================================================
+   Phones (below 768px). Phone frame is 390px wide, 18.5px side margins.
+   ===================================================================== */
+@media (max-width: 767px) {
+  .col { width: calc(100% - 37px); }
+  .drawer__top { padding: 30px 15px 20px 19px; }
+  .drawer__nav { padding: 0 10px; }
+
+  /* The page opens straight on the photo with the sign-up card over it (6490:5578) */
+  .page-label, .intro { display: none; }
+  .hero { margin-top: 0; width: 100vw; margin-inline: calc(50% - 50vw); }
+  .hero picture img { height: 353px; border-radius: 30px 30px 0 0; }
+  .hero__form {
+    position: relative; display: flex; flex-direction: column; gap: 15px;
+    left: auto; top: auto; width: 100%; max-width: none;
+    margin-top: -34px; padding: 20px 17px;
+    background: #fff; border: 0.5px solid var(--border); border-radius: 24px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.05));
+  }
+
+  .features { margin-top: 30px; }
+  .section-title { font-size: 20px; line-height: 32px; }
+  .section-title br { display: inline; }
+  .features .section-sub { display: none; }
+  .features__viewport { margin-top: 20px; }
+  .features__viewport, .dealer .cards { scroll-padding-inline: 18.5px; padding-inline: 18.5px; }
+  .feature-card-image, .card--feature { flex-basis: min(353px, calc(100vw - 37px)); }
+
+  .pricing { margin-top: 50px; gap: 30px; }
+  .pricing .section-title, .dealer .section-title { font-weight: 700; }
+  .section-head--tight { gap: 16px; }
+  .billing { width: 100%; }
+  .billing__opt { flex: 1; padding-inline: 12px; }
+  .plans { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .plans > li { order: 3; }
+  .plans > li:first-child { order: 1; }
+  .plans > .plan--popular { order: 2; }   /* phones list Multi second */
+  .plan { padding: 20px; }
+  .plan--popular { padding-block: 18px; }
+  .plan__name h3 { font-size: 25px; }
+  .plan__top, .plan__body { gap: 16px; }
+
+  .includes { gap: 24px; padding: 30px 20px; }
+  .includes .plan__name h3 { font-size: 25px; line-height: 38px; }
+  .includes__cols { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  .includes__col li:not(.includes__head) { white-space: normal; }
+  /* "Coming soon, included" folds away behind a round arrow button */
+  .includes__col--soon { opacity: 1; }
+  .includes__col--soon li:not(.includes__head) { display: none; opacity: 0.6; }
+  .includes__col--soon.is-open li:not(.includes__head) { display: flex; }
+  .includes__toggle { cursor: pointer; color: rgba(13, 13, 13, 0.6); }
+  .includes__toggle img { display: block; }
+
+  .addon { padding: 20px 20px 0; }
+  .addon__cta { width: 100%; }
+
+  /* Dealer cards stack on phones */
+  .dealer { margin-top: 50px; }
+  .dealer .cards { width: 100%; margin-inline: 0; padding-inline: 0; overflow: visible; flex-direction: column; margin-top: 24px; }
+  .card--dealer { flex: none; }
+  .dealer__arrows { display: none; }
+
+  /* Contact: photo on top, the form card over its lower edge, one chat bubble peeking out (6490:5762) */
+  .contact {
+    width: 100vw; margin-inline: calc(50% - 50vw); margin-top: 26px;
+    height: auto; padding-top: 461px; overflow: visible; border-radius: 30px 30px 0 0;
+  }
+  .contact__bg { top: 0; left: 0; width: 100%; height: 506px; object-position: 40% center; border-radius: 30px 30px 0 0; }
+  .contact__form { position: relative; left: auto; top: auto; width: 100%; max-width: none; padding: 20px 19px; }
+  .contact__bubbles { right: auto; left: calc(50% - 138px); top: 224px; width: 288px; height: 227px; z-index: 0; }
+
+  .faq { max-width: none; margin-top: 0; }
+
+  .footer__mark--wide { display: none; }
+  .footer__mark--narrow { display: block; width: 100%; height: auto; margin-top: 36px; }
+}
+@media (min-width: 440px) and (max-width: 767px) {
+  .footer__mark--narrow { display: none; }
+  .footer__mark--wide { display: block; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .faq__a { transition: none; }
+  .features__track { transition: none; }
+  .drawer { animation: none; }
 }
+

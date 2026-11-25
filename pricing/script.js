@@ -1,4 +1,99 @@
 (() => {
+  /* ---------- Full-screen menu (below 1180px), same behaviour as the other pages ---------- */
+  const toggle = document.querySelector("[data-menu-toggle]");
+  const drawer = document.querySelector("[data-drawer]");
+  const closeBtn = drawer.querySelector("[data-menu-close]");
+  const isOpen = () => !drawer.hidden;
+
+  const setMenu = open => {
+    if (open === isOpen()) return;
+    drawer.hidden = !open;
+    document.documentElement.classList.toggle("menu-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    if (open) { drawer.scrollTop = 0; closeBtn.focus(); }
+    else toggle.focus({ preventScroll: true });
+  };
+
+  toggle.addEventListener("click", () => setMenu(true));
+  closeBtn.addEventListener("click", () => setMenu(false));
+  drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+
+  document.addEventListener("keydown", e => {
+    if (!isOpen()) return;
+    if (e.key === "Escape") setMenu(false);
+    // Keep Tab focus inside the open menu
+    if (e.key === "Tab") {
+      const items = drawer.querySelectorAll("a, button");
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  // Close it if the window grows to desktop width, where the full nav shows
+  window.matchMedia("(min-width: 1180px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
+
+  const desktop = window.matchMedia("(min-width: 1180px)");
+
+  /* Below 1180px the card rows become swipeable strips; the arrows move them one card at a time. */
+  const scrollByCard = (strip, dir) => {
+    const card = strip.querySelector(".card, .feature-card-image");
+    const gap = parseFloat(getComputedStyle(card.parentElement).columnGap) || 15;
+    strip.scrollBy({ left: dir * (card.getBoundingClientRect().width + gap), behavior: "smooth" });
+  };
+
+  /* ---------- Feature card carousel ----------
+     The second Figma row is the initial desktop view (and the first cards shown on tablets and phones). */
+  const featureTrack = document.querySelector("[data-feature-track]");
+  if (featureTrack) {
+    const featureSlides = [...featureTrack.querySelectorAll("[data-feature-slide]")];
+    const featureStatus = document.querySelector("[data-feature-status]");
+    let featureIndex = 1;
+    const showFeatureSlide = index => {
+      featureIndex = (index + featureSlides.length) % featureSlides.length;
+      featureTrack.style.transform = `translateX(-${featureIndex * 25}%)`;
+      featureSlides.forEach((slide, i) => slide.setAttribute("aria-hidden", String(i !== featureIndex)));
+      featureStatus.textContent = `Card row ${featureIndex + 1} of ${featureSlides.length}`;
+    };
+    const strip = document.querySelector(".features__viewport");
+    const startStrip = () => {
+      if (desktop.matches) return;
+      const first = featureSlides[1].firstElementChild;
+      strip.scrollLeft = first.offsetLeft - parseFloat(getComputedStyle(strip).scrollPaddingLeft || 0);
+    };
+    document.querySelector("[data-feature-prev]").addEventListener("click", () => desktop.matches ? showFeatureSlide(featureIndex - 1) : scrollByCard(strip, -1));
+    document.querySelector("[data-feature-next]").addEventListener("click", () => desktop.matches ? showFeatureSlide(featureIndex + 1) : scrollByCard(strip, 1));
+    // In strip mode every card is reachable, so none is hidden from screen readers
+    const syncHidden = () => featureSlides.forEach((slide, i) => slide.setAttribute("aria-hidden", String(desktop.matches && i !== featureIndex)));
+    desktop.addEventListener("change", () => { syncHidden(); startStrip(); });
+    syncHidden();
+    startStrip();
+  }
+
+  /* ---------- Dealer cards: a swipeable strip with arrows on tablets ---------- */
+  const dealerTrack = document.querySelector("[data-dealer-track]");
+  document.querySelector("[data-dealer-prev]").addEventListener("click", () => scrollByCard(dealerTrack, -1));
+  document.querySelector("[data-dealer-next]").addEventListener("click", () => scrollByCard(dealerTrack, 1));
+
+  /* ---------- "Coming soon, included": folded away on phones ---------- */
+  const soonBtn = document.querySelector("[data-soon-toggle]");
+  const soonCol = soonBtn.closest(".includes__col");
+  const phone = window.matchMedia("(max-width: 767px)");
+  const syncSoon = () => {
+    // A real button only on phones; elsewhere it is just the column heading
+    if (phone.matches) { soonBtn.removeAttribute("tabindex"); soonBtn.removeAttribute("aria-disabled"); }
+    else { soonBtn.setAttribute("tabindex", "-1"); soonBtn.setAttribute("aria-disabled", "true"); }
+  };
+  soonBtn.addEventListener("click", () => {
+    if (!phone.matches) return;
+    const open = !soonCol.classList.contains("is-open");
+    soonCol.classList.toggle("is-open", open);
+    soonBtn.setAttribute("aria-expanded", String(open));
+    soonBtn.querySelector("img").src = `assets/${open ? "faq-open" : "faq-closed"}.svg`;
+  });
+  phone.addEventListener("change", syncSoon);
+  syncSoon();
+
   /* ---------- Billing toggle ----------
      Annual = "2 months free": 10 × the monthly price, billed yearly.
      Prices live in each element's data-monthly / data-annual attributes. */
@@ -21,9 +116,9 @@
     next.focus();
   });
 
-  /* ---------- Contact form ----------
+  /* ---------- Contact forms (the one by the photo on phones, and the one near the end) ----------
      No backend yet: validates, then shows a confirmation. Hook point: dispatches "kaia:lead". */
-  const form = document.querySelector("[data-contact]");
+  document.querySelectorAll("[data-contact]").forEach(form => {
   const status = form.querySelector("[data-status]");
   form.addEventListener("submit", e => {
     e.preventDefault();
@@ -44,15 +139,16 @@
     form.reset();
   });
   form.addEventListener("input", e => e.target.removeAttribute("aria-invalid"));
+  });
 
   /* ---------- FAQ accordion ----------
-     Only the second answer exists in the design (it ends mid-sentence there too). */
+     Same questions as the marketplace homepage and the tablet/phone designs. Only the second answer exists yet. */
   const FAQ = [
-    { q: "Does instacars charge any fees?", a: null },
-    { q: "How does Instacars work?", a: "Instacars is Canada’s best online search platform to find new and used cars in your area. We work directly with car dealers to get you the best possible rates. Once you find a car you like, just", open: true },
-    { q: "There are soo many used cars listed here. How is this any better?", a: null },
-    { q: "What are the popular car models in the market right now?", a: null },
-    { q: "How are Instacars prices so great?", a: null },
+    { q: "What is Kaia", a: null },
+    { q: "How is Kaia different from a chatbot or live chat widget?", a: "Most website chat tools either route to a live agent (who isn't available at 9pm on a Tuesday) or hand back a generic script that can't answer real inventory questions. Kaia knows your actual stock and can carry a full conversation: pricing, features, financing basics, comparisons, and then push straight to a booked test drive. No human required, no \"someone will follow up.\"", open: true },
+    { q: "What happens if my current website chat can't answer a question?", a: null },
+    { q: "Do I need to replace my current website or CRM?", a: null },
+    { q: "Who's behind Instacars?", a: null },
     { q: "How do I see it in action?", a: null },
   ];
 
