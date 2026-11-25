@@ -165,10 +165,16 @@
   const onFrame = data => {
     if (data.type === "ping_pong") return;
     const m = data.message || {};
-    if (data.type === "stream_start") { dropTyping(); streamText = ""; streamRow = kaiaRow(`<div class="bubble bubble--kaia bubble--reply"></div>`); return; }
+    // Kaia announces a reply ~5 s before its first words. Keep the typing dots until there is text to
+    // show, so no empty bubble appears; a reply that never gets text never gets a bubble.
+    if (data.type === "stream_start") { streamText = ""; streamRow = null; return; }
     if (data.type === "stream_chunk") {
-      if (!streamRow) { dropTyping(); streamRow = kaiaRow(`<div class="bubble bubble--kaia bubble--reply"></div>`); }
       streamText += m.content || "";
+      if (!streamRow) {
+        if (!streamText.trim()) return;
+        dropTyping();
+        streamRow = kaiaRow(`<div class="bubble bubble--kaia bubble--reply"></div>`);
+      }
       streamRow.querySelector(".bubble").innerHTML = markdown(streamText);
       toBottom(); return;
     }
