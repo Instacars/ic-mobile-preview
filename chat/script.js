@@ -43,6 +43,36 @@
   const add = el => { chat.appendChild(el); return el; };
   const el = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
 
+  /* A soft reply chime, unlocked by the visitor's first chat interaction. */
+  let replyAudio = null;
+  let replyAudioReady = false;
+  const unlockReplyAudio = () => {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    try {
+      if (!replyAudio) replyAudio = new AudioContextClass();
+      if (replyAudio.state === "suspended") {
+        replyAudio.resume().then(() => { replyAudioReady = replyAudio.state === "running"; }).catch(() => {});
+      } else replyAudioReady = replyAudio.state === "running";
+    } catch (e) { /* Audio is optional; chat still works if unavailable. */ }
+  };
+  const playReplySound = () => {
+    if (!replyAudio || !replyAudioReady || replyAudio.state !== "running") return;
+    const now = replyAudio.currentTime;
+    const tone = replyAudio.createOscillator();
+    const volume = replyAudio.createGain();
+    tone.type = "sine";
+    tone.frequency.setValueAtTime(560, now);
+    tone.frequency.exponentialRampToValueAtTime(740, now + 0.16);
+    volume.gain.setValueAtTime(0.0001, now);
+    volume.gain.exponentialRampToValueAtTime(0.045, now + 0.025);
+    volume.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+    tone.connect(volume);
+    volume.connect(replyAudio.destination);
+    tone.start(now);
+    tone.stop(now + 0.23);
+  };
+
   /* Small, safe Markdown for Kaia's replies: paragraphs, **bold**, *italic*, bullet/numbered lists, links */
   const inline = s => escapeHtml(s)
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
@@ -134,7 +164,12 @@
       streamRow.querySelector(".bubble").innerHTML = markdown(streamText);
       toBottom(); return;
     }
-    if (data.type === "stream_end") { streamRow = null; if (data.is_last) setWaiting(false); return; }
+    if (data.type === "stream_end") {
+      if (streamRow && streamText.trim()) playReplySound();
+      streamRow = null;
+      if (data.is_last) setWaiting(false);
+      return;
+    }
     if (data.type === "error") { setWaiting(false); noteRow("Kaia couldn't answer that. Please try again."); toBottom(true); return; }
 
     if (data.type === "suggestion" || m.type === "suggestion") {
@@ -147,7 +182,7 @@
     } else if (data.type === "book_appointment" || m.type === "book_appointment") {
       dropTyping(); noteRow("Booking a test drive isn't available on this page yet.");
     } else if (m.type === "message" && m.content) {
-      dropTyping(); kaiaRow(`<div class="bubble bubble--kaia bubble--reply">${markdown(m.content)}</div>`);
+      dropTyping(); kaiaRow(`<div class="bubble bubble--kaia bubble--reply">${markdown(m.content)}</div>`); playReplySound();
     }
     if (data.is_last) setWaiting(false);
     toBottom();
@@ -190,6 +225,7 @@
   const send = (text, metadata = null) => {
     text = String(text || "").trim();
     if (!text || waiting) return;
+    unlockReplyAudio();
     if (!started) { started = true; clearChat(); }
     userRow(text);
     document.dispatchEvent(new CustomEvent("kaia:message", { detail: { message: text } }));
