@@ -41,6 +41,9 @@
     const gap = parseFloat(getComputedStyle(card.parentElement).columnGap) || 15;
     strip.scrollBy({ left: dir * (card.getBoundingClientRect().width + gap), behavior: "smooth" });
   };
+  /* An arrow is disabled (and faded) when there is nothing more to show on its side */
+  const setArrows = (prev, next, atStart, atEnd) => { prev.disabled = atStart; next.disabled = atEnd; };
+  const stripEnds = strip => [strip.scrollLeft <= 1, strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1];
 
   /* ---------- Feature card carousel ----------
      The second Figma row is the initial desktop view (and the first cards shown on tablets and phones). */
@@ -48,32 +51,47 @@
   if (featureTrack) {
     const featureSlides = [...featureTrack.querySelectorAll("[data-feature-slide]")];
     const featureStatus = document.querySelector("[data-feature-status]");
+    const featurePrev = document.querySelector("[data-feature-prev]");
+    const featureNext = document.querySelector("[data-feature-next]");
     let featureIndex = 1;
     const showFeatureSlide = index => {
-      featureIndex = (index + featureSlides.length) % featureSlides.length;
+      featureIndex = Math.max(0, Math.min(featureSlides.length - 1, index)); // stops at the first and last row
       featureTrack.style.transform = `translateX(-${featureIndex * 25}%)`;
       featureSlides.forEach((slide, i) => slide.setAttribute("aria-hidden", String(i !== featureIndex)));
       featureStatus.textContent = `Card row ${featureIndex + 1} of ${featureSlides.length}`;
+      syncFeatureArrows();
     };
+    const syncFeatureArrows = () => desktop.matches
+      ? setArrows(featurePrev, featureNext, featureIndex === 0, featureIndex === featureSlides.length - 1)
+      : setArrows(featurePrev, featureNext, ...stripEnds(strip));
     const strip = document.querySelector(".features__viewport");
     const startStrip = () => {
       if (desktop.matches) return;
       const first = featureSlides[1].firstElementChild;
       strip.scrollLeft = first.offsetLeft - parseFloat(getComputedStyle(strip).scrollPaddingLeft || 0);
     };
-    document.querySelector("[data-feature-prev]").addEventListener("click", () => desktop.matches ? showFeatureSlide(featureIndex - 1) : scrollByCard(strip, -1));
-    document.querySelector("[data-feature-next]").addEventListener("click", () => desktop.matches ? showFeatureSlide(featureIndex + 1) : scrollByCard(strip, 1));
+    featurePrev.addEventListener("click", () => desktop.matches ? showFeatureSlide(featureIndex - 1) : scrollByCard(strip, -1));
+    featureNext.addEventListener("click", () => desktop.matches ? showFeatureSlide(featureIndex + 1) : scrollByCard(strip, 1));
+    strip.addEventListener("scroll", syncFeatureArrows, { passive: true });
+    window.addEventListener("resize", syncFeatureArrows);
     // In strip mode every card is reachable, so none is hidden from screen readers
     const syncHidden = () => featureSlides.forEach((slide, i) => slide.setAttribute("aria-hidden", String(desktop.matches && i !== featureIndex)));
-    desktop.addEventListener("change", () => { syncHidden(); startStrip(); });
+    desktop.addEventListener("change", () => { syncHidden(); startStrip(); syncFeatureArrows(); });
     syncHidden();
     startStrip();
+    syncFeatureArrows();
   }
 
   /* ---------- Dealer cards: a swipeable strip with arrows on tablets ---------- */
   const dealerTrack = document.querySelector("[data-dealer-track]");
-  document.querySelector("[data-dealer-prev]").addEventListener("click", () => scrollByCard(dealerTrack, -1));
-  document.querySelector("[data-dealer-next]").addEventListener("click", () => scrollByCard(dealerTrack, 1));
+  const dealerPrev = document.querySelector("[data-dealer-prev]");
+  const dealerNext = document.querySelector("[data-dealer-next]");
+  const syncDealerArrows = () => setArrows(dealerPrev, dealerNext, ...stripEnds(dealerTrack));
+  dealerPrev.addEventListener("click", () => scrollByCard(dealerTrack, -1));
+  dealerNext.addEventListener("click", () => scrollByCard(dealerTrack, 1));
+  dealerTrack.addEventListener("scroll", syncDealerArrows, { passive: true });
+  window.addEventListener("resize", syncDealerArrows);
+  syncDealerArrows();
 
   /* ---------- "Coming soon, included": folded away on phones ---------- */
   const soonBtn = document.querySelector("[data-soon-toggle]");

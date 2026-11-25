@@ -108,7 +108,9 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 .features__arrows { margin-top: 50px; width: 54px; height: 13px; display: flex; justify-content: space-between; }
 .features__arrows button { width: 17px; height: 13px; padding: 0; display: block; cursor: pointer; }
 .features__arrows button img { display: block; width: 17px; height: 13px; }
+.features__arrows button { transition: opacity 0.2s; }
 .features__arrows button:hover { opacity: 0.55; }
+.features__arrows button:disabled { opacity: 0.5; cursor: default; }   /* nothing more on that side */
 .features__arrows button:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
 .features__viewport { width: 100%; overflow: hidden; }
 .features__track { display: flex; width: 400%; transform: translateX(-25%); transition: transform 360ms cubic-bezier(.22,.61,.36,1); }
@@ -504,7 +506,7 @@ html.menu-open { overflow: hidden; }
   .page-label, .intro { display: none; }
   .hero { margin-top: 0; width: 100vw; margin-inline: calc(50% - 50vw); }
   .hero__photo { height: 353px; object-position: 36% 50%; border-radius: 30px 30px 0 0; }
-  .hero__chat { left: 20px; top: 15px; width: 190px; }
+  .hero__chat { left: 16px; top: 14px; width: min(270px, calc(100% - 32px)); }   /* larger than the design's 190px so the chat is readable */
   .hero__form {
     position: relative; display: flex; flex-direction: column; gap: 15px;
     left: auto; top: auto; width: 100%; max-width: none;
