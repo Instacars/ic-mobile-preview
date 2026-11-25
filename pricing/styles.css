@@ -116,8 +116,6 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
 .features__track { display: flex; width: 400%; transform: translateX(-25%); transition: transform 360ms cubic-bezier(.22,.61,.36,1); }
 .features__slide { flex: 0 0 25%; min-width: 0; }
 .features .cards { margin-top: 30px; }
-.feature-card-image { position: relative; height: 350px; min-width: 0; overflow: hidden; border-radius: 30px; }
-.feature-card-image img { display: block; width: 100%; height: 100%; object-fit: fill; }
 .features__sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .dealer .cards { margin-top: 50px; }
 .cards { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
@@ -129,9 +127,6 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
   border: 1px solid var(--border);
   border-radius: 30px;
 }
-.card--feature { border-color: var(--border-card); }
-/* Docs card: soft blue wash towards the bottom, from the Figma gradient (drawn in CSS so it fits any width) */
-.card--docs { background: linear-gradient(to bottom, rgba(201, 221, 242, 0) 156px, rgba(201, 221, 242, 0.52) 350px), #fff; }
 .card__text {
   position: absolute; left: -1px; top: -1px; z-index: 1;
   width: 353px; max-width: calc(100% + 2px);
@@ -139,11 +134,219 @@ main { display: flex; flex-direction: column; padding-top: 66px; } /* nav frame 
   padding: 20px 20px 14px;
 }
 .card__text h3 { font-weight: 600; font-size: 18px; line-height: normal; }
-.card__text .h3--tall { line-height: 27px; }
 .card__text p { font-size: 13px; line-height: normal; }
-.card__art { position: absolute; z-index: 0; }
-.card--feature .card__art:last-child { z-index: 2; }
 .card__shot { position: absolute; z-index: 0; object-fit: cover; }
+
+/* ---------- Feature cards (HTML/CSS, same approach as info.instacars.io) ----------
+   Each card: title + text on top, a small live-looking UI below. Built for a ~352px wide card. */
+.fcard {
+  position: relative; height: 350px; min-width: 0; overflow: hidden;
+  background: #fff; border: 1px solid var(--border-card); border-radius: 30px;
+}
+.fcard--grad { background: linear-gradient(#fff 35%, #e4eef9); }
+.fcard--band { background: linear-gradient(#fff 0, #fff 175px, #eef4fb 175px, #e4eef9); }
+.fcard__copy { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; padding: 20px 20px 14px; }
+.fcard__copy h3 { font-weight: 600; font-size: 18px; line-height: 1.5; }
+.fcard__copy p { font-size: 13px; line-height: 1.5; }
+.fi { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.fx { position: absolute; left: 0; right: 0; margin: 0 auto; width: 313px; max-width: calc(100% - 24px); }
+.fx-box { background: #fff; border: 1px solid #eceef2; border-radius: 14px; box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06); }
+.fx-panel { padding: 16px 16px 12px; }
+.fx-panel__title { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-weight: 600; font-size: 16px; }
+.fx-panel__title .fi { width: 18px; height: 18px; color: var(--blue); }
+.fx-rows li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 0; font-size: 12px; border-bottom: 1px solid #eef0f3; }
+.fx-rows li:last-child { border-bottom: 0; }
+.fx-rows--icons li > span:first-child { display: inline-flex; align-items: center; gap: 8px; }
+.fx-rows--icons .fi { width: 14px; height: 14px; color: #6b7280; }
+.fx-tag { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 6px; background: #f3f4f6; color: #4b5563; font-size: 11px; font-weight: 500; white-space: nowrap; }
+.fx-tag--green { background: #e7f6ec; color: #047857; }
+.fx-tag--blue { background: #e8f1ff; color: #1d5fd1; }
+.fx-tag--purple { background: #f3e8ff; color: #7c3aed; }
+.fx-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #fff; border: 1px solid #e5e7eb; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.fx-chip .fi { width: 14px; height: 14px; }
+.fx-msg { display: flex; align-items: flex-end; gap: 8px; }
+.fx-kav { flex: none; width: 22px; height: 22px; border-radius: 50%; background: #111; color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 10px; }
+.fx-bub { padding: 8px 12px; border-radius: 12px 12px 12px 3px; background: #f3f4f6; font-size: 11.5px; line-height: 1.45; }
+.fx-bub--white { background: #fff; border: 1px solid #eceef2; }
+
+/* Suggest the right extras */
+.fx-extras { top: 150px; display: flex; flex-direction: column; gap: 10px; }
+.fx-extras__item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px; }
+.fx-extras__item b { display: block; font-size: 12.5px; font-weight: 600; }
+.fx-extras__item small { font-size: 10.5px; color: #6b7280; }
+.fx-add { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; border: 1px solid #c7dbfb; border-radius: 999px; color: var(--blue); font-size: 11px; font-weight: 600; }
+.fx-add .fi { width: 12px; height: 12px; stroke-width: 2.5; }
+.fx-add--on { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+/* Discover deals */
+.fx-deals { top: 150px; }
+.fx-deals__updated { position: relative; z-index: 1; margin-bottom: -6px; margin-left: 4px; }
+.fx-deals .fx-panel { padding-top: 18px; }
+
+/* Snap & search */
+.fx-snap { top: 172px; display: flex; gap: 8px; }
+.fx-snap__photo { flex: 0 0 78px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; height: 140px; color: var(--blue); }
+.fx-snap__photo .fi { width: 20px; height: 20px; }
+.fx-snap__photo small { font-size: 8.5px; color: #374151; text-align: center; }
+.fx-snap__matches { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.fx-snap__matches li { display: flex; align-items: center; justify-content: space-between; height: 42px; padding: 0 10px; }
+.fx-snap__matches b { font-size: 11.5px; font-weight: 600; }
+.fx-snap__matches .fx-tag { font-weight: 600; }
+
+/* Guide to financing approval: the checklist runs off the card's right edge, as in the design */
+.fx-finance { top: 134px; left: 30px; right: auto; margin: 0; width: 340px; max-width: none; }
+.fx-finance__panel { padding: 16px 18px; border-radius: 14px 0 0 14px; }
+.fx-checks { display: flex; flex-direction: column; gap: 14px; margin-top: 6px; font-size: 12px; }
+.fx-checks li { display: flex; align-items: center; gap: 8px; }
+.fx-checks .is-done { color: #9ca3af; text-decoration: line-through; }
+.fx-cb { width: 15px; height: 15px; border: 1.5px solid #9ca3af; border-radius: 4px; display: grid; place-items: center; }
+.fx-checks .is-done .fx-cb { background: var(--blue); border-color: var(--blue); color: #fff; }
+.fx-cb .fi { width: 11px; height: 11px; stroke-width: 3; }
+.fx-finance__done { position: absolute; right: 50px; bottom: 6px; color: #047857; box-shadow: 0 4px 12px rgba(16, 24, 40, 0.08); }
+
+/* Help with document uploads */
+.fx-docs { top: 168px; }
+.fx-docs .fx-panel { padding-bottom: 16px; border-radius: 14px 14px 0 0; }
+.fx-docs__drop { margin: 8px 0 0 10px; color: var(--blue); }
+
+/* Payment estimator */
+.fx-pay { top: 160px; padding: 0 16px; }
+.fx-pay__amt { font-weight: 600; font-size: 52px; line-height: 1.1; letter-spacing: -1px; }
+.fx-pay__amt span { margin-left: 4px; font-weight: 400; font-size: 15px; letter-spacing: 0; color: #6b7280; }
+.fx-pay__row { display: flex; justify-content: space-between; margin-top: 18px; font-size: 11px; color: #4b5563; }
+.fx-pay__row b { color: var(--text); font-weight: 500; }
+.fx-pay__track { position: relative; height: 4px; margin: 10px 0 16px; border-radius: 4px; background: #e5e7eb; }
+.fx-pay__fill { position: absolute; inset: 0 62% 0 0; border-radius: 4px; background: var(--blue); }
+.fx-pay__knob { position: absolute; left: 38%; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 2.5px solid var(--blue); border-radius: 50%; background: #fff; }
+.fx-pay__chips { display: flex; gap: 6px; }
+.fx-pay__chips .fx-tag { padding: 6px 9px; border-radius: 999px; }
+
+/* See how trade-in affects payments */
+.fx-trade { top: 190px; padding: 0 12px; }
+.fx-trade .fx-panel { border-radius: 14px 14px 0 0; padding-bottom: 16px; }
+.fx-trade__title { justify-content: center; }
+.fx-trade__rows { margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 11.5px; }
+.fx-trade__rows div { display: flex; align-items: center; justify-content: space-between; }
+.fx-trade__rows dt { display: flex; align-items: center; gap: 6px; color: #6b7280; }
+.fx-trade__rows dt .fi { width: 13px; height: 13px; }
+.fx-trade__rows dd { margin: 0; }
+.fx-trade__rows s { color: #9ca3af; }
+
+/* Pre-qualify without pressure */
+.fx-prequal { top: 130px; width: auto; max-width: none; left: 0; right: 0; height: 210px; }
+.fx-prequal__card { position: absolute; left: 50%; top: 48px; width: 272px; margin-left: -136px; padding: 12px 14px; }
+.fx-prequal__pill { padding: 5px 10px; border-radius: 999px; font-weight: 600; }
+.fx-prequal__steps { display: flex; align-items: center; gap: 6px; margin: 12px 0; font-size: 10px; font-weight: 600; color: #047857; }
+.fx-prequal__steps i { flex: 1; height: 2px; background: #10b981; }
+.fx-prequal__ok { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border-radius: 10px; background: #ecfdf3; font-weight: 600; font-size: 12.5px; }
+.fx-prequal__tick { width: 22px; height: 22px; border-radius: 50%; background: #10b981; color: #fff; display: grid; place-items: center; }
+.fx-prequal__tick .fi { width: 13px; height: 13px; stroke-width: 3; }
+.fx-confetti i { position: absolute; width: 8px; height: 4px; border-radius: 2px; }
+.fx-confetti i:nth-child(1) { left: 12%; top: 6%; background: #f59e0b; transform: rotate(-20deg); }
+.fx-confetti i:nth-child(2) { left: 34%; top: 4%; background: #2563eb; transform: rotate(25deg); }
+.fx-confetti i:nth-child(3) { left: 54%; top: 7%; width: 5px; height: 5px; background: #10b981; }
+.fx-confetti i:nth-child(4) { left: 72%; top: 5%; background: #7c3aed; transform: rotate(50deg); }
+.fx-confetti i:nth-child(5) { left: 87%; top: 3%; background: #10b981; transform: rotate(-10deg); }
+.fx-confetti i:nth-child(6) { left: 94%; top: 7%; width: 5px; height: 5px; background: #2563eb; }
+.fx-confetti i:nth-child(7) { left: 3%; top: 40%; background: #10b981; transform: rotate(20deg); }
+.fx-confetti i:nth-child(8) { left: 95%; top: 33%; background: #f59e0b; transform: rotate(-40deg); }
+.fx-confetti i:nth-child(9) { left: 3%; top: 62%; width: 5px; height: 5px; background: #2563eb; }
+.fx-confetti i:nth-child(10) { left: 95%; top: 56%; width: 6px; height: 6px; background: #7c3aed; }
+.fx-confetti i:nth-child(11) { left: 5%; top: 90%; background: #f59e0b; transform: rotate(15deg); }
+.fx-confetti i:nth-child(12) { left: 25%; top: 94%; background: #7c3aed; transform: rotate(10deg); }
+.fx-confetti i:nth-child(13) { left: 59%; top: 95%; width: 6px; height: 6px; background: #f59e0b; }
+.fx-confetti i:nth-child(14) { left: 81%; top: 95%; background: #2563eb; transform: rotate(-20deg); }
+
+/* Your stock. Instant answers. */
+.fx-stock { top: 180px; width: 240px; height: 120px; }
+.fx-stock__item { position: absolute; left: 0; right: 0; top: 18px; padding: 14px 16px; }
+.fx-stock__item b { display: block; font-weight: 600; font-size: 14px; }
+.fx-stock__item small { display: block; margin: 2px 0 8px; font-size: 11px; color: #6b7280; }
+.fx-stock__item--back1 { top: 9px; left: 10px; right: 10px; height: 80px; opacity: 0.8; }
+.fx-stock__item--back2 { top: 0; left: 20px; right: 20px; height: 80px; opacity: 0.55; }
+
+/* A chat. Then a test drive. (ported from info.instacars.io) */
+.appt { top: 185px; height: 198px; padding: 14px 10px 10px; display: flex; flex-direction: column; gap: 8px; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 12px; }
+.appt__top, .appt__foot { display: flex; justify-content: space-between; align-items: center; }
+.appt__body { display: flex; flex-direction: column; gap: 6px; padding: 8px; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 10px; font-weight: 500; }
+.appt__body div { display: flex; justify-content: space-between; }
+.appt__body span:first-child { color: #6b7280; }
+.appt__ready { font-size: 9px; font-weight: 500; color: #6b7280; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+.pill--white { background: #fff; border: 1px solid #e5e7eb; }
+.pill--green { background: #ecfdf3; border: 1px solid #a7f3d0; color: #047857; }
+.pill--link { color: var(--blue); font-size: 9px; }
+.pill--roomy { padding: 6px 10px; border: 0; font-weight: 500; }
+.pill--lead { padding: 6px 10px; background: #dfe9ff; color: #234de8; }
+.dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+
+/* Leads to your CRM (ported) */
+.crm { top: 173px; height: 188px; padding: 8px 12px; display: flex; flex-direction: column; gap: 6px; background: #fff; border: 1px solid #f5f5f7; border-radius: 12px; color: #17261f; }
+.crm__head, .crm__title, .crm__row, .crm__who { display: flex; align-items: center; }
+.crm__head, .crm__row { justify-content: space-between; }
+.crm__title { gap: 8px; font-size: 12px; font-weight: 500; }
+.crm__ico { width: 28px; height: 28px; border-radius: 8px; background: #f5f7ff; color: #234de8; display: grid; place-items: center; }
+.crm__contact { display: flex; flex-direction: column; gap: 8px; padding: 10px; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 10px; }
+.crm__who { gap: 8px; }
+.crm__who b { display: block; font-size: 13px; font-weight: 500; }
+.crm__who small { font-size: 10px; color: #425248; }
+.crm__meta { font-size: 11px; color: #425248; white-space: pre; }
+.crm__panels { display: flex; gap: 8px; }
+.crm__panels span { display: flex; align-items: center; gap: 6px; padding: 8px; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 11px; font-weight: 500; }
+.crm__panels .fi { width: 14px; height: 14px; color: #234de8; }
+.fx-avatar { width: 28px; height: 28px; border-radius: 50%; background: #dbeafe; color: #1d4ed8; font-size: 11px; font-weight: 600; display: grid; place-items: center; }
+
+/* 20+ languages (ported) */
+.lang { top: 179px; width: auto; max-width: none; height: 169px; display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 16px 22px 17px; background: #e4eef9; border-radius: 0 0 29px 29px; }
+.lang__opts { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 11px; }
+.lang__opts span { padding: 4px 10px; border-radius: 99px; background: #fff; }
+.lang__opts .on { background: #000; color: #fff; }
+.lang__opts .more { padding: 0; background: none; }
+.bub { width: 246px; max-width: 100%; padding: 10px 14px; font-weight: 500; font-size: 14px; line-height: 18px; }
+.bub--shopper { background: #fff; border-radius: 16px 16px 16px 3px; }
+.bub--kaia { width: 244px; background: #000; color: #fff; border-radius: 16px 16px 3px; }
+.lang__reply { display: flex; justify-content: flex-end; align-items: flex-end; gap: 8px; }
+.k-av { flex: none; width: 28px; height: 28px; border-radius: 99px; background: #fff; display: grid; place-items: center; font-weight: 600; font-size: 13px; }
+
+/* Invite a partner to the chat */
+.fx-invite { top: 148px; }
+.fx-invite__faces { display: flex; padding-left: 4px; }
+.fx-face { width: 54px; height: 54px; margin-right: -14px; border: 2px solid #9fd2e3; border-radius: 50%; display: grid; place-items: center; font-weight: 600; font-size: 15px; }
+.fx-face--jr { background: #e6f0ff; color: #1d4ed8; }
+.fx-face--sr { background: #fdeee2; color: #b4500f; }
+.fx-face--add { background: #fff; color: #0e7490; }
+.fx-face--add .fi { width: 14px; height: 14px; }
+.fx-invite__msg { margin-top: 16px; padding: 14px 16px; }
+.fx-invite__msg b { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 600; color: #0e7490; }
+.fx-invite__msg p { font-size: 12.5px; line-height: 1.45; }
+
+/* Return visitor recognition */
+.fx-return { top: 185px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.fx-return .fx-tag { padding: 5px 10px; border-radius: 999px; font-weight: 600; }
+.fx-return .fx-bub { border-radius: 12px; }
+.fx-return__car { align-self: stretch; display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+.fx-return__car b { display: block; font-size: 12px; font-weight: 600; }
+.fx-return__car small { font-size: 10.5px; color: #6b7280; }
+.fx-return__ico { width: 32px; height: 28px; border-radius: 8px; background: #f3f4f6; color: #6b7280; display: grid; place-items: center; }
+.fx-return__stock { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: #047857; }
+.fx-return__stock .fi { width: 12px; height: 12px; stroke-width: 3; }
+
+/* Incentive discovery */
+.fx-incent { top: 155px; display: flex; align-items: center; gap: 18px; }
+.fx-incent__mark { flex: none; width: 64px; height: 64px; filter: drop-shadow(0 8px 16px rgba(16, 124, 254, 0.25)); }
+.fx-incent__mark svg { width: 100%; height: 100%; }
+.fx-incent__list { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.fx-incent__list li { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; background: #f3f4f6; font-size: 12px; white-space: nowrap; }
+.fx-incent__list .fi { width: 14px; height: 14px; }
+
+/* Personalized search: results panel runs off the right edge, the search box sits on top */
+.fx-search { top: 120px; left: 22px; right: auto; margin: 0; width: calc(100% - 22px); max-width: none; height: 220px; }
+.fx-search__panel { position: absolute; inset: 0 0 auto 0; height: 170px; border-radius: 14px 0 0 14px; }
+.fx-search__panel .fx-tag { border-radius: 4px; }
+.fx-search__input { position: absolute; left: 0; right: 16px; top: 155px; display: flex; align-items: center; justify-content: space-between; padding: 8px 8px 8px 14px; font-size: 12px; }
+.fx-search__send { width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; }
+.fx-search__send .fi { width: 14px; height: 14px; stroke-width: 2.5; }
 
 /* ---------- Pricing ---------- */
 .pricing { display: flex; flex-direction: column; align-items: center; gap: 50px; }
@@ -440,7 +643,7 @@ html.menu-open { overflow: hidden; }
   .features__track { width: max-content; transform: none !important; transition: none; gap: 15px; }
   .features__slide { display: contents; }
   .features .cards { margin-top: 0; }
-  .feature-card-image, .card--feature, .card--dealer { flex: 0 0 352px; scroll-snap-align: start; }
+  .fcard, .card--dealer { flex: 0 0 352px; scroll-snap-align: start; }
   .features__viewport { order: 2; margin-top: 50px; }
   .features__arrows { order: 3; margin-top: 30px; align-self: flex-end; }
   .dealer .cards { display: flex; gap: 15px; margin-top: 50px; }
@@ -521,7 +724,7 @@ html.menu-open { overflow: hidden; }
   .features .section-sub { display: none; }
   .features__viewport { margin-top: 20px; }
   .features__viewport, .dealer .cards { scroll-padding-inline: 18.5px; padding-inline: 18.5px; }
-  .feature-card-image, .card--feature { flex-basis: min(353px, calc(100vw - 37px)); }
+  .fcard { flex-basis: min(353px, calc(100vw - 37px)); }
 
   .pricing { margin-top: 50px; gap: 30px; }
   .pricing .section-title, .dealer .section-title { font-weight: 700; }

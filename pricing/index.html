@@ -130,6 +130,26 @@
 
     <!-- Everything a shopper asks (6246:13595) -->
     <section class="features">
+      <!-- Feature cards: built in HTML/CSS like info.instacars.io (no pictures), 4 rows of 4 -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="fi-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+        <symbol id="fi-tag" viewBox="0 0 24 24"><path d="M12.59 2.59A2 2 0 0 0 11.17 2H4a2 2 0 0 0-2 2v7.17a2 2 0 0 0 .59 1.41l8.7 8.71a2.43 2.43 0 0 0 3.42 0l6.58-6.58a2.43 2.43 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+        <symbol id="fi-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+        <symbol id="fi-list" viewBox="0 0 24 24"><path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/></symbol>
+        <symbol id="fi-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></symbol>
+        <symbol id="fi-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 19V5"/></symbol>
+        <symbol id="fi-swap" viewBox="0 0 24 24"><path d="m16 3 4 4-4 4M20 7H4M8 21l-4-4 4-4M4 17h16"/></symbol>
+        <symbol id="fi-car" viewBox="0 0 24 24"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></symbol>
+        <symbol id="fi-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
+        <symbol id="fi-calc" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/></symbol>
+        <symbol id="fi-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+        <symbol id="fi-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+        <symbol id="fi-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+        <symbol id="fi-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+        <symbol id="fi-spark" viewBox="0 0 24 24"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.13-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.13a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.13 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.13a.5.5 0 0 1-.96 0z"/><path d="M20 3v4M22 5h-4"/></symbol>
+        <symbol id="fi-msgc" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+        <symbol id="fi-msgs" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+      </svg>
       <div class="section-head">
         <h2 class="section-title">Everything a shopper asks, <br />handled on your site</h2>
         <p class="section-sub">Forget endless filters and comparing hundreds of listings. <br />Tell Kaia what matters to you, explore your options, and discover cars that fit your life.</p>
@@ -141,52 +161,184 @@
       <div class="features__viewport">
         <div class="features__track" data-feature-track>
       <ul class="cards features__slide" data-feature-slide="1" aria-label="Feature card row 1 of 4" aria-hidden="true">
-        <li class="feature-card-image"><img src="assets/features-row1-card1.png" alt="" /><span class="features__sr"><strong>Suggest the right extras.</strong> Kaia brings up what’s right at the right time, based on real buyer intent.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row1-card2.png" alt="" /><span class="features__sr"><strong>Discover deals.</strong> Find vehicles with current promotions and discounts tailored to each shopper.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row1-card3.png" alt="" /><span class="features__sr"><strong>Snap &amp; search.</strong> Snap a photo and Kaia finds similar vehicles in your inventory.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row1-card4.png" alt="" /><span class="features__sr"><strong>Guide to financing approval.</strong> Timelines, checklists, and pre-qual steps, all in the chat.</span></li>
+        <li class="fcard fcard--grad">
+          <div class="fcard__copy"><h3>Suggest the right extras</h3><p>Kaia brings up what’s right at the right time, based on real buyer intent.</p></div>
+          <div class="fx fx-extras">
+            <div class="fx-msg"><span class="fx-kav">K</span><p class="fx-bub">Most CR-V buyers add winter tires. Want to see the package?</p></div>
+            <div class="fx-box fx-extras__item"><div><b>Winter tire package</b><small>Popular with CR-V buyers</small></div><span class="fx-add fx-add--on"><svg class="fi"><use href="#fi-plus"/></svg>Add</span></div>
+            <div class="fx-box fx-extras__item"><div><b>Extended warranty</b><small>5 years of coverage</small></div><span class="fx-add"><svg class="fi"><use href="#fi-plus"/></svg>Add</span></div>
+          </div>
+        </li>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>Discover deals</h3><p>Find vehicles with current promotions and discounts tailored to each shopper.</p></div>
+          <div class="fx fx-deals">
+            <span class="fx-chip fx-deals__updated"><svg class="fi"><use href="#fi-refresh"/></svg>Deals updated</span>
+            <div class="fx-box fx-panel">
+              <p class="fx-panel__title"><svg class="fi"><use href="#fi-tag"/></svg>Deals for you</p>
+              <ul class="fx-rows">
+                <li><span>2024 VW Atlas SE</span><span class="fx-tag fx-tag--green">-$2,000</span></li>
+                <li><span>2023 Honda CR-V</span><span class="fx-tag fx-tag--green">-$1,500</span></li>
+                <li><span>2022 Ford F-150</span><span class="fx-tag fx-tag--green">-$2,500</span></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>Snap &amp; search</h3><p>Snap a photo and Kaia finds similar vehicles in your inventory.</p></div>
+          <div class="fx fx-snap">
+            <div class="fx-box fx-snap__photo"><svg class="fi"><use href="#fi-camera"/></svg><small>Photo uploaded</small></div>
+            <ul class="fx-snap__matches">
+              <li class="fx-box"><b>2023 CR-V</b><span class="fx-tag fx-tag--green">96% match</span></li>
+              <li class="fx-box"><b>2022 RAV4</b><span class="fx-tag fx-tag--green">91% match</span></li>
+              <li class="fx-box"><b>2024 CX-5</b><span class="fx-tag fx-tag--green">88% match</span></li>
+            </ul>
+          </div>
+        </li>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>Guide to financing approval</h3><p>Timelines, checklists, and pre-qual steps, all in the chat.</p></div>
+          <div class="fx fx-finance">
+            <div class="fx-box fx-panel fx-finance__panel">
+              <p class="fx-panel__title"><svg class="fi"><use href="#fi-list"/></svg>Financing checklist</p>
+              <ul class="fx-checks">
+                <li class="is-done"><span class="fx-cb"><svg class="fi"><use href="#fi-check"/></svg></span>Choose a vehicle</li>
+                <li class="is-done"><span class="fx-cb"><svg class="fi"><use href="#fi-check"/></svg></span>Pre-qualify</li>
+                <li><span class="fx-cb"></span>Upload documents</li>
+                <li><span class="fx-cb"></span>Sign and drive</li>
+              </ul>
+            </div>
+            <span class="fx-chip fx-finance__done"><svg class="fi"><use href="#fi-check"/></svg>2 of 4 done</span>
+          </div>
+        </li>
       </ul>
+
       <ul class="cards features__slide" data-feature-slide="2" aria-label="Feature card row 2 of 4" aria-hidden="false">
-        <li class="card card--feature card--docs">
-          <div class="card__text">
-            <h3>Help with document uploads</h3>
-            <p>IDs and proof of income, uploaded in the chat. No follow-ups required.</p>
+        <li class="fcard fcard--grad">
+          <div class="fcard__copy"><h3>Help with document uploads</h3><p>IDs and proof of income, uploaded in the chat. No follow-ups required.</p></div>
+          <div class="fx fx-docs">
+            <div class="fx-box fx-panel">
+              <p class="fx-panel__title">Documents</p>
+              <ul class="fx-rows fx-rows--icons">
+                <li><span><svg class="fi"><use href="#fi-file"/></svg>Driver’s licence</span><span class="fx-tag fx-tag--green">Uploaded</span></li>
+                <li><span><svg class="fi"><use href="#fi-file"/></svg>Proof of income</span><span class="fx-tag fx-tag--blue">Uploading</span></li>
+              </ul>
+              <span class="fx-chip fx-docs__drop"><svg class="fi"><use href="#fi-up"/></svg>Drop files or snap a photo</span>
+            </div>
           </div>
-          <img class="card__art" src="assets/feat-docs.svg" width="353" height="222" alt="Documents checklist: driver’s licence uploaded, proof of income uploading, drop files or snap a photo" style="left:-1px; top:127px" />
         </li>
-        <li class="card card--feature">
-          <div class="card__text">
-            <h3>Payment estimator</h3>
-            <p>Based on down payment, credit range and interest, all in real time.</p>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>Payment estimator</h3><p>Based on down payment, credit range and interest, all in real time.</p></div>
+          <div class="fx fx-pay">
+            <p class="fx-pay__amt">$489<span>/mo</span></p>
+            <div class="fx-pay__row"><span>Down payment</span><b>$3,000</b></div>
+            <div class="fx-pay__track"><span class="fx-pay__fill"></span><span class="fx-pay__knob"></span></div>
+            <div class="fx-pay__chips"><span class="fx-tag fx-tag--blue">Credit: Good</span><span class="fx-tag">60 months</span><span class="fx-tag">6.9% APR</span></div>
           </div>
-          <img class="card__art" src="assets/feat-payment.svg" width="303" height="163" alt="$489 per month with $3,000 down, good credit, 60 months, 6.9% APR" style="left:24px; top:155px" />
         </li>
-        <li class="card card--feature">
-          <div class="card__text">
-            <h3 class="h3--tall">See how trade-in affects payments</h3>
-            <p>Updated estimates, adjusted loan amounts and clearer next steps.</p>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>See how trade-in affects payments</h3><p>Updated estimates, adjusted loan amounts and clearer next steps.</p></div>
+          <div class="fx fx-trade">
+            <div class="fx-box fx-panel">
+              <p class="fx-panel__title fx-trade__title"><svg class="fi"><use href="#fi-swap"/></svg>Trade-in estimate</p>
+              <dl class="fx-trade__rows">
+                <div><dt><svg class="fi"><use href="#fi-car"/></svg>Vehicle</dt><dd>2017 Honda Civic</dd></div>
+                <div><dt><svg class="fi"><use href="#fi-tag"/></svg>Trade-in value</dt><dd><span class="fx-tag fx-tag--green">$9,500</span></dd></div>
+                <div><dt><svg class="fi"><use href="#fi-calc"/></svg>New payment</dt><dd><s>$489</s> → <b>$352/mo</b></dd></div>
+              </dl>
+            </div>
           </div>
-          <img class="card__art" src="assets/feat-tradein.svg" width="353" height="193" alt="Trade-in estimate: 2017 Honda Civic worth $9,500, new payment $352 per month instead of $489" style="left:-1px; top:156px" />
         </li>
-        <li class="card card--feature">
-          <div class="card__text">
-            <h3>Pre-qualify without pressure</h3>
-            <p>No hard credit check, just next steps that feel easy.</p>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>Pre-qualify without pressure</h3><p>No hard credit check, just next steps that feel easy.</p></div>
+          <div class="fx fx-prequal">
+            <span class="fx-confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <div class="fx-box fx-prequal__card">
+              <span class="fx-tag fx-tag--green fx-prequal__pill">No hard credit check</span>
+              <p class="fx-prequal__steps"><span>Basic info</span><i></i><span>Income</span><i></i><span>Result</span></p>
+              <p class="fx-prequal__ok"><span class="fx-prequal__tick"><svg class="fi"><use href="#fi-check"/></svg></span>You’re pre-qualified!</p>
+            </div>
           </div>
-          <img class="card__art" src="assets/feat-prequal.svg" width="423" height="262" alt="No hard credit check: basic info, income, result. You’re pre-qualified!" style="left:-36px; top:127px" />
         </li>
       </ul>
+
       <ul class="cards features__slide" data-feature-slide="3" aria-label="Feature card row 3 of 4" aria-hidden="true">
-        <li class="feature-card-image"><img src="assets/features-row3-card1.png" alt="" /><span class="features__sr"><strong>Your stock. Instant answers.</strong> Give buyers the right price, mileage and availability from your inventory.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row3-card2.png" alt="" /><span class="features__sr"><strong>A chat. Then a test drive.</strong> Kaia agrees on a time with the shopper and sends your team a confirmed test-drive appointment.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row3-card3.png" alt="" /><span class="features__sr"><strong>Leads to your CRM.</strong> Contact info, an AI summary and the full chat, plus instant SMS alerts.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row3-card4.png" alt="" /><span class="features__sr"><strong>20+ languages. Zero awkward hellos.</strong> From bonjour to a booked test drive. Kaia speaks their language, so you don’t have to.</span></li>
+        <li class="fcard fcard--grad">
+          <div class="fcard__copy"><h3>Your stock. Instant answers.</h3><p>Give buyers the right price, mileage and availability from your inventory.</p></div>
+          <div class="fx fx-stock">
+            <div class="fx-box fx-stock__item fx-stock__item--back2"></div>
+            <div class="fx-box fx-stock__item fx-stock__item--back1"></div>
+            <div class="fx-box fx-stock__item"><b>2024 VW Atlas SE</b><small>$31,450 · 18,200 mi</small><span class="fx-tag fx-tag--green">In stock</span></div>
+          </div>
+        </li>
+        <li class="fcard fcard--grad">
+          <div class="fcard__copy"><h3>A chat. Then a test drive.</h3><p>Kaia agrees on a time with the shopper and sends your team a confirmed test-drive appointment.</p></div>
+          <div class="fx appt">
+            <div class="appt__top"><span class="pill pill--white"><i class="dot" style="background:var(--blue);width:8px;height:8px"></i>TEST DRIVE</span><span class="pill pill--green"><i class="dot" style="background:#10b981"></i>CONFIRMED</span></div>
+            <div class="appt__body"><div><span>Shopper</span><span>Alex Morgan</span></div><div><span>Vehicle</span><span>Civic Hybrid</span></div><div><span>When</span><span>Thu, 18 Jul · 2:30 PM</span></div></div>
+            <div class="appt__foot"><span class="appt__ready">Handoff ready</span><span class="pill pill--white pill--link"><i class="dot" style="background:var(--blue)"></i>View Details</span></div>
+          </div>
+        </li>
+        <li class="fcard fcard--grad">
+          <div class="fcard__copy"><h3>Leads to your CRM</h3><p>Contact info, an AI summary and the full chat, plus instant SMS alerts.</p></div>
+          <div class="fx crm">
+            <div class="crm__head"><div class="crm__title"><span class="crm__ico"><svg class="fi"><use href="#fi-db"/></svg></span>Dealer CRM</div><span class="pill pill--green pill--roomy"><i class="dot" style="background:#10b981;width:8px;height:8px"></i>Synced</span></div>
+            <div class="crm__contact">
+              <div class="crm__row"><div class="crm__who"><span class="fx-avatar">JR</span><div><b>Jamie Rivera</b><small>SUV · Budget under $28k</small></div></div><span class="pill pill--lead">New lead</span></div>
+              <p class="crm__meta">jamie.rivera@gmail.com  ·  (555) 810-2841</p>
+            </div>
+            <div class="crm__panels"><span><svg class="fi"><use href="#fi-spark"/></svg>AI summary</span><span><svg class="fi"><use href="#fi-msgc"/></svg>SMS</span><span><svg class="fi"><use href="#fi-msgs"/></svg>Full chat</span></div>
+          </div>
+        </li>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>20+ languages.<br />Zero awkward hellos.</h3><p>From bonjour to a booked test drive. Kaia speaks their language, so you don’t have to.</p></div>
+          <div class="fx lang">
+            <div class="lang__opts"><span>EN</span><span class="on">FR</span><span>ES</span><span class="more">+17</span></div>
+            <div class="bub bub--shopper">Ce SUV est disponible ?</div>
+            <div class="lang__reply"><div class="bub bub--kaia">Oui ! On réserve un essai ?</div><span class="k-av">K</span></div>
+          </div>
+        </li>
       </ul>
+
       <ul class="cards features__slide" data-feature-slide="4" aria-label="Feature card row 4 of 4" aria-hidden="true">
-        <li class="feature-card-image"><img src="assets/features-row4-card1.png" alt="" /><span class="features__sr"><strong>Invite a partner to the chat.</strong> Loop in a friend, partner or family member to decide together.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row4-card2.png" alt="" /><span class="features__sr"><strong>Return visitor recognition.</strong> Kaia picks up right where each shopper left off.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row4-card3.png" alt="" /><span class="features__sr"><strong>Incentive discovery.</strong> Updated estimates, adjusted loan amounts and clearer next steps.</span></li>
-        <li class="feature-card-image"><img src="assets/features-row4-card4.png" alt="" /><span class="features__sr"><strong>Personalized search.</strong> Understands requests like “an SUV under $40k with 7 seats.”</span></li>
+        <li class="fcard fcard--grad">
+          <div class="fcard__copy"><h3>Invite a partner to the chat</h3><p>Loop in a friend, partner or family member to decide together.</p></div>
+          <div class="fx fx-invite">
+            <div class="fx-invite__faces"><span class="fx-face fx-face--jr">JR</span><span class="fx-face fx-face--sr">SR</span><span class="fx-face fx-face--add"><svg class="fi"><use href="#fi-plus"/></svg></span></div>
+            <div class="fx-box fx-invite__msg"><b>Sam joined the chat</b><p>“Love the blue one. Can we test drive Saturday?”</p></div>
+          </div>
+        </li>
+        <li class="fcard fcard--band">
+          <div class="fcard__copy"><h3>Return visitor recognition</h3><p>Kaia picks up right where each shopper left off.</p></div>
+          <div class="fx fx-return">
+            <span class="fx-tag fx-tag--purple">Returning visitor</span>
+            <div class="fx-msg"><span class="fx-kav">K</span><p class="fx-bub fx-bub--white">Welcome back, Jamie! The 2023 CR-V you saved is still in stock.</p></div>
+            <div class="fx-box fx-return__car"><span class="fx-return__ico"><svg class="fi"><use href="#fi-car"/></svg></span><div><b>2023 Honda CR-V</b><small>$27,900 · Saved</small></div><span class="fx-return__stock"><svg class="fi"><use href="#fi-check"/></svg>In stock</span></div>
+          </div>
+        </li>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>Incentive discovery</h3><p>Updated estimates, adjusted loan amounts and clearer next steps.</p></div>
+          <div class="fx fx-incent">
+            <span class="fx-incent__mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#107cfe"/><rect x="14" y="21" width="36" height="20" rx="10" fill="none" stroke="#fff" stroke-width="5"/><path d="M18 40l-4 9 10-5" fill="#fff"/></svg></span>
+            <ul class="fx-incent__list">
+              <li><svg class="fi" style="color:#f59e0b"><use href="#fi-gift"/></svg>Loyalty rebate</li>
+              <li><svg class="fi" style="color:#107cfe"><use href="#fi-tag"/></svg>Recent grad program</li>
+              <li><svg class="fi" style="color:#047857"><use href="#fi-calc"/></svg>0.9% APR offer</li>
+              <li><svg class="fi" style="color:#7c3aed"><use href="#fi-gift"/></svg>Spring promo</li>
+            </ul>
+          </div>
+        </li>
+        <li class="fcard">
+          <div class="fcard__copy"><h3>Personalized search</h3><p>Understands requests like “an SUV under $40k with 7 seats.”</p></div>
+          <div class="fx fx-search">
+            <div class="fx-box fx-panel fx-search__panel">
+              <p class="fx-panel__title"><svg class="fi"><use href="#fi-search"/></svg>Results</p>
+              <ul class="fx-rows">
+                <li><span>2024 VW Atlas SE</span><span><span class="fx-tag fx-tag--purple">7 seats</span> <span class="fx-tag">$31,450</span></span></li>
+                <li><span>2023 Kia Telluride</span><span><span class="fx-tag fx-tag--purple">7 seats</span> <span class="fx-tag">$38,900</span></span></li>
+              </ul>
+            </div>
+            <div class="fx-box fx-search__input"><span>SUV under $40k with 7 seats</span><span class="fx-search__send"><svg class="fi"><use href="#fi-up"/></svg></span></div>
+          </div>
+        </li>
       </ul>
         </div>
         <p class="features__sr" data-feature-status aria-live="polite">Card row 2 of 4</p>

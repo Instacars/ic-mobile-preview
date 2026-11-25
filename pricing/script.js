@@ -37,7 +37,7 @@
 
   /* Below 1180px the card rows become swipeable strips; the arrows move them one card at a time. */
   const scrollByCard = (strip, dir) => {
-    const card = strip.querySelector(".card, .feature-card-image");
+    const card = strip.querySelector(".card, .fcard");
     const gap = parseFloat(getComputedStyle(card.parentElement).columnGap) || 15;
     strip.scrollBy({ left: dir * (card.getBoundingClientRect().width + gap), behavior: "smooth" });
   };
