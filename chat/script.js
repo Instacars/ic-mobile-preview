@@ -43,9 +43,11 @@
   const add = el => { chat.appendChild(el); return el; };
   const el = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
 
-  /* A soft sent-message-style swoosh, unlocked by the visitor's first interaction. */
+  /* Reply sound uses the supplied notification audio, unlocked by the first interaction. */
   let replyAudio = null;
   let replyAudioReady = false;
+  let replySoundBuffer = null;
+  let replySoundLoad = null;
   const unlockReplyAudio = () => {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return Promise.resolve();
@@ -60,27 +62,23 @@
   };
   const playReplySound = () => {
     if (!replyAudio || !replyAudioReady || replyAudio.state !== "running") return;
-    const now = replyAudio.currentTime;
-    const duration = 0.28;
-    const sampleRate = replyAudio.sampleRate;
-    const buffer = replyAudio.createBuffer(1, Math.ceil(sampleRate * duration), sampleRate);
-    const samples = buffer.getChannelData(0);
-    for (let i = 0; i < samples.length; i++) samples[i] = (Math.random() * 2 - 1) * (1 - i / samples.length);
-    const noise = replyAudio.createBufferSource();
-    const filter = replyAudio.createBiquadFilter();
-    const volume = replyAudio.createGain();
-    noise.buffer = buffer;
-    filter.type = "lowpass";
-    filter.frequency.setValueAtTime(1700, now);
-    filter.frequency.exponentialRampToValueAtTime(420, now + duration);
-    volume.gain.setValueAtTime(0.0001, now);
-    volume.gain.exponentialRampToValueAtTime(0.075, now + 0.035);
-    volume.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-    noise.connect(filter);
-    filter.connect(volume);
-    volume.connect(replyAudio.destination);
-    noise.start(now);
-    noise.stop(now + duration);
+    if (!replySoundLoad) {
+      replySoundLoad = fetch(new URL("assets/mixkit-dry-pop-up-notification-alert-2356.wav", document.baseURI))
+        .then(response => { if (!response.ok) throw new Error("Reply sound unavailable"); return response.arrayBuffer(); })
+        .then(data => replyAudio.decodeAudioData(data))
+        .then(buffer => { replySoundBuffer = buffer; return buffer; })
+        .catch(() => null);
+    }
+    replySoundLoad.then(buffer => {
+      if (!buffer || !replyAudioReady || replyAudio.state !== "running") return;
+      const source = replyAudio.createBufferSource();
+      const volume = replyAudio.createGain();
+      source.buffer = buffer;
+      volume.gain.value = 0.8;
+      source.connect(volume);
+      volume.connect(replyAudio.destination);
+      source.start();
+    });
   };
 
   /* Small, safe Markdown for Kaia's replies: paragraphs, **bold**, *italic*, bullet/numbered lists, links */
