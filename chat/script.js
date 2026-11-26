@@ -163,8 +163,12 @@
       clearSlowWait();
       slowWaitTimer = setTimeout(() => {
         if (!waiting || !typingRow) return;
-        typingRow.classList.add("bubble--typing-gif");
-        typingRow.innerHTML = `<img class="chat__loading-gif" src="https://media.giphy.com/media/fzOrUum6WBZnIbit6q/giphy.gif" alt="Kaia is still searching" />`;
+        // Kaia is taking a while (e.g. researching "cute cars" on the web): swap the dots for a loading GIF,
+        // keeping her avatar so it still reads as Kaia typing
+        const bubble = typingRow.querySelector(".bubble--typing");
+        if (!bubble) return;
+        bubble.classList.add("bubble--typing-gif");
+        bubble.innerHTML = `<img class="chat__loading-gif" src="https://media.giphy.com/media/fzOrUum6WBZnIbit6q/giphy.gif" alt="Kaia is still searching" />`;
         toBottom(true);
       }, 7000);
     }
