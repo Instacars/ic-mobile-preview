@@ -150,17 +150,28 @@
 
   /* ---------- Conversation with Kaia ---------- */
   let socket = null, chatId = null, connecting = null, heartbeat = null, closedOnPurpose = false;
-  let selectedCar = null, waiting = false, typingRow = null, streamRow = null, streamText = "";
+  let selectedCar = null, waiting = false, typingRow = null, streamRow = null, streamText = "", slowWaitTimer = null;
   const queue = [];
 
+  const clearSlowWait = () => { if (slowWaitTimer) clearTimeout(slowWaitTimer); slowWaitTimer = null; };
   const setWaiting = on => {
     waiting = on;
     sendBtn.disabled = on;
     chat.setAttribute("aria-busy", String(on));
     if (on && !typingRow) { typingRow = kaiaRow(`<p class="bubble bubble--kaia bubble--typing" aria-label="Kaia is typing"><i></i><i></i><i></i></p>`); toBottom(true); }
+    if (on) {
+      clearSlowWait();
+      slowWaitTimer = setTimeout(() => {
+        if (!waiting || !typingRow) return;
+        typingRow.classList.add("bubble--typing-gif");
+        typingRow.innerHTML = `<img class="chat__loading-gif" src="https://media.giphy.com/media/fzOrUum6WBZnIbit6q/giphy.gif" alt="Kaia is still searching" />`;
+        toBottom(true);
+      }, 7000);
+    }
+    if (!on) clearSlowWait();
     if (!on && typingRow) { typingRow.remove(); typingRow = null; }
   };
-  const dropTyping = () => { if (typingRow) { typingRow.remove(); typingRow = null; } };
+  const dropTyping = () => { clearSlowWait(); if (typingRow) { typingRow.remove(); typingRow = null; } };
 
   const onFrame = data => {
     if (data.type === "ping_pong") return;
@@ -181,6 +192,12 @@
     if (data.type === "stream_end") {
       if (streamRow && streamText.trim()) playReplySound();
       streamRow = null;
+      if (data.is_last) setWaiting(false);
+      return;
+    }
+    // Shared filters: after each search Kaia reports what it's searching with; the filter panel (filters.js) shows it
+    if (data.type === "filters") {
+      document.dispatchEvent(new CustomEvent("kaia:filters", { detail: { filters: m.content || {}, count: m.num_found } }));
       if (data.is_last) setWaiting(false);
       return;
     }
@@ -236,7 +253,7 @@
   let started = false; // first message replaces the design's sample conversation
   const clearChat = () => { chat.querySelectorAll(".msg, .cars, .actions, .tokens--reply, .chat__note").forEach(n => n.remove()); };
 
-  const send = (text, metadata = null) => {
+  const send = (text, metadata = null, extra = null) => {
     text = String(text || "").trim();
     if (!text || waiting) return;
     unlockReplyAudio();
@@ -256,7 +273,16 @@
       }
       return;
     }
-    const payload = JSON.stringify(metadata ? { type: "message", text, metadata } : { type: "message", text });
+    // Keep the selected car attached to follow-up questions so the backend routes
+    // feature questions (e.g. Apple CarPlay) to that car's details, not to the
+    // "select a car" fallback. A caller can still override the selected car id.
+    const messageMetadata = {
+      ...(selectedCar ? { car_id: selectedCar.id } : {}),
+      wants_filters: true, // ask Kaia to report the active filters after searches (filter panel)
+      ...(metadata || {}),
+    };
+    // extra: top-level fields, e.g. { filter: {...} } when the filter panel applies filters
+    const payload = JSON.stringify({ type: "message", text, metadata: messageMetadata, ...(extra || {}) });
     setWaiting(true);
     if (socket && socket.readyState === 1) socket.send(payload);
     else { queue.push(payload); connect().catch(() => { queue.length = 0; setWaiting(false); noteRow("Couldn't reach Kaia right now. Please try again in a moment."); }); }
@@ -273,6 +299,7 @@
     e.preventDefault();
     disconnect(); setWaiting(false); clearChat();
     started = true; selectedCar = null; streamRow = null;
+    document.dispatchEvent(new CustomEvent("kaia:filters", { detail: { filters: {}, count: null } })); // new chat, no filters
     input.value = ""; grow(); input.focus();
   });
 
@@ -311,6 +338,9 @@
     update();
   }
   document.querySelectorAll("[data-carousel]").forEach(initCarousel);
+
+  /* Hooks for the filter panel (filters.js) */
+  window.KaiaChat = { send, isWaiting: () => waiting, api: backend ? backend.api : null };
 
   /* Arriving from the marketplace homepage search box (chat/index.html#q=...): start the
      conversation with that message instead of the sample one. */
