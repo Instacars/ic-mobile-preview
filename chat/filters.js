@@ -5,7 +5,7 @@
      (a "filters" frame, re-sent by script.js as the "kaia:filters" event) and the panel shows them.
    - Applying the panel sends the whole set to Kaia ({ filter, metadata.source: "filter_panel" }); Kaia searches
      with exactly those, no guessing.
-   - The chips above the composer show the active filters; × removes one, "Filters" opens the panel.
+   - The sliders icon shows how many filters are active; filters are added and removed in the panel.
    - While editing, the button shows how many cars match (POST /filters/count, debounced).
 
    Filters use Kaia's own format (see kaia-backend services/filter_panel.py):
@@ -137,7 +137,6 @@
   const box = panel.querySelector(".fpanel__box");
   const body = panel.querySelector("[data-fpanel-body]");
   const applyBtn = panel.querySelector("[data-fpanel-apply]");
-  const chipsBar = document.querySelector("[data-fchips]");
   const badge = document.querySelector("[data-fbadge]");
   const opener = document.querySelector("[data-fpanel-open]");
   let lastFocus = null;
@@ -262,36 +261,13 @@
     const wait = setInterval(() => { if (!chat.isWaiting()) { clearInterval(wait); go(); } else if (Date.now() - t0 > 30000) clearInterval(wait); }, 300);
   };
 
-  /* ---------- Active-filter chips above the composer ---------- */
-  // The dock changes height with the chips: refit the conversation's bottom padding (script.js listens to
-  // resize) and stay at the latest message if the shopper was already there.
-  const keepBottom = () => {
-    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200;
-    window.dispatchEvent(new Event("resize"));
-    if (atBottom) window.scrollTo(0, document.documentElement.scrollHeight);
-  };
+  /* ---------- Badge on the filter button: how many filters are active ---------- */
+  // Filters are added and removed in the panel (sliders icon, top right); no chip bar by the composer.
   const showChips = () => {
-    const entries = Object.entries(clean(current));
-    const count = entries.length;
+    const count = Object.keys(clean(current)).length;
     badge.hidden = !count; badge.textContent = count;
     opener.setAttribute("aria-label", count ? `Filters (${count} active)` : "Filters");
-    chipsBar.hidden = !count;
-    if (!count) { chipsBar.innerHTML = ""; keepBottom(); return; }
-    chipsBar.innerHTML = `<button type="button" class="fchip fchip--edit" data-fchip-edit><img src="assets/sliders.svg" width="14" height="14" alt="" />Filters</button>` +
-      entries.map(([k, v]) => {
-        const text = labelsFor(k, v).filter(Boolean).join(", ");
-        return `<span class="fchip">${esc(text)}<button type="button" class="fchip__x" aria-label="Remove ${esc(text)}" data-fchip-remove="${k}"><svg class="fpi"><use href="#fp-x"/></svg></button></span>`;
-      }).join("");
-    keepBottom();
   };
-  chipsBar.addEventListener("click", e => {
-    if (e.target.closest("[data-fchip-edit]")) return open();
-    const x = e.target.closest("[data-fchip-remove]");
-    if (!x) return;
-    const next = { ...current, [x.dataset.fchipRemove]: null };
-    if (x.dataset.fchipRemove === "year_range") next.year = null;
-    apply(next);
-  });
 
   /* ---------- Open / close ---------- */
   const open = () => {

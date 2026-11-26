@@ -210,7 +210,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 /* =====================================================================
-   Filter panel (Figma 5988:4771) + active-filter chips + badge on the filter button.
+   Filter panel (Figma 5988:4771) + badge on the filter button.
    Kaia and the panel share one set of filters (see filters.js).
    ===================================================================== */
 .side__tool--filter { position: relative; }
@@ -221,19 +221,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .side__badge[hidden] { display: none; }
 
-/* Chips above the composer */
-.fchips { width: var(--col); display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-.fchips[hidden] { display: none; }
-.fchip {
-  display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 6px 0 12px;
-  border-radius: 16px; background: var(--bubble-kaia);
-  font-weight: 500; font-size: 13px; line-height: 18px; letter-spacing: -0.08px; white-space: nowrap;
-}
-.fchip--edit { padding: 0 12px; gap: 6px; background: #fff; border: 1px solid var(--line); transition: background 0.15s; }
-.fchip--edit:hover { background: #f7f7f7; }
-.fchip__x { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; transition: background 0.15s; }
-.fchip__x:hover { background: rgba(13, 13, 13, 0.08); }
-.fchip__x .fpi { width: 13px; height: 13px; }
 
 /* Icons from the inline sprite */
 .fpi { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
@@ -303,7 +290,6 @@ html.fpanel-open { overflow: hidden; }
 @media (max-width: 767px) {
   .fpanel { place-items: end stretch; padding: 0; }
   .fpanel__box { width: 100%; max-height: 88vh; border-radius: 16px 16px 0 0; animation: fp-up 0.22s ease-out; }
-  .fchips { width: calc(100% - 32px); }
   @keyframes fp-up { from { transform: translateY(100%); } }
 }
 @media (prefers-reduced-motion: reduce) {
